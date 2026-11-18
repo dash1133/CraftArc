@@ -229,10 +229,6 @@ details.more[open] { padding-bottom: 4px; }
   .q-grid { grid-template-columns: 1fr; }
 }
 
-/* offer lines waiting for approval (config.js: showPendingOffer) */
-[data-pending] { display: none !important; }
-.show-pending li[data-pending], .show-pending p[data-pending] { display: block !important; }
-
 /* step screens: full column width, image always in the wide column */
 .shot-wrap { margin: 0; }
 .shot img, .proof-shot img { width: auto; max-width: 100%; margin: 0 auto; }

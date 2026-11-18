@@ -70,9 +70,9 @@ SCENES = [
             {"cap": "In the self-review, an AI coach interviews each person against your competencies.",
              "claim": ["L08"], "img": "03_my_reviews.png", "focus": (20, 100, 1900, 560), "hl": [(1205, 425, 1295, 520)],
              "chip": "Self-review: your turn"},
-            {"cap": "Every conversation with the agent works by voice or text, and in the self-review the coach asks for whatever is missing.",
+            {"cap": "People can talk to the agent by voice or text, and in the self-review the coach asks for whatever is missing.",
              "claim": ["L08", "L09"], "img": "04_survey_roster.png", "focus": (0, 420, 545, 870), "hl": [(372, 742, 534, 822)],
-             "chip": "Voice or text, in every agent conversation"},
+             "chip": "Voice or text"},
         ],
     },
     {
@@ -108,7 +108,7 @@ SCENES = [
              "say": "Here, the write-up opens by naming the question the evidence could not answer.",
              "claim": ["L14"], "img": "06_performance_review.png", "focus": (700, 180, 1760, 700), "hl": [(802, 430, 1643, 668)],
              "chip": "Honest about gaps"},
-            {"cap": "The evaluation coordinator, the senior colleague who runs each review, owns the final wording.",
+            {"cap": "The evaluation coordinator runs each review and owns the final wording.",
              "claim": ["L15"], "img": "06_performance_review.png", "focus": (0, 520, 1000, 915), "hl": [(140, 862, 425, 888)],
              "chip": "You own the final wording"},
         ],
@@ -117,12 +117,12 @@ SCENES = [
     {
         "id": "faq", "kind": "kinetic", "label": "Questions partners ask",
         "sentences": [
-            {"cap": "Does the AI decide where someone stands? No. Your evaluation coordinator forms the view with the agent, from graded facts.",
-             "claim": ["L23"], "kicker": "Questions partners ask", "big": "Does the AI decide where someone stands?",
-             "small": "No. Your evaluation coordinator forms the view with the agent, from graded facts."},
-            {"cap": "Will our people take part? The coach never nags. It asks once or twice, then lets people go.",
-             "claim": ["L18"], "kicker": "Questions partners ask", "big": "Will our people take part?",
-             "small": "The coach never nags. It asks once or twice, then lets people go."},
+            {"cap": "The AI does not decide where someone stands. Your evaluation coordinator forms the view with the agent, from graded facts.",
+             "claim": ["L23"], "kicker": "What partners ask us", "big": "The AI does not decide where someone stands.",
+             "small": "Your evaluation coordinator forms the view with the agent, from graded facts."},
+            {"cap": "The coach never nags. If someone does not want to answer, it asks once or twice and then lets them go.",
+             "claim": ["L18"], "kicker": "What partners ask us", "big": "The coach never nags.",
+             "small": "If someone does not want to answer, it asks once or twice and then lets them go."},
         ],
     },
     # ---------------------------------------------------------------- 7 PROOF
@@ -145,7 +145,7 @@ SCENES = [
         "sentences": [
             {"cap": "You start with your senior deal team only, which keeps the disruption low.",
              "claim": ["O01"], "item": 0},
-            {"cap": "Every participant and evaluator is included, and contributors are never charged.",
+            {"cap": "Participants and evaluators are unlimited, and contributors are never charged.",
              "claim": ["O03"], "item": 1},
             {"cap": "If we miss a stage we agreed to deliver and do not fix it, you can leave, and we refund your prepaid fees pro rata.",
              "claim": ["O04"], "item": 2},
@@ -168,13 +168,13 @@ SCENES = [
 
 # Visual copy that is not spoken.
 PROOF_CARDS = [
-    ("Tried it themselves first", "It signed a 24-month licence.", "It first spent 60 to 100 hours on a do-it-yourself AI attempt. Its principals, MDs and partners now take part."),
+    ("Tried it themselves first", "One firm signed a 24-month licence.", "It first spent 60 to 100 hours on a do-it-yourself AI attempt. Its principals, MDs and partners now take part."),
     ("Built with practitioners", "We designed it with the firm's COO.", "Eight to ten client interviews shaped how each competency is weighted and probed."),
     ("Who built it", "Bibhudatta \"Dash\", founder", "Dash worked at McKinsey, Microsoft and Siemens, and founded AgenticPM."),
 ]
 OFFER_ITEMS = [
-    ("Start with your senior deal team", "Begin with the principals, MDs and partners, then expand. The disruption stays low."),
-    ("Everyone is included", "Every participant and evaluator is included. Contributors are never charged."),
+    ("Start with your senior deal team", "Begin with the principals, MDs and partners only. The disruption stays low."),
+    ("Unlimited users", "Participants and evaluators are unlimited. Contributors are never charged."),
     ("Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund."),
 ]
 GRADES = [("Directly observed", (34, 197, 94)), ("Hearsay", (245, 158, 11)), ("Third party", (148, 163, 184))]

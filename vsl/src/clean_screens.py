@@ -271,15 +271,15 @@ def clean_my_reviews(img):
         replace_word(img, n, box, old, new, "semibold")
     # coordinators: "Parth 1" -> "Karan" (rows 1-3), "Nishritha Employee" -> "Nishritha" (row 4)
     for y in (298, 457, 616):
-        replace_word(img, n, (790, y, 841, y + 12), "Parth 1", "Varun", "semibold")
-        avatar_initials(img, n, (763.5, y + 18), "V", size=12)
+        replace_word(img, n, (790, y, 841, y + 12), "Parth 1", "Kabir", "semibold")
+        avatar_initials(img, n, (763.5, y + 18), "K", size=12)
     erase(img, (857, 772, 940, 794), (255, 255, 255))
     EDIT_LOG.append(f"{n}: 'Nishritha Employee' -> 'Nishritha'")
     avatar_initials(img, n, (763.5, 793), "A", size=12)
     rename_all(img, n, [("Nishritha", "Nishritha", (791, 774, 857, 786), "semibold")])
     replace_word(img, n, (54, 774, 261, 789), "Standard nine-step journey", "Senior team review FY26", "semibold")
     # status circles showing whose turn it is
-    for cy, new in ((451, "V"), (609, "V"), (767, "A")):
+    for cy, new in ((451, "K"), (609, "K"), (767, "A")):
         d = ImageDraw.Draw(img)
         d.ellipse([1422, cy - 9, 1441, cy + 9], fill=(255, 255, 255))
         draw(img, 1431.5, cy + 0.5, new, ImageFont.truetype(font_path("semibold"), 12), (37, 99, 235), anchor="mm")

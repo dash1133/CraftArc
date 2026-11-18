@@ -218,7 +218,14 @@
   });
 
   /* ---------- offer lines waiting for approval: hidden unless config says so ---------- */
-  if (CFG.showPendingOffer) document.documentElement.classList.add("show-pending");
+  // Offer lines Dash has approved since launch (config.js: extraOfferItems). Plain text only.
+  var stack = document.getElementById("offer-stack");
+  (CFG.extraOfferItems || []).forEach(function (text) {
+    if (!stack || typeof text !== "string" || !text.trim()) return;
+    var li = document.createElement("li");
+    li.textContent = text.trim();
+    stack.appendChild(li);
+  });
 
   /* ---------- CTA clicks, for analytics ---------- */
   document.querySelectorAll("[data-cta]").forEach(function (a) {

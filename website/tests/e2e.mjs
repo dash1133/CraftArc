@@ -202,17 +202,16 @@ await test("stated video length matches the real video", async () => {
   await ctx.close();
 });
 
-await test("offer lines awaiting approval stay hidden unless config allows them", async () => {
-  const a = await openPage();
-  const hidden = await a.page.evaluate(() => [...document.querySelectorAll("[data-pending]")].every((el) => el.offsetParent === null));
-  assert(hidden, "pending lines hidden by default");
-  const text = await a.page.evaluate(() => document.body.innerText);
-  assert(!text.includes("fixed for four years") && !text.includes("three to four meetings"), "pending wording not visible");
-  await a.ctx.close();
-  const b = await openPage({ config: TEST_CONFIG({ showPendingOffer: true }) });
-  const shown = await b.page.evaluate(() => [...document.querySelectorAll("[data-pending]")].every((el) => el.offsetParent !== null));
-  assert(shown, "pending lines shown when approved");
-  await b.ctx.close();
+await test("unapproved offer terms are not in the page, and approved lines can be added from config", async () => {
+  const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8").toLowerCase();
+  for (const t of ["fixed for four years", "build-out", "three to four meetings", "small number of firms", "data-pending"]) {
+    assert(!html.includes(t), `page source contains "${t}"`);
+  }
+  const { ctx, page } = await openPage({ config: TEST_CONFIG({ extraOfferItems: ["Approved test line.", "<b>not html</b>"] }) });
+  const items = await page.evaluate(() => [...document.querySelectorAll("#offer-stack li")].map((li) => li.innerHTML));
+  assert(items.includes("Approved test line."), "approved line added");
+  assert(items.includes("&lt;b&gt;not html&lt;/b&gt;"), "config text is escaped, never injected as HTML");
+  await ctx.close();
 });
 
 await test("product screens enlarge in a viewer and close with Escape", async () => {

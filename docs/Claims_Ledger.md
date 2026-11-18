@@ -28,7 +28,7 @@ Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash m
 | L07 | Five steps per person: launch, self-review, contributor interviews, evaluation coordinator feedback, development plan. | Fact Set §6 [Live] (T1); screen 02 | OK (see conflict C1) |
 | L08 | An AI coach interviews each person for the self-review by voice or text, maps answers to competencies live, asks for what is missing and writes the summary. | Fact Set §6 [Live] (T1); CT "executive coach AI agent" | OK |
 | L09 | Voice mode and dictation in the agent pane. The VSL labels it "Voice or text, in every agent conversation", because screen 04 is the coordinator's agent pane, not a self-review. | Screen 04 | OK (no self-review screen exists yet, see Needs Dash) |
-| L10 | Anonymous, AI-led contributor interviews. Transcripts stored securely. | Fact Set §6 [Live] (T1); CT Stage 1 | OK |
+| L10 | AI-led contributor interviews, anonymous to the person reviewed. Transcripts stored securely. | Fact Set §6 [Live] (T1); CT Stage 1. "To the person reviewed" is inferred: the coordinator's roster names contributors | **FLAG 7** |
 | L11 | The agent grades every fact as directly observed, hearsay or third party. | Fact Set §5 [Live] (T1). No screen shows the grades, so the VSL shows a designed card, not product UI | OK |
 | L12 | The agent checks coverage for every competency and flags the gaps before you complete the survey (screen: no contributor saw the banker meetings). | Fact Set §6 [Live] (T1, "before launch"); screens 04 and 05 show the check offered before the survey is completed | OK |
 | L13 | The agent drafts the Executive Committee writeup, the note to the person and the scorecard. | Screen 06 | OK (see conflict C2) |
@@ -41,7 +41,7 @@ Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash m
 | L20 | Voice on one side, live working document on the other. | Fact Set §6 [Live] (T1) | OK |
 | L21 | Goals in the development plan come from the evaluator's write-up. | `ARC_Roadmap_Scope.md` stage 8, Stage 1 scope [CT] | OK |
 | L22 | (Removed) "feeds whichever review process you run" | Fact Set §8 [Claim] | Not used |
-| L23 | The evaluation coordinator forms the view with the agent, from graded facts. The coordinator is the senior colleague who runs each person's review. | Fact Set §8 FAQ [Live] (T1) | OK |
+| L23 | The evaluation coordinator runs each review and forms the view with the agent, from graded facts. | Fact Set §8 FAQ [Live] (T1) | OK |
 
 ## Proof and credibility
 
@@ -59,12 +59,12 @@ Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash m
 | ID | Claim as used | Source and tag | Status |
 |---|---|---|---|
 | O01 | You start with your senior deal team only, which keeps the disruption low. | Fact Set §10 [Live] (T2) | OK |
-| O02 | An implementation consultant adapts your framework, language and process in three to four meetings. | Fact Set §6 [Claim] (T2), and it conflicts with the [CT] hourly custom services (§13) | **HIDDEN, FLAG 4** |
-| O03 | Unlimited participants and evaluators. Contributors are never charged. | Fact Set §6 core product [CT] ("Unlimited users; respondents never charged") | OK |
-| O03b | One flat annual fee, fixed for four years, with no build-out fee. | Fact Set §9 [CT] for one client; as a public offer it is §11 early-partner terms [To build] | **HIDDEN, FLAG 4** |
+| O02 | An implementation consultant adapts your framework, language and process in three to four meetings. | Fact Set §6 [Claim] (T2), and it conflicts with the [CT] hourly custom services (§13) | **NOT PUBLISHED, FLAG 4** |
+| O03 | Participants and evaluators are unlimited. Contributors are never charged. | Fact Set §6 core product [CT] ("Unlimited users; respondents never charged") | **FLAG 4** (it rules out the per-person pricing idea in §13) |
+| O03b | One flat annual fee, fixed for four years, with no build-out fee. | Fact Set §9 [CT] for one client; as a public offer it is §11 early-partner terms [To build] | **NOT PUBLISHED, FLAG 4** |
 | O04 | Exit right: if we miss a stage we agreed to deliver and do not fix it, you can leave with prepaid fees refunded pro rata. | Fact Set §10 [CT] | **FLAG 4** (a contract term; publishing it makes it the public promise) |
 | O06 | It works best when leadership commits to running the cycle. If not, we will say so. | Fact Set §10 [Claim] (T2), Dash's stance | OK |
-| O07 | Every launch includes a hands-on implementation consultant, so we take on a small number of firms at a time. | Fact Set §11 [To build] | **HIDDEN, FLAG 4** |
+| O07 | Every launch includes a hands-on implementation consultant, so we take on a small number of firms at a time. | Fact Set §11 [To build] | **NOT PUBLISHED, FLAG 4** |
 | O08 | We recommend an internal business champion who owns the cycle. | Fact Set §8 [Claim] (T2), framed as a recommendation | OK |
 | U01 | If your next review cycle starts in the new year, plan it now. | Fact Set §11 [Claim] (T1), stated as a condition, not a fact | OK |
 | C01 | Book a demo. Bring your framework, and we will talk through how it would run on CraftArc. | Fact Set §12; a conversation, not a promise of a sandbox run | OK (FLAG 5 if the sandbox demo is offered) |
@@ -76,7 +76,7 @@ Candida's demo reactions (she is joining as CEO, so a quote reads as a testimoni
 
 ## Conflicts with the fact set, and how the copy resolves them
 
-- **C1, five steps or nine.** The live product shows five steps, so the copy says five. The nine-stage plan in `ARC_Roadmap_Scope.md` is the contract scope, and the screens show "Standard nine-step journey" as a cycle option. If Dash wants the nine stages in market copy, `STEPS` in `script.py` and step 1 to 5 on the site change together.
+- **C1, five steps or nine.** The live product shows five steps, so the copy says five. The nine-stage plan in `ARC_Roadmap_Scope.md` is the contract scope. (The raw screens named a cycle "Standard nine-step journey" while showing five steps. The cleaned screens rename it.) If Dash wants the nine stages in market copy, `STEPS` in `script.py` and step 1 to 5 on the site change together.
 - **C2, two drafts or three documents.** Commercial terms say "two drafts". The screen shows three documents (Executive Committee writeup, note to the person, scorecard). The copy follows the screen.
 - **C3, product name.** The copy uses **CraftArc** (Fact Set title, "CraftArc Agent" in the product) and the **CRAFT ARC** wordmark from the app. Not ARC360, not "Agentic Executive Development".
 
@@ -85,6 +85,12 @@ Candida's demo reactions (she is joining as CEO, so a quote reads as a testimoni
 1. **"A general AI assistant".** The source story is about Claude. The VSL says "a general AI assistant", and the FAQ names ChatGPT and Claude only in the buyer's own question. Naming a vendor in your own claim is a risk to weigh every time.
 2. **The anchor client.** The DIY story, the 24-month licence and "built with their COO" come from one client. They are anonymised ("a mid-tier private equity firm"), but the client could still recognise its story. Get their OK even for the anonymous version. The Fact Set notes that naming them needs permission.
 3. **"How the best management consulting firms groom and select leaders"** is a design claim with no external source. It is phrased as the Fact Set advises.
-4. **Offer terms.** Hidden until you approve them: the flat annual fee fixed for four years, no build-out fee, the implementation consultant in three to four meetings, and "a small number of firms at a time". The words are already in `website/index.html` (`data-pending`). Set `showPendingOffer: true` in `config.js` to publish them, and add them to `OFFER_ITEMS` in `vsl/src/script.py` to put them in the video. The exit right is live in both, so confirm it is a standard term, not one client's.
+4. **Offer terms.** Not published until you approve them, and not present in the page source. Candidate wording, ready to paste into `extraOfferItems` in `website/config.js` and `OFFER_ITEMS` in `vsl/src/script.py`:
+   - "An implementation consultant who adapts your framework, language and process in three to four meetings."
+   - "One flat annual fee, fixed for four years, with no build-out fee."
+   - "Every launch includes a hands-on implementation consultant, so we take on a small number of firms at a time."
+   The exit right and "participants and evaluators are unlimited" are live in both pieces. Confirm the exit right is a standard term, not one client's, and that unlimited users is the pricing you want (it rules out the per-person idea).
 5. **Demo readiness.** The call to action now promises a conversation about the buyer's framework. If you want to promise a full cycle on a sample firm, confirm the demo instance is ready first.
-6. **Sample names.** The screens now use invented names (Arjun, Anushka, Varun, Daniel Shaw). Confirm the demo framework itself, including its competency names, is not a client's confidential framework.
+6. **Sample names and framework.** The screens now use invented names (Arjun, Anushka, Varun, Kabir, Daniel Shaw). The competency names (Deal Sourcing & Origination, Investment Judgment, Portfolio Value Creation) are still readable. Confirm they are not a client's confidential framework.
+7. **Anonymity.** The copy says contributor interviews are "anonymous to the person reviewed". Confirm that is how it works. Also confirm how it holds in a small team: the sample writeup cites "a Principal who ran the operations workstream", which a 22-person team could identify.
+8. **"A general AI assistant".** This stands in for Claude, the AI assistant named in the source story. Treat it as a risk line wherever it appears.

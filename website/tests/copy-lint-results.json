@@ -1,12 +1,8 @@
 {
  "errors": [],
- "warnings": [
-  "[hidden until Dash approves, see Claims_Ledger flag 4] An implementation consultant who adapts your framework, language and process in three to f",
-  "[hidden until Dash approves, see Claims_Ledger flag 4] One flat annual fee, fixed for four years, with no build-out fee.",
-  "[hidden until Dash approves, see Claims_Ledger flag 4] Every launch includes a hands-on implementation consultant, so we take on a small number o"
- ],
- "checked_items": 285,
- "vsl_spoken_words": 483,
- "vsl_runtime_s": 169.416,
- "vsl_wpm": 171
+ "warnings": [],
+ "checked_items": 282,
+ "vsl_spoken_words": 482,
+ "vsl_runtime_s": 171.503,
+ "vsl_wpm": 169
 }
