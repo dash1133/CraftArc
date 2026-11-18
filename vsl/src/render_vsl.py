@@ -600,25 +600,37 @@ RENDER = {"kinetic": render_kinetic, "logo": render_kinetic, "doc": render_doc, 
           "proof": render_proof, "offer": render_offer, "cta": render_cta}
 
 
-def frame(t):
-    si, ti = locate(t)
+DARK = ("kinetic", "logo", "doc", "proof", "cta")
+
+
+def push_in(canvas, z):
+    """Slow camera push-in, so text scenes never sit perfectly still."""
+    if z <= 1.0001:
+        return canvas
+    w, h = W / z, H / z
+    box = ((W - w) / 2, (H - h) / 2, (W + w) / 2, (H + h) / 2)
+    return canvas.transform((W, H), Image.EXTENT, box, resample=Image.BILINEAR)
+
+
+def compose(si, t):
     kind = SCENES[si]["kind"]
-    canvas = navy_bg().copy() if kind in ("kinetic", "logo", "doc", "proof", "cta") else light_bg().copy()
+    _, ti = locate(t)
+    ti = min(ti, len(SENT[si]) - 1)
+    canvas = navy_bg().copy() if kind in DARK else light_bg().copy()
     RENDER[kind](canvas, t, si, ti)
-    # scene cross-fade: blend from the previous scene's last frame over 0.3s
-    a, _ = SCENE_T[si]
-    if si > 0 and t - a < 0.3:
-        prev = frame_static(si - 1, a - 0.001)
-        canvas = Image.blend(prev, canvas, ease((t - a) / 0.3))
-    draw_caption(canvas, t, si)
+    if kind != "screen":  # screen scenes already move with their own camera
+        a, b = SCENE_T[si]
+        canvas = push_in(canvas, 1 + 0.04 * min(max((t - a) / (b - a), 0), 1))
     return canvas
 
 
-def frame_static(si, t):
-    kind = SCENES[si]["kind"]
-    canvas = navy_bg().copy() if kind in ("kinetic", "logo", "doc", "proof", "cta") else light_bg().copy()
-    _, ti = locate(t)
-    RENDER[kind](canvas, t, si, len(SENT[si]) - 1 if ti >= len(SENT[si]) else ti)
+def frame(t):
+    si, _ = locate(t)
+    canvas = compose(si, t)
+    a, _ = SCENE_T[si]
+    if si > 0 and t - a < 0.3:  # cross-fade from the previous scene's last frame
+        canvas = Image.blend(compose(si - 1, a - 0.001), canvas, ease((t - a) / 0.3))
+    draw_caption(canvas, t, si)
     return canvas
 
 
@@ -642,24 +654,26 @@ def stills():
     print(f"{len(paths)} stills, contact sheet at {BUILD / 'contact_sheet.png'}")
 
 
-def render(web=False):
-    out = BUILD / "CraftArc_VSL_1080p.mp4"
-    n = int(math.ceil(DURATION * FPS))
+def render(web=False, t0=0.0, t1=None):
+    t1 = DURATION if t1 is None else t1
+    excerpt = t0 > 0 or t1 < DURATION
+    out = BUILD / ("excerpt.mp4" if excerpt else "CraftArc_VSL_1080p.mp4")
+    n = int(math.ceil((t1 - t0) * FPS))
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS),
-           "-i", "-", "-i", str(BUILD / "vo.wav"),
+           "-i", "-", "-ss", f"{t0:.3f}", "-i", str(BUILD / "vo.wav"),
            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000",
            "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p", "-tune", "stillimage",
            "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", "-shortest", str(out)]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     for i in range(n):
-        p.stdin.write(frame(i / FPS).convert("RGB").tobytes())
+        p.stdin.write(frame(t0 + i / FPS).convert("RGB").tobytes())
         if i % 300 == 0:
             print(f"frame {i}/{n}", flush=True)
     p.stdin.close()
     if p.wait() != 0:
         raise SystemExit("ffmpeg failed")
     print("wrote", out)
-    if web:
+    if web and not excerpt:
         web_out = BUILD / "CraftArc_VSL_720p.mp4"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-vf", "scale=1280:720:flags=lanczos",
                         "-c:v", "libx264", "-preset", "slow", "-crf", "24", "-pix_fmt", "yuv420p", "-c:a", "aac",
@@ -672,5 +686,8 @@ def render(web=False):
 if __name__ == "__main__":
     if "--stills" in sys.argv:
         stills()
+    elif "--range" in sys.argv:  # QA excerpt: --range 100 120
+        i = sys.argv.index("--range")
+        render(t0=float(sys.argv[i + 1]), t1=float(sys.argv[i + 2]))
     else:
         render(web="--web" in sys.argv)
