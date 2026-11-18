@@ -1,0 +1,6 @@
+# Deploy only the website. The rest of the repository (docs, VSL build files,
+# the claims ledger) stays private. vercel.json maps "/" to website/.
+/*
+!/website
+!/vercel.json
+/website/tests

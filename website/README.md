@@ -59,4 +59,6 @@ python3 website/tests/copy_lint.py
 
 ## Hosting
 
-Any static host works: Netlify, Vercel, Cloudflare Pages, GitHub Pages or S3. Serve `website/` as the site root. Fonts load from Google Fonts, with a system-font fallback.
+**Vercel works with no settings to change.** `vercel.json` at the repository root serves `website/` as the site, and `.vercelignore` uploads only `website/` (not `docs/`, `vsl/` or the claims ledger). Push to `main`, and Vercel redeploys. If you prefer, set the project's Root Directory to `website` instead; both work.
+
+Any other static host works too (Netlify, Cloudflare Pages, GitHub Pages or S3): serve `website/` as the site root. Fonts load from Google Fonts, with a system-font fallback.
