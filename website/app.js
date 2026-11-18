@@ -186,8 +186,10 @@
     if (!CFG.leadEndpoint) {
       if (CFG.leadEmail) {
         (window.__craftarcNavigate || function (href) { window.location.href = href; })(mailtoHref(data));
+        var head = document.querySelector("#thanks h3");
+        if (head) head.textContent = "One more step: press send in your email app.";
         var msg = document.getElementById("thanks-msg");
-        if (msg) msg.textContent = "Your email app should open with your request filled in. Please press send. " +
+        if (msg) msg.textContent = "Your email app should open with your request filled in. " +
           "If it did not open, email " + CFG.leadEmail + " and we will arrange a time.";
         showThanks(data);
       } else {

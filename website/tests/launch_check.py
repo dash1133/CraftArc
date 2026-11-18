@@ -22,6 +22,8 @@ checks.append(("Leads arrive without the visitor's email app", bool(endpoint),
                "only leadEmail is set, so the form opens the visitor's email app; set leadEndpoint (for example Formspree)"))
 for term in ("fixed for four years", "build-out", "three to four meetings", "small number of firms"):
     checks.append((f'Unapproved term absent: "{term}"', term not in html.lower(), "remove it from index.html"))
+checks.append(("Search indexing allowed (noindex removed)", 'name="robots" content="noindex"' not in html,
+               "remove the robots noindex meta tag from index.html"))
 video = ROOT / "assets" / "video" / "craftarc-vsl-720p.mp4"
 checks.append(("Video file present", video.exists() and video.stat().st_size > 1_000_000, "copy the 720p render"))
 

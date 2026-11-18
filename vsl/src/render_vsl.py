@@ -555,21 +555,26 @@ def render_offer(canvas, t, si, ti):
     d.text((160, 220), "HOW FIRMS START", font=font("semi", 30), fill=ORANGE + (int(255 * a0),))
     d.text((160, 262), "Low disruption, and a way out if we miss", font=font("display_bold", 60), fill=INK + (int(255 * a0),))
     canvas.alpha_composite(head)
+    first = {}
+    for j, sent in enumerate(SCENES[si]["sentences"]):
+        first.setdefault(sent["item"], SENT[si][j]["start"])
     for i, (title, sub) in enumerate(OFFER_ITEMS):
-        st = SENT[si][i]["start"]
+        if i not in first:
+            continue
+        st = first[i]
         k = ease((t - st + 0.1) / 0.45)
         if k <= 0:
             continue
-        y = 410 + i * 170 + (1 - k) * 20
+        y = 372 + i * 136 + (1 - k) * 20
         layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
         ld = ImageDraw.Draw(layer)
-        ld.rounded_rectangle([160, y, 1760, y + 140], 20, fill=(255, 255, 255, int(255 * k)), outline=(226, 232, 240, int(255 * k)), width=2)
+        ld.rounded_rectangle([160, y, 1760, y + 120], 20, fill=(255, 255, 255, int(255 * k)), outline=(226, 232, 240, int(255 * k)), width=2)
         col = ORANGE if i == 2 else BLUE
-        cx, cy = 230, y + 70
+        cx, cy = 230, y + 60
         ld.ellipse([cx - 32, cy - 32, cx + 32, cy + 32], fill=col + (int(255 * k),))
         ld.line([(cx - 13, cy + 1), (cx - 3, cy + 11), (cx + 15, cy - 11)], fill=WHITE + (int(255 * k),), width=6, joint="curve")
-        ld.text((300, y + 34), title, font=font("display_bold", 40), fill=INK + (int(255 * k),))
-        ld.text((300, y + 88), sub, font=font("regular", 29), fill=(71, 85, 105, int(255 * k)))
+        ld.text((300, y + 24), title, font=font("display_bold", 38), fill=INK + (int(255 * k),))
+        ld.text((300, y + 74), sub, font=font("regular", 28), fill=(71, 85, 105, int(255 * k)))
         canvas.alpha_composite(layer)
 
 

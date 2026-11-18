@@ -43,8 +43,8 @@ Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash m
 | L22 | (Removed) "feeds whichever review process you run" | Fact Set §8 [Claim] | Not used |
 | L23 | The evaluation coordinator runs each review and forms the view with the agent, from graded facts. | Fact Set §8 FAQ [Live] (T1) | OK |
 | L24 | A conversation with the coach takes about 25 minutes, by voice or text. | Dash, 18 Nov 2026 ("25 min") | OK |
-| L25 | Self-review screen: the coach's welcome message and the voice controls are the live product (Dash's screenshot, 18 Nov 2026). The four conversation turns below the welcome are sample text. | `vsl/assets/screens/clean/EDITS.md` (07) | OK, sample data disclosed |
-| PH1 | Placeholder proof on the website: "21 of 22 senior professionals completed their self-review in the first cycle" and a COO quote. | Dash, 18 Nov 2026: "make up for now". Not a fact. Shown with a visible "Placeholder, replace before launch" badge, kept out of the video, and `website/tests/launch_check.py` fails while it is on the page | **PLACEHOLDER** |
+| L25 | Self-review screen: the coach's welcome message and the voice controls are the live product (Dash's screenshot, 18 Nov 2026). The four conversation turns are sample text. The coach asks whether the person wants to nominate a contributor: the person nominates ([Live]); agent-suggested contributors are Stage 2 and are not shown. | `vsl/assets/screens/clean/EDITS.md` (07); fine print says "sample data and a sample conversation" | OK, sample disclosed |
+| PH1 | Proof slots on the website: "[First-cycle result from the live firm goes here]" and "[Approved client quote goes here]". | Dash, 18 Nov 2026: "make up for now". Built as visible slots, not invented figures or quotes: a made-up "21 of 22" would read as real, and an unattributed COO quote could only be the anchor client's, which Dash's rule "never invent numbers" and the claims gate both forbid. Badged, kept out of the video, page marked noindex, and `launch_check.py` fails until both are real | **PLACEHOLDER** |
 
 ## Proof and credibility
 
@@ -87,22 +87,21 @@ Candida's demo reactions (she is joining as CEO, so a quote reads as a testimoni
 
 - Leads go to dash@craftarc.ai (`website/config.js`, and on the video's end card).
 - The withheld offer terms stay out of all public copy (flag 4 closed: not published).
-- Proof: placeholder content for now (PH1). Replace it with a real result and an approved quote before launch.
+- Proof: placeholder slots for now (PH1). Replace them with a real result and an approved quote before launch.
 - A coach conversation takes about 25 minutes (L24). The self-review screen is built from Dash's template (L25).
 - Contributor interviews are anonymised as the firm chooses (L10, flag 7 closed).
 - The voiceover stays AI generated for now. Dash will record it later.
 
 ## Flags for Dash to clear before launch
 
-1. **"A general AI assistant".** The source story is about Claude. The VSL says "a general AI assistant", and the FAQ names ChatGPT and Claude only in the buyer's own question. Naming a vendor in your own claim is a risk to weigh every time.
+1. **"A general AI assistant".** It stands in for Claude, the AI assistant named in the source story. No copy names a vendor or says an AI assistant lacks a feature. Treat the line as a risk wherever it appears.
 2. **The anchor client.** The DIY story, the 24-month licence and "built with their COO" come from one client. They are anonymised ("a mid-tier private equity firm"), but the client could still recognise its story. Get their OK even for the anonymous version. The Fact Set notes that naming them needs permission.
 3. **"How the best management consulting firms groom and select leaders"** is a design claim with no external source. It is phrased as the Fact Set advises.
-4. **Offer terms.** Not published until you approve them, and not present in the page source. Candidate wording, ready to paste into `extraOfferItems` in `website/config.js` and `OFFER_ITEMS` in `vsl/src/script.py`:
+4. **Offer terms.** Decided on 18 Nov: not published. They are absent from the page source. If that changes, the candidate wording is ready to paste into `extraOfferItems` in `website/config.js` and `OFFER_ITEMS` in `vsl/src/script.py`:
    - "An implementation consultant who adapts your framework, language and process in three to four meetings."
    - "One flat annual fee, fixed for four years, with no build-out fee."
    - "Every launch includes a hands-on implementation consultant, so we take on a small number of firms at a time."
    The exit right and "participants and evaluators are unlimited" are live in both pieces. Confirm the exit right is a standard term, not one client's, and that unlimited users is the pricing you want (it rules out the per-person idea).
 5. **Demo readiness.** The call to action now promises a conversation about the buyer's framework. If you want to promise a full cycle on a sample firm, confirm the demo instance is ready first.
 6. **Sample names and framework.** The screens now use invented names (Arjun, Anushka, Varun, Kabir, Daniel Shaw). The competency names (Deal Sourcing & Origination, Investment Judgment, Portfolio Value Creation) are still readable. Confirm they are not a client's confidential framework.
-7. **Anonymity.** The copy says contributor interviews are "anonymous to the person reviewed". Confirm that is how it works. Also confirm how it holds in a small team: the sample writeup cites "a Principal who ran the operations workstream", which a 22-person team could identify.
-8. **"A general AI assistant".** This stands in for Claude, the AI assistant named in the source story. Treat it as a risk line wherever it appears.
+7. **Anonymity.** Closed: Dash confirmed interviews are anonymised as the firm chooses (L10).

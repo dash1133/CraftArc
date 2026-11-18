@@ -72,4 +72,5 @@ Sample data relabelled for marketing use: test names and a real staff name repla
 - 06_performance_review: 'Parth' -> 'Arjun' at (932, 580)
 - 06_performance_review: blurred (560, 686, 1890, 905) (the writeup body below the summary quotes a client's framework language)
 - 07_self_review: header user 'Dash 1 / Managing Director' (test account) -> 'Arjun / Principal'
+- 07_self_review: removed the 'End voice' hover tooltip captured in the screenshot
 - 07_self_review: sample conversation added below the coach's real welcome message (4 turns)

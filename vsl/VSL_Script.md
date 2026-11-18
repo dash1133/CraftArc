@@ -40,7 +40,7 @@ Order follows the Hormozi VSL structure in the CraftArc VSL Fact Set: hook, epip
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 0:53.5 | In the self-review, an AI coach interviews each person against your competencies, and asks for whatever is missing. | Screen `07_self_review.png`, camera on (480, 150, 1500, 640), spotlight on [(544, 566, 1456, 620)], label "Asks for what is missing" | L08 |
+| 0:53.5 | In the self-review, an AI coach interviews each person against your competencies, and asks for whatever is missing. | Screen `07_self_review.png`, camera on (480, 210, 1500, 720), spotlight on [(544, 566, 1456, 620)], label "Asks for what is missing" | L08 |
 | 1:00.7 | People answer by voice or text, and a conversation takes about 25 minutes. | Screen `07_self_review.png`, camera on (520, 760, 1480, 1110), spotlight on [(940, 870, 1062, 1000), (1305, 1015, 1460, 1100)], label "Voice or text, about 25 minutes" | L08, L24 |
 
 ## 6. Contributor interviews (1:05.8 to 1:16.9)
@@ -87,12 +87,12 @@ Order follows the Hormozi VSL structure in the CraftArc VSL Fact Set: hook, epip
 | 2:17.8 | You start with your senior deal team only, which keeps the disruption low. | Offer row 1: "Start with your senior deal team", "Begin with the principals, MDs and partners only. The disruption stays low." | O01 |
 | 2:21.9 | Participants and evaluators are unlimited, and contributors are never charged. | Offer row 2: "Unlimited users", "Participants and evaluators are unlimited. Contributors are never charged." | O03 |
 | 2:26.8 | If we miss a stage we agreed to deliver and do not fix it, you can leave, and we refund your prepaid fees pro rata. | Offer row 3: "Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund." | O04 |
-| 2:34.0 | It works best when leadership commits to running the cycle. If that commitment is not there yet, we will say so. | Offer row 3: "Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund." | O06 |
+| 2:34.0 | It works best when leadership commits to running the cycle. If that commitment is not there yet, we will say so. | Offer row 4: "Who it is for", "It works best when leadership commits to running the cycle." | O06 |
 
 ## 12. Next step (2:40.7 to 2:52.3)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 2:40.9 | If your next review cycle starts in the new year, plan it now. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data. Voiceover is AI generated." | U01 |
-| 2:44.5 | Book a demo, bring your competency framework, and we will talk through how it would run on CraftArc. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data. Voiceover is AI generated." | C01 |
-| 2:50.1 | This voice is AI generated. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data. Voiceover is AI generated." | D01 |
+| 2:40.9 | If your next review cycle starts in the new year, plan it now. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data and a sample conversation. Voiceover is AI generated." | U01 |
+| 2:44.5 | Book a demo, bring your competency framework, and we will talk through how it would run on CraftArc. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data and a sample conversation. Voiceover is AI generated." | C01 |
+| 2:50.1 | This voice is AI generated. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data and a sample conversation. Voiceover is AI generated." | D01 |

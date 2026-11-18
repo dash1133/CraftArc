@@ -1,18 +1,15 @@
 {
- "errors": [
-  "[number '51' not in the claims ledger] site: 2 minutes 51 seconds. Captions on. The voiceover is AI generated.",
-  "[number '51' not in the claims ledger] site attr: CraftArc video, 2 minutes 51 seconds"
- ],
+ "errors": [],
  "warnings": [
   "[placeholder, blocked by launch_check.py] Placeholder, replace before launch",
   "[placeholder, blocked by launch_check.py] First-cycle result",
-  "[placeholder, blocked by launch_check.py] 21 of 22 senior professionals completed their self-review in the first cycle",
-  "[placeholder, blocked by launch_check.py] Placeholder figure written for layout. Replace it with the live firm's real result.",
+  "[placeholder, blocked by launch_check.py] [First-cycle result from the live firm goes here]",
+  "[placeholder, blocked by launch_check.py] For example, the share of the senior team that completed the self-review, or the senior ho",
   "[placeholder, blocked by launch_check.py] Placeholder, replace before launch",
-  "[placeholder, blocked by launch_check.py] \"For the first time, our Executive Committee could see the evidence behind every partner-r",
-  "[placeholder, blocked by launch_check.py] COO, mid-tier private equity firm. Placeholder quote, not yet approved."
+  "[placeholder, blocked by launch_check.py] [Approved client quote goes here]",
+  "[placeholder, blocked by launch_check.py] [Name and role, with permission]"
  ],
- "checked_items": 292,
+ "checked_items": 294,
  "vsl_spoken_words": 480,
  "vsl_runtime_s": 172.346,
  "vsl_wpm": 167

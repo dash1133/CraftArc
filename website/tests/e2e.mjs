@@ -218,6 +218,10 @@ await test("placeholder proof is visibly labelled so it cannot pass as a real re
   })));
   assert(blocks.length > 0, "placeholder cards present (remove this test once real proof replaces them)");
   assert(blocks.every((b) => /placeholder/i.test(b.badge)), "every placeholder card shows a visible Placeholder badge");
+  const text = await page.evaluate(() => [...document.querySelectorAll(".proof-card.placeholder")].map((el) => el.innerText).join(" "));
+  assert(!/\b\d+ of \d+\b/.test(text) && text.includes("[") && text.includes("goes here"), "placeholders are visible slots, not invented results");
+  const robots = await page.getAttribute('meta[name="robots"]', "content");
+  eq(robots, "noindex", "kept out of search engines while placeholders are on the page");
   await ctx.close();
 });
 
@@ -443,6 +447,7 @@ await test("lead form: with only an email configured it opens a filled-in email"
   assert(decoded.includes("Example Capital") && decoded.includes("alex.morgan@examplecapital.com"), "mail has the lead details");
   assert(await page.locator("#thanks").isVisible(), "thank-you shown");
   assert((await page.textContent("#thanks-msg")).includes("demo@example.com"), "thank-you says the email app should open, and gives the address");
+  assert((await page.textContent("#thanks h3")).includes("press send"), "heading asks the visitor to press send");
   await ctx.close();
 });
 

@@ -4,17 +4,17 @@
 
 | What | Where |
 |---|---|
-| The VSL (2:51, 1080p, captions burned in) | `vsl/CraftArc_VSL_1080p.mp4`, captions `vsl/CraftArc_VSL.vtt` and `.srt` |
+| The VSL (2:52, 1080p, captions burned in) | `vsl/CraftArc_VSL_1080p.mp4`, captions `vsl/CraftArc_VSL.vtt` and `.srt` |
 | Script and storyboard, with claim IDs | `vsl/VSL_Script.md` |
 | How to rebuild or change the video | `vsl/README.md` |
 | The website (static, no build step) | `website/index.html`, how to launch it in `website/README.md` |
-| Tests: 27 browser tests and a copy lint | `website/tests/` |
+| Tests: 28 browser tests, a copy lint and a launch check | `website/tests/` |
 | Claims ledger: every claim traced to the fact set | `docs/Claims_Ledger.md` |
 | Review report: scores, fixes and what needs Dash | `docs/Review_Report.md` |
 | Build plan and the checks behind each step | `docs/CraftArc_Build_Plan.md` |
 | Buyer persona used for testing | `docs/CraftArc_Buyer_Persona.md` |
 
-Before launch, connect the lead form (`website/config.js`) and clear the flags in `docs/Claims_Ledger.md`.
+Before launch, run `python3 website/tests/launch_check.py`. It lists what is left: the real proof, removing the noindex tag and, ideally, a form endpoint.
 
 ---
 

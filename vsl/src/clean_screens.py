@@ -394,7 +394,7 @@ SELF_REVIEW_TURNS = [
     ("person", "I led the diligence on Project Atlas, the carve-out we closed in August. I ran the advisers and set the timetable to IC."),
     ("coach", "Thank you. That speaks to how you lead diligence. What was the hardest call you made on Atlas, and who saw you make it?"),
     ("person", "Cutting the IT adviser's scope to the critical systems. Anushka was in the room when we decided."),
-    ("coach", "Noted. I will suggest Anushka as a contributor for that. You have not mentioned sourcing yet. Were you involved in finding or originating any deals this period?"),
+    ("coach", "Noted. Would you like to nominate Anushka as a contributor for that? You have not mentioned sourcing yet. Were you involved in finding or originating any deals this period?"),
 ]
 
 
@@ -409,6 +409,20 @@ def build_self_review():
     draw(img, 1835, 49, "Arjun", fit_font("Dash", 1866 - 1835, "semibold"), (41, 42, 46))
     draw(img, 1835, 64, "Principal", fit_font("Managing", 1889 - 1835, "regular"), (69, 85, 108))
     EDIT_LOG.append(f"{n}: header user 'Dash 1 / Managing Director' (test account) -> 'Arjun / Principal'")
+    # remove the hover tooltip ("End voice") captured in the screenshot, and rebuild the
+    # input box's top-right corner it covered by mirroring the box's clean top-left corner
+    erase(img, (1360, 978, 1472, 1008), (255, 255, 255))
+    strip = img.crop((1250, 1008, 1360, 1032))
+    for x in range(1360, 1444, strip.width):
+        img.paste(strip.crop((0, 0, min(strip.width, 1444 - x), strip.height)), (x, 1008))
+    img.paste(img.crop((536, 1008, 557, 1052)).transpose(Image.FLIP_LEFT_RIGHT), (1444, 1008))
+    erase(img, (1465, 975, 1482, 1046), (255, 255, 255))  # the tooltip's shadow, right of the box
+    px = img.load()  # faint shadow line under the tooltip: whiten light pixels only, keep the button
+    for yy in range(1031, 1037):
+        for xx in range(1360, 1447):
+            if sum(px[xx, yy]) > 600:
+                px[xx, yy] = (255, 255, 255)
+    EDIT_LOG.append(f"{n}: removed the 'End voice' hover tooltip captured in the screenshot")
     # conversation, in the same bubble style as the coach's welcome message
     f = fit_font("Welcome.", 630 - 555, "regular")
     line_h, pad_x, pad_top, pad_bottom = 26, 11, 16, 11

@@ -150,7 +150,7 @@ SCENES = [
             {"cap": "If we miss a stage we agreed to deliver and do not fix it, you can leave, and we refund your prepaid fees pro rata.",
              "claim": ["O04"], "item": 2},
             {"cap": "It works best when leadership commits to running the cycle. If that commitment is not there yet, we will say so.",
-             "claim": ["O06"], "item": 2},
+             "claim": ["O06"], "item": 3},
         ],
     },
     # ------------------------------------------------------------------ 9 CTA
@@ -176,12 +176,13 @@ OFFER_ITEMS = [
     ("Start with your senior deal team", "Begin with the principals, MDs and partners only. The disruption stays low."),
     ("Unlimited users", "Participants and evaluators are unlimited. Contributors are never charged."),
     ("Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund."),
+    ("Who it is for", "It works best when leadership commits to running the cycle."),
 ]
 GRADES = [("Directly observed", (34, 197, 94)), ("Hearsay", (245, 158, 11)), ("Third party", (148, 163, 184))]
 CTA = {"intro": ("If your next cycle starts in the new year,", "plan it now."),
        "title": "Book a demo", "sub": "Bring your competency framework. We will talk through how it would run on CraftArc.",
        "url": "dash@craftarc.ai",  # shown under the logo on the end card
-       "fine": "Product screens use sample data. Voiceover is AI generated."}
+       "fine": "Product screens use sample data and a sample conversation. Voiceover is AI generated."}
 
 VOICE = {"voice": "af_heart", "speed": 1.0, "lang": "en-us"}
 TIMING = {"scene_lead": 0.25, "gap": 0.24, "scene_tail": 0.35}

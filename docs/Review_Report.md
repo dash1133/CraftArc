@@ -2,7 +2,7 @@
 
 Three independent reviewers, each a fresh agent with no sight of the writer's reasoning, scored both pieces, and each fix went back to the same reviewer to confirm. Scores are out of 10.
 
-**Bottom line.** Both pieces rose from 5 to 7 to about 7 to 7.5 in two rounds, and every fix the reviewers said could be made now has been applied. Each reviewer said the copy alone tops out at about 8. The rest needs facts and approvals only Dash can give (see Needs Dash). Nothing in either piece states a [Claim], [To build] or [Internal] item as fact.
+**Bottom line.** Over three rounds, both pieces rose from 5 to 7 to 8 to 8.5. Every fix the reviewers could name within the facts has been applied, including those from round 3, which have not been re-scored. The rest is capped by Dash's decisions and missing facts. The offer rests on the exit right alone, there is no real outcome metric or client quote yet, the form opens the visitor's email app, and the voice is AI. The Hormozi lens puts the ceiling at about 8.5 while the offer terms stay unpublished. Nothing in either piece states a [Claim], [To build] or [Internal] item as fact, and the placeholders are visible slots, not invented results.
 
 - **Hormozi lens (simulated).** Alex Hormozi's published frameworks: the value equation, the Grand Slam Offer, hooks, FAQ, proof, guarantees and his VSL order. This is not Alex Hormozi and does not speak for him.
 - **Buyer.** A PE COO at a firm of about $3B, using the persona in `docs/CraftArc_Buyer_Persona.md`.
@@ -10,11 +10,13 @@ Three independent reviewers, each a fresh agent with no sight of the writer's re
 
 ## Scores
 
-| Reviewer | VSL round 1 | Website round 1 | VSL round 2 | Website round 2 |
-|---|---|---|---|---|
-| Hormozi lens (simulated) | 5 | 6 | 7 | 7 |
-| Buyer (PE COO) | 6 | 7 | 7 | 7.5 |
-| Dash tester (claims and voice) | 6 | 5 | 7 | 6, and 7.5 with the two blockers fixed |
+| Reviewer | VSL R1 | Site R1 | VSL R2 | Site R2 | VSL R3 | Site R3 |
+|---|---|---|---|---|---|---|
+| Hormozi lens (simulated) | 5 | 6 | 7 | 7 | 8 | 8 |
+| Buyer (PE COO) | 6 | 7 | 7 | 7.5 | 8 | 8.5 |
+| Dash tester (claims and voice) | 6 | 5 | 7 | 6 | 7.5 | 6.5, and 7.5 with the placeholder fix |
+
+Round 3 followed Dash's 18 Nov answers: the 25 minutes, the self-review screen, anonymisation, the lead email, no offer terms, and placeholders for the proof. The site scores assume the placeholder slots are replaced with a real result and an approved quote. The buyer's verdict in round 3: "Would I book? Yes, from either piece."
 
 ## Round 1: what the reviewers found, and what changed
 
@@ -32,7 +34,7 @@ Three independent reviewers, each a fresh agent with no sight of the writer's re
 
 Round 2 found nine "do it now" fixes. All nine are applied, and both blockers are cleared. These fixes came after the round-2 scores, and no third round was run, so the scores above do not yet reflect them.
 
-- **Blocker 1, stale video.** The site played the round-1 cut, which included withdrawn claims. Fixed: the final 2:51 render, the 720p cut, the captions and the poster now ship together. A new test checks that the length stated on the page matches the real file.
+- **Blocker 1, stale video.** The site played the round-1 cut, which included withdrawn claims. Fixed: the final 2:52 render, the 720p cut, the captions and the poster now ship together. A new test checks that the length stated on the page matches the real file.
 - **Blocker 2, unapproved terms in the source.** Hiding them with CSS still published them. Fixed: they are removed from the HTML. Approved lines can be added later through `extraOfferItems` in `config.js`, as escaped plain text. A test checks the source for the old wording.
 - **Claims and wording.**
   - "The evaluation coordinator runs each review" replaces "senior colleague", which screen 03 contradicted.
@@ -52,9 +54,22 @@ Round 2 found nine "do it now" fixes. All nine are applied, and both blockers ar
 - Hormozi lens: the copy-only fixes "take each piece to about 8, not 9". Reaching 9 needs the hidden offer approved, an outcome metric, a named client quote, a price or starting figure, and Dash's own voice.
 - Dash tester: the voice rubric scores 26 of 40 on both pieces. "Turn" and "authentic" stay at 3 until Dash voices the founder line himself.
 
+## Round 3
+
+- **Buyer (8 / 8.5).** Every Leader-test check now passes. Applied: the FAQ is renamed "How long is each conversation?", and "agentic leadership development" is replaced in the page title and footer by the buyer's own words.
+- **Hormozi lens (8 / 8).** Applied: the fit line has its own offer row ("Who it is for"). The hover tooltip captured in the screenshot is removed. The "Enlarge" button moved off the key line on mobile. The proof section now opens with the result and quote slots.
+- **Dash tester (7.5 / 6.5).** Applied:
+  - The sample coach line "I will suggest Anushka" implied agent-suggested contributors, a Stage 2 feature. It now asks whether the person wants to nominate her.
+  - The fine print now says "sample data and a sample conversation".
+  - The FAQ answers are full sentences that answer the question asked.
+  - The line "a review cycle needs more than a prompt" is cut.
+  - In email mode, the thank-you heading now asks the visitor to press send.
+  - The placeholders became bracketed slots, because "21 of 22" read as a real figure and an unattributed COO quote could only be the anchor client's. The page is noindex until launch, and `launch_check.py` blocks both.
+- **Still open, by design or needing Dash:** a real result and an approved quote, a lead endpoint so leads arrive without the visitor's email app, the client's OK to tell its story, the exit right confirmed as a standard term, partner hours per whole cycle, and Dash's own voice. "Turn" and "authentic" stay at 3 out of 5 on the voice rubric until Dash records it.
+
 ## Tests
 
-**Website: 27 of 27 pass** (`node website/tests/e2e.mjs`, Chromium; run three times in a row on the final files, including while a render loaded the CPU).
+**Website: 28 of 28 pass** (`node website/tests/e2e.mjs`, Chromium; run three times in a row on the final files, including while a render loaded the CPU).
 
 | Area | Checks |
 |---|---|
@@ -68,7 +83,7 @@ Round 2 found nine "do it now" fixes. All nine are applied, and both blockers ar
 
 **Screens.** Tesseract OCR finds no Parth, Nishritha, Karan, "TESTING", "nine-step" or "pulse" in the cleaned or website images.
 
-**VSL.** 2:51 at 1920x1080 and 30 fps, plus a 1280x720 web cut, with AAC at 48 kHz.
+**VSL.** 2:52 at 1920x1080 and 30 fps, plus a 1280x720 web cut, with AAC at 48 kHz.
 
 - Loudness is -16.2 LUFS integrated, the web standard, and the true peak is -1.4 dBFS.
 - blackdetect finds no black frames, freezedetect finds no still stretch over 3 seconds, and silencedetect finds no gap over 2 seconds.
@@ -78,17 +93,14 @@ Round 2 found nine "do it now" fixes. All nine are applied, and both blockers ar
 
 ## Needs Dash
 
-These are the items that move the scores to 9 or more. Each one is a fact or a decision, not copy.
+Answered on 18 Nov: the lead email (dash@craftarc.ai), the offer terms (stay unpublished), conversation time (about 25 minutes), the self-review screen (built from Dash's template), anonymity (as the firm chooses), and the voice (AI for now).
 
-1. **Connect the lead form.** Set `leadEndpoint` (or at least `leadEmail`) in `website/config.js`. Until then the form tells visitors it is not connected.
-2. **Approve, or drop, the offer terms** (ledger flag 4): the flat annual fee fixed for four years, no build-out fee, the implementation consultant in three to four meetings, and limited onboarding. Also confirm that the exit right and "unlimited participants and evaluators" are standard terms.
-3. **One outcome metric from the live firm**, such as the participation rate or senior hours per cycle. Also permission to name the firm, and a quote or short video from its COO.
-4. **Partner time per conversation.** The buyer needs this number to sell the product internally.
-5. **A self-review screenshot** showing the coach interviewing a principal. Today no screen shows the coach itself.
-6. **Anonymity in small teams.** Who exactly is it anonymous to, and how does it hold when a writeup cites "a Principal who ran the operations workstream"?
-7. **Data handling**: where the data is hosted, whether it trains models, and who can see the transcripts.
-8. **Demo readiness.** If the sample-firm demo is ready, the call to action can promise "we will show you" rather than "talk through".
-9. **Dash's own voice.** Record the voiceover, or at least the founder line in the first person, and appear on camera. That lifts "authentic" and lets the spoken AI disclosure go.
-10. **The domain and a calendar link**, for the end card and for the "Request my demo" follow-up.
-11. **Confirm the demo framework is not a client's.** The competency names are still readable on the screens.
-12. **Use of "a general AI assistant".** It stands in for Claude, the AI assistant named in the source story. Treat it as a risk line wherever it appears.
+Still open, in order of impact:
+1. **A real first-cycle result and an approved client quote**, to fill the two slots on the site, and ideally the VSL proof scene too. `launch_check.py` fails until they are in.
+2. **A lead endpoint** (for example a Formspree form that forwards to dash@craftarc.ai), so a request arrives even when the visitor has no email app set up.
+3. **The anchor client's OK** to tell its story, even anonymously.
+4. **The exit right**, confirmed as a standard term rather than one client's.
+5. **Partner hours per whole cycle**: one self-review, plus contributor interviews, plus coordinator time.
+6. **Dash's own voice** for the voiceover.
+7. **The demo framework**: confirm its competency names are not a client's.
+8. **At launch**: remove the noindex tag, publish a full privacy notice, and run `python3 website/tests/launch_check.py` until it says READY.
