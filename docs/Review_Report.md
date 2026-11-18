@@ -68,7 +68,13 @@ Round 2 found nine "do it now" fixes. All nine are applied, and both blockers ar
 
 **Screens.** Tesseract OCR finds no Parth, Nishritha, Karan, "TESTING", "nine-step" or "pulse" in the cleaned or website images.
 
-**VSL: VIDEO_QA**
+**VSL.** 2:52 at 1920x1080 and 30 fps, plus a 1280x720 web cut, with AAC at 48 kHz.
+
+- Loudness is -16.2 LUFS integrated, the web standard, and the true peak is -1.4 dBFS.
+- blackdetect finds no black frames, freezedetect finds no still stretch over 3 seconds, and silencedetect finds no gap over 2 seconds.
+- A full decode reports no errors.
+- The caption files (VTT, SRT) are generated from the same timeline as the voice, so they cannot drift.
+- Frames at every scene transition and at 11 points through the final file were checked by eye.
 
 ## Needs Dash
 
