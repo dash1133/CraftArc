@@ -1,6 +1,6 @@
 # CraftArc VSL
 
-The video sales letter for CraftArc: 2:52, 1920x1080, 30 fps, burned-in captions, AI voiceover. Built entirely from code, so any change to a line re-times the voice, captions and visuals together.
+The video sales letter for CraftArc: 2:51, 1920x1080, 30 fps, burned-in captions, AI voiceover. Built entirely from code, so any change to a line re-times the voice, captions and visuals together.
 
 ```
 vsl/

@@ -124,7 +124,7 @@ def main():
     errors, warnings = [], []
     tl = ROOT / "vsl" / "build" / "timeline.json"
     if tl.exists():  # the stated video length is allowed, and only the real one
-        mins, secs = divmod(round(json.loads(tl.read_text())["duration"]), 60)
+        mins, secs = divmod(int(json.loads(tl.read_text())["duration"]), 60)  # players round down
         ALLOWED_NUMBERS.setdefault(str(mins), "video length")
         ALLOWED_NUMBERS.setdefault(str(secs), "video length")
     blocks, attrs, pending = site_text()

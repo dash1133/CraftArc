@@ -4,7 +4,7 @@
 
 | What | Where |
 |---|---|
-| The VSL (2:52, 1080p, captions burned in) | `vsl/CraftArc_VSL_1080p.mp4`, captions `vsl/CraftArc_VSL.vtt` and `.srt` |
+| The VSL (2:51, 1080p, captions burned in) | `vsl/CraftArc_VSL_1080p.mp4`, captions `vsl/CraftArc_VSL.vtt` and `.srt` |
 | Script and storyboard, with claim IDs | `vsl/VSL_Script.md` |
 | How to rebuild or change the video | `vsl/README.md` |
 | The website (static, no build step) | `website/index.html`, how to launch it in `website/README.md` |

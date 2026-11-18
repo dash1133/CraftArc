@@ -32,7 +32,7 @@ Three independent reviewers, each a fresh agent with no sight of the writer's re
 
 Round 2 found nine "do it now" fixes. All nine are applied, and both blockers are cleared. These fixes came after the round-2 scores, and no third round was run, so the scores above do not yet reflect them.
 
-- **Blocker 1, stale video.** The site played the round-1 cut, which included withdrawn claims. Fixed: the final 2:52 render, the 720p cut, the captions and the poster now ship together. A new test checks that the length stated on the page matches the real file.
+- **Blocker 1, stale video.** The site played the round-1 cut, which included withdrawn claims. Fixed: the final 2:51 render, the 720p cut, the captions and the poster now ship together. A new test checks that the length stated on the page matches the real file.
 - **Blocker 2, unapproved terms in the source.** Hiding them with CSS still published them. Fixed: they are removed from the HTML. Approved lines can be added later through `extraOfferItems` in `config.js`, as escaped plain text. A test checks the source for the old wording.
 - **Claims and wording.**
   - "The evaluation coordinator runs each review" replaces "senior colleague", which screen 03 contradicted.
@@ -68,7 +68,7 @@ Round 2 found nine "do it now" fixes. All nine are applied, and both blockers ar
 
 **Screens.** Tesseract OCR finds no Parth, Nishritha, Karan, "TESTING", "nine-step" or "pulse" in the cleaned or website images.
 
-**VSL.** 2:52 at 1920x1080 and 30 fps, plus a 1280x720 web cut, with AAC at 48 kHz.
+**VSL.** 2:51 at 1920x1080 and 30 fps, plus a 1280x720 web cut, with AAC at 48 kHz.
 
 - Loudness is -16.2 LUFS integrated, the web standard, and the true peak is -1.4 dBFS.
 - blackdetect finds no black frames, freezedetect finds no still stretch over 3 seconds, and silencedetect finds no gap over 2 seconds.
