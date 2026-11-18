@@ -28,7 +28,7 @@ Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash m
 | L07 | Five steps per person: launch, self-review, contributor interviews, evaluation coordinator feedback, development plan. | Fact Set §6 [Live] (T1); screen 02 | OK (see conflict C1) |
 | L08 | An AI coach interviews each person for the self-review by voice or text, maps answers to competencies live, asks for what is missing and writes the summary. | Fact Set §6 [Live] (T1); CT "executive coach AI agent" | OK |
 | L09 | Voice mode and dictation in the agent pane. The VSL labels it "Voice or text, in every agent conversation", because screen 04 is the coordinator's agent pane, not a self-review. | Screen 04 | OK (no self-review screen exists yet, see Needs Dash) |
-| L10 | AI-led contributor interviews, anonymous to the person reviewed. Transcripts stored securely. | Fact Set §6 [Live] (T1); CT Stage 1. "To the person reviewed" is inferred: the coordinator's roster names contributors | **FLAG 7** |
+| L10 | AI-led contributor interviews, anonymised as the firm chooses. Transcripts stored securely. | Fact Set §6 [Live] (T1); CT Stage 1; Dash, 18 Nov 2026: "it can be anonymized as desired" | OK |
 | L11 | The agent grades every fact as directly observed, hearsay or third party. | Fact Set §5 [Live] (T1). No screen shows the grades, so the VSL shows a designed card, not product UI | OK |
 | L12 | The agent checks coverage for every competency and flags the gaps before you complete the survey (screen: no contributor saw the banker meetings). | Fact Set §6 [Live] (T1, "before launch"); screens 04 and 05 show the check offered before the survey is completed | OK |
 | L13 | The agent drafts the Executive Committee writeup, the note to the person and the scorecard. | Screen 06 | OK (see conflict C2) |
@@ -42,6 +42,9 @@ Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash m
 | L21 | Goals in the development plan come from the evaluator's write-up. | `ARC_Roadmap_Scope.md` stage 8, Stage 1 scope [CT] | OK |
 | L22 | (Removed) "feeds whichever review process you run" | Fact Set §8 [Claim] | Not used |
 | L23 | The evaluation coordinator runs each review and forms the view with the agent, from graded facts. | Fact Set §8 FAQ [Live] (T1) | OK |
+| L24 | A conversation with the coach takes about 25 minutes, by voice or text. | Dash, 18 Nov 2026 ("25 min") | OK |
+| L25 | Self-review screen: the coach's welcome message and the voice controls are the live product (Dash's screenshot, 18 Nov 2026). The four conversation turns below the welcome are sample text. | `vsl/assets/screens/clean/EDITS.md` (07) | OK, sample data disclosed |
+| PH1 | Placeholder proof on the website: "21 of 22 senior professionals completed their self-review in the first cycle" and a COO quote. | Dash, 18 Nov 2026: "make up for now". Not a fact. Shown with a visible "Placeholder, replace before launch" badge, kept out of the video, and `website/tests/launch_check.py` fails while it is on the page | **PLACEHOLDER** |
 
 ## Proof and credibility
 
@@ -79,6 +82,15 @@ Candida's demo reactions (she is joining as CEO, so a quote reads as a testimoni
 - **C1, five steps or nine.** The live product shows five steps, so the copy says five. The nine-stage plan in `ARC_Roadmap_Scope.md` is the contract scope. (The raw screens named a cycle "Standard nine-step journey" while showing five steps. The cleaned screens rename it.) If Dash wants the nine stages in market copy, `STEPS` in `script.py` and step 1 to 5 on the site change together.
 - **C2, two drafts or three documents.** Commercial terms say "two drafts". The screen shows three documents (Executive Committee writeup, note to the person, scorecard). The copy follows the screen.
 - **C3, product name.** The copy uses **CraftArc** (Fact Set title, "CraftArc Agent" in the product) and the **CRAFT ARC** wordmark from the app. Not ARC360, not "Agentic Executive Development".
+
+## Dash's decisions, 18 Nov 2026
+
+- Leads go to dash@craftarc.ai (`website/config.js`, and on the video's end card).
+- The withheld offer terms stay out of all public copy (flag 4 closed: not published).
+- Proof: placeholder content for now (PH1). Replace it with a real result and an approved quote before launch.
+- A coach conversation takes about 25 minutes (L24). The self-review screen is built from Dash's template (L25).
+- Contributor interviews are anonymised as the firm chooses (L10, flag 7 closed).
+- The voiceover stays AI generated for now. Dash will record it later.
 
 ## Flags for Dash to clear before launch
 

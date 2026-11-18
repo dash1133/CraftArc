@@ -67,12 +67,12 @@ SCENES = [
     {
         "id": "self", "kind": "screen", "label": "Self-review with an AI coach", "step": 1,
         "sentences": [
-            {"cap": "In the self-review, an AI coach interviews each person against your competencies.",
-             "claim": ["L08"], "img": "03_my_reviews.png", "focus": (20, 100, 1900, 560), "hl": [(1205, 425, 1295, 520)],
-             "chip": "Self-review: your turn"},
-            {"cap": "People can talk to the agent by voice or text, and in the self-review the coach asks for whatever is missing.",
-             "claim": ["L08", "L09"], "img": "04_survey_roster.png", "focus": (0, 420, 545, 870), "hl": [(372, 742, 534, 822)],
-             "chip": "Voice or text"},
+            {"cap": "In the self-review, an AI coach interviews each person against your competencies, and asks for whatever is missing.",
+             "claim": ["L08"], "img": "07_self_review.png", "focus": (480, 210, 1500, 720), "hl": [(544, 566, 1456, 620)],
+             "chip": "Asks for what is missing", "chip_below": True},
+            {"cap": "People answer by voice or text, and a conversation takes about 25 minutes.",
+             "claim": ["L08", "L24"], "img": "07_self_review.png", "focus": (520, 760, 1480, 1110), "hl": [(940, 870, 1062, 1000), (1305, 1015, 1460, 1100)],
+             "chip": "Voice or text, about 25 minutes"},
         ],
     },
     {
@@ -180,7 +180,7 @@ OFFER_ITEMS = [
 GRADES = [("Directly observed", (34, 197, 94)), ("Hearsay", (245, 158, 11)), ("Third party", (148, 163, 184))]
 CTA = {"intro": ("If your next cycle starts in the new year,", "plan it now."),
        "title": "Book a demo", "sub": "Bring your competency framework. We will talk through how it would run on CraftArc.",
-       "url": "",  # set the website address here once the domain is live
+       "url": "dash@craftarc.ai",  # shown under the logo on the end card
        "fine": "Product screens use sample data. Voiceover is AI generated."}
 
 VOICE = {"voice": "af_heart", "speed": 1.0, "lang": "en-us"}

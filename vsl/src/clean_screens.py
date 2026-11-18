@@ -383,3 +383,63 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# ---------------------------------------------------------------- screen 07
+# Built from Dash's screenshot of the live self-review screen (18 Nov 2026,
+# cropped to the app, browser chrome removed). The conversation below the
+# coach's real welcome message is sample text, consistent with the other
+# screens (Arjun led Project Atlas; Anushka saw the IT scope call).
+SELF_REVIEW_TURNS = [
+    ("person", "I led the diligence on Project Atlas, the carve-out we closed in August. I ran the advisers and set the timetable to IC."),
+    ("coach", "Thank you. That speaks to how you lead diligence. What was the hardest call you made on Atlas, and who saw you make it?"),
+    ("person", "Cutting the IT adviser's scope to the critical systems. Anushka was in the room when we decided."),
+    ("coach", "Noted. I will suggest Anushka as a contributor for that. You have not mentioned sourcing yet. Were you involved in finding or originating any deals this period?"),
+]
+
+
+def build_self_review():
+    n = "07_self_review"
+    img = Image.open(RAW / "07_self_review_template.png").convert("RGB")
+    d = ImageDraw.Draw(img)
+    # header user: Dash's test account -> the sample subject, Arjun
+    erase(img, (1788, 32, 1948, 72), (255, 255, 255))
+    d.ellipse([1793, 34, 1825, 66], fill=(25, 41, 79))
+    draw(img, 1809, 50.5, "A", ImageFont.truetype(font_path("semibold"), 15), (255, 255, 255), anchor="mm")
+    draw(img, 1835, 49, "Arjun", fit_font("Dash", 1866 - 1835, "semibold"), (41, 42, 46))
+    draw(img, 1835, 64, "Principal", fit_font("Managing", 1889 - 1835, "regular"), (69, 85, 108))
+    EDIT_LOG.append(f"{n}: header user 'Dash 1 / Managing Director' (test account) -> 'Arjun / Principal'")
+    # conversation, in the same bubble style as the coach's welcome message
+    f = fit_font("Welcome.", 630 - 555, "regular")
+    line_h, pad_x, pad_top, pad_bottom = 26, 11, 16, 11
+    y = 431 - 143 + 18
+    for who, text in SELF_REVIEW_TURNS:
+        if who == "coach":
+            x0, x1, bg, ink = 544, 1455, (241, 245, 249), (51, 64, 78)
+        else:
+            x1, bg, ink = 1455, (232, 239, 255), (15, 23, 42)
+            x0 = x1 - 700
+        lines = []
+        for word in text.split():
+            test = f"{lines[-1]} {word}" if lines else word
+            if lines and f.getlength(test) <= (x1 - x0) - 2 * pad_x:
+                lines[-1] = test
+            else:
+                lines.append(word)
+        if who == "person":  # shrink-wrap the person's bubble to its text
+            x0 = x1 - int(max(f.getlength(ln) for ln in lines)) - 2 * pad_x - 2
+        h = pad_top + 13 + (len(lines) - 1) * line_h + pad_bottom + 4
+        d.rounded_rectangle([x0, y, x1, y + h], 8, fill=bg)
+        base = y + pad_top + 13
+        for ln in lines:
+            draw(img, x0 + pad_x, base, ln, f, ink)
+            base += line_h
+        y += h + 16
+    EDIT_LOG.append(f"{n}: sample conversation added below the coach's real welcome message ({len(SELF_REVIEW_TURNS)} turns)")
+    img.save(OUT / "07_self_review.png", optimize=True)
+
+
+if __name__ == "__main__" and (RAW / "07_self_review_template.png").exists():
+    build_self_review()
+    with open(OUT / "EDITS.md", "a") as fh:
+        fh.write("\n".join(f"- {line}" for line in EDIT_LOG if line.startswith("07_")) + "\n")

@@ -186,6 +186,9 @@
     if (!CFG.leadEndpoint) {
       if (CFG.leadEmail) {
         (window.__craftarcNavigate || function (href) { window.location.href = href; })(mailtoHref(data));
+        var msg = document.getElementById("thanks-msg");
+        if (msg) msg.textContent = "Your email app should open with your request filled in. Please press send. " +
+          "If it did not open, email " + CFG.leadEmail + " and we will arrange a time.";
         showThanks(data);
       } else {
         setStatus("Sorry, the form is not connected yet. Please email us instead.", true);

@@ -37,7 +37,7 @@ US_SPELLINGS = {
 ALLOWED_NUMBERS = {
     "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band",
     "1": "step 1 / $1B band", "3": "step 3", "4": "step 4", "5": "step 5 / $5B band", "10": "$10B band / team size",
-    "25": "team size band", "26": "team size band", "50": "team size band", "2027": "form timing options",
+    "25": "L24 (about 25 minutes per conversation) / team size band", "26": "team size band", "50": "team size band", "2027": "form timing options",
 }
 
 
@@ -68,7 +68,7 @@ class TextGrab(HTMLParser):
         if tag in self.BLOCK:
             self.flush()
             self.stack.append(tag)
-        if "data-pending" in a:
+        if "data-pending" in a or "data-placeholder" in a:
             self.flush()
             self.pending_tag = tag
 
@@ -131,7 +131,7 @@ def main():
     items = ([("site", b) for b in blocks] + [("site attr", a) for a in attrs] + [("site pending", p) for p in pending]
              + [("vsl " + k, t) for k, t in vsl_text()])
     for p in pending:
-        warnings.append(f"[hidden until Dash approves, see Claims_Ledger flag 4] {p[:90]}")
+        warnings.append(f"[placeholder, blocked by launch_check.py] {p[:90]}")
 
     for where, t in items:
         low = t.lower()
@@ -151,7 +151,7 @@ def main():
             if re.search(r"\b" + us + r"(s|d|ing)?\b", low):
                 errors.append(f"[US spelling '{us}', use '{gb}'] {where}: {t[:90]}")
         for n in re.findall(r"(?<![\w.])\d+(?:,\d{3})*", t):
-            if n not in ALLOWED_NUMBERS:
+            if n not in ALLOWED_NUMBERS and where != "site pending":
                 errors.append(f"[number '{n}' not in the claims ledger] {where}: {t[:90]}")
         if re.search(r"\bnot just\b", low) or re.search(r"\bnot\b[^.]{0,50}\bbut\b", low):
             warnings.append(f"[contrast framing, check it is deliberate] {where}: {t[:90]}")

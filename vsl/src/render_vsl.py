@@ -446,13 +446,13 @@ def render_window(si, ti, t):
     return win, a, chip_pos
 
 
-def draw_chip(canvas, text, box, a):
+def draw_chip(canvas, text, box, a, below=False):
     f = font("semi", 30)
     tw = f.getlength(text)
     pw, ph = tw + 44, 54
     x = WX0 + box[0] - 8
     y = WY0 + box[1] - 8 - ph - 12
-    if y < WY0 + 8:
+    if below or y < WY0 + 8:
         y = WY0 + box[3] + 8 + 14
     if y + ph > WY1 - 8:
         y = WY0 + box[1] + 8
@@ -477,7 +477,7 @@ def render_screen(canvas, t, si, ti):
             win = Image.blend(prev, win, k)
     canvas.paste(win, (WX0, WY0), window_mask())
     if chip_box is not None and a > 0.01:
-        draw_chip(canvas, sc["sentences"][ti]["chip"], chip_box, a)
+        draw_chip(canvas, sc["sentences"][ti]["chip"], chip_box, a, below=sc["sentences"][ti].get("chip_below", False))
     if sc["sentences"][ti].get("overlay") == "grades":
         draw_grades(canvas, t, si, ti)
 

@@ -237,3 +237,12 @@ details.more[open] { padding-bottom: 4px; }
 @media (max-width: 980px) {
   .step:nth-of-type(even) { grid-template-columns: 1fr; }
 }
+
+/* placeholder proof: visible on purpose, and blocked by website/tests/launch_check.py */
+.placeholder-row { margin-bottom: 18px; }
+.proof-card.placeholder { border: 2px dashed var(--orange); background: #fffaf3; }
+.ph-badge { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #9a3412; background: #ffedd5; border-radius: 999px; padding: 4px 10px; margin-bottom: 12px; }
+.proof-card.quote blockquote { margin: 0 0 12px; font-size: 1.15rem; font-weight: 600; color: var(--ink); line-height: 1.45; }
+.proof-card .cite { font-size: 0.9rem; color: var(--muted); }
+.proof-grid.placeholder-row { grid-template-columns: 1fr 2fr; }
+@media (max-width: 980px) { .proof-grid.placeholder-row { grid-template-columns: 1fr; } }

@@ -211,6 +211,16 @@ await test("unapproved offer terms are not in the page, and approved lines can b
   await ctx.close();
 });
 
+await test("placeholder proof is visibly labelled so it cannot pass as a real result", async () => {
+  const { ctx, page } = await openPage();
+  const blocks = await page.evaluate(() => [...document.querySelectorAll(".proof-card.placeholder")].map((el) => ({
+    badge: el.querySelector(".ph-badge") && el.querySelector(".ph-badge").offsetParent !== null ? el.querySelector(".ph-badge").textContent : "",
+  })));
+  assert(blocks.length > 0, "placeholder cards present (remove this test once real proof replaces them)");
+  assert(blocks.every((b) => /placeholder/i.test(b.badge)), "every placeholder card shows a visible Placeholder badge");
+  await ctx.close();
+});
+
 await test("product screens enlarge in a viewer and close with Escape", async () => {
   const { ctx, page } = await openPage();
   const btn = page.locator("#how .zoom").nth(2);
@@ -432,6 +442,7 @@ await test("lead form: with only an email configured it opens a filled-in email"
   const decoded = decodeURIComponent(url);
   assert(decoded.includes("Example Capital") && decoded.includes("alex.morgan@examplecapital.com"), "mail has the lead details");
   assert(await page.locator("#thanks").isVisible(), "thank-you shown");
+  assert((await page.textContent("#thanks-msg")).includes("demo@example.com"), "thank-you says the email app should open, and gives the address");
   await ctx.close();
 });
 
@@ -450,6 +461,7 @@ await test("production config.js is valid and documents how to connect leads", a
   const sandbox = {};
   new Function("window", src)(sandbox);
   assert(Array.isArray(sandbox.CRAFTARC_CONFIG.personalEmailDomains), "domains list");
+  assert(sandbox.CRAFTARC_CONFIG.leadEmail === "dash@craftarc.ai" || sandbox.CRAFTARC_CONFIG.leadEndpoint, "leads go somewhere");
 });
 
 await browser.close();

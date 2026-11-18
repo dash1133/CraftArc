@@ -6,7 +6,9 @@
  *               Make webhooks, HubSpot via a webhook, or your own API.
  *               Leave empty to fall back to leadEmail.
  * leadEmail     Fallback: if there is no endpoint, the form opens the
- *               visitor's email app with the request filled in.
+ *               visitor's email app with the request filled in. To receive
+ *               leads without the visitor's email app, set leadEndpoint, for
+ *               example a Formspree form that forwards to this address.
  * personalEmailDomains  Accepted, but tagged as personal and scored lower.
  * extraOfferItems  Extra lines for the "What you get" list, as plain strings.
  *               Leave empty until Dash approves them as public terms. The
@@ -14,7 +16,7 @@
  */
 window.CRAFTARC_CONFIG = {
   leadEndpoint: "",
-  leadEmail: "",
+  leadEmail: "dash@craftarc.ai",
   extraOfferItems: [],
   personalEmailDomains: [
     "gmail.com", "googlemail.com", "yahoo.com", "yahoo.co.uk", "hotmail.com", "hotmail.co.uk",
