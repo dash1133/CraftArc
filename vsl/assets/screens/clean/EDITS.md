@@ -1,37 +1,73 @@
 # Screenshot edits
 
-Demo data relabelled for marketing use. No UI, feature or layout was changed.
+Sample data relabelled for marketing use: test names and a real staff name replaced with invented names, and two areas blurred. No UI, feature or layout was changed.
 
 - 01_home: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
 - 01_home: 'Parth 1.' -> 'Daniel.'
-- 01_home: to-do cycle chips redrawn with neutral cycle names (test names removed)
+- 01_home: to-do cycle chips redrawn (test names removed). New chip names, all invented sample cycle names: Spotlight FY26, Elevate FY25, Partner track H2 2026, Principal review FY26, Senior team review FY26, FY26 annual review, H1 2026 review, Deal team review
 - 01_home: avatar initials -> 'DS'
 - 01_home: 'Parth 1' -> 'Daniel Shaw'
 - 01_home: 'FY25 - Cycle Test' -> 'Elevate FY25'
-- 01_home: 'Nishritha Employee and Nishritha Evaluator' -> 'Nishritha and Karan'
+- 01_home: 'Nishritha Employee and Nishritha Evaluator' -> 'Nishritha and Varun'
 - 01_home: 'Nishritha Employee has completed' -> 'Nishritha has completed'
+- 01_home: 'Nishritha' -> 'Anushka' at (340, 774)
+- 01_home: 'Nishritha' -> 'Anushka' at (117, 860)
 - 02_my_people: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
-- 02_my_people: avatar initials -> 'P'
+- 02_my_people: avatar initials -> 'A'
 - 02_my_people: 'Parth 1' -> 'Parth'
+- 02_my_people: 'Parth' -> 'Arjun' at (101, 371)
 - 03_my_reviews: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
 - 03_my_reviews: 'ARC H1 2026 - TESTING (Latest)' -> 'Spotlight FY26'
 - 03_my_reviews: 'ARC H1 2026 - TESTING (New)' -> 'Partner track H2 2026'
 - 03_my_reviews: 'ARC H1 2026 - TESTING' -> 'FY26 annual review'
-- 03_my_reviews: 'Parth 1' -> 'Karan'
-- 03_my_reviews: avatar initials -> 'K'
-- 03_my_reviews: 'Parth 1' -> 'Karan'
-- 03_my_reviews: avatar initials -> 'K'
-- 03_my_reviews: 'Parth 1' -> 'Karan'
-- 03_my_reviews: avatar initials -> 'K'
+- 03_my_reviews: 'Parth 1' -> 'Varun'
+- 03_my_reviews: avatar initials -> 'V'
+- 03_my_reviews: 'Parth 1' -> 'Varun'
+- 03_my_reviews: avatar initials -> 'V'
+- 03_my_reviews: 'Parth 1' -> 'Varun'
+- 03_my_reviews: avatar initials -> 'V'
 - 03_my_reviews: 'Nishritha Employee' -> 'Nishritha'
-- 03_my_reviews: avatar initials -> 'N'
-- 03_my_reviews: turn indicator initials -> 'K'
-- 03_my_reviews: turn indicator initials -> 'K'
-- 03_my_reviews: turn indicator initials -> 'N'
+- 03_my_reviews: avatar initials -> 'A'
+- 03_my_reviews: 'Nishritha' -> 'Anushka' at (791, 774)
+- 03_my_reviews: 'Standard nine-step journey' -> 'Senior team review FY26'
+- 03_my_reviews: turn indicator initials -> 'V'
+- 03_my_reviews: turn indicator initials -> 'V'
+- 03_my_reviews: turn indicator initials -> 'A'
 - 04_survey_roster: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
 - 04_survey_roster: chat 'Nishritha 2' -> 'Nishritha' (2 places)
 - 04_survey_roster: status and roster 'Nishritha 2' -> 'Nishritha'
+- 04_survey_roster: 'Nishritha' -> 'Anushka' at (233, 184)
+- 04_survey_roster: 'Parth' -> 'Arjun' at (1084, 402)
+- 04_survey_roster: 'Nishritha' -> 'Anushka' at (152, 474)
+- 04_survey_roster: 'Nishritha.' -> 'Anushka.' at (1035, 614)
+- 04_survey_roster: 'Nishritha' -> 'Anushka' at (574, 784)
+- 04_survey_roster: 'Nishritha,' -> 'Anushka,' at (1023, 784)
+- 04_survey_roster: 'Parth' -> 'Arjun' at (835, 808)
+- 04_survey_roster: 'Parth' -> 'Arjun' at (1158, 808)
 - 05_survey_coverage: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
 - 05_survey_coverage: 'Nishritha 2' -> 'Nishritha' (7 places), 'Karan 1' -> 'Karan'
+- 05_survey_coverage: 'Nishritha' -> 'Anushka' at (233, 181)
+- 05_survey_coverage: 'Nishritha' -> 'Anushka' at (1361, 381)
+- 05_survey_coverage: 'Parth's' -> 'Arjun's' at (1361, 450)
+- 05_survey_coverage: 'Nishritha' -> 'Anushka' at (152, 471)
+- 05_survey_coverage: 'Parth's' -> 'Arjun's' at (744, 501)
+- 05_survey_coverage: 'Nishritha' -> 'Anushka' at (929, 598)
+- 05_survey_coverage: 'Parth' -> 'Arjun' at (1094, 598)
+- 05_survey_coverage: 'Nishritha,' -> 'Anushka,' at (1488, 598)
+- 05_survey_coverage: 'Parth' -> 'Arjun' at (1361, 644)
+- 05_survey_coverage: 'Karan,' -> 'Varun,' at (1691, 639)
+- 05_survey_coverage: 'Parth' -> 'Arjun' at (723, 694)
+- 05_survey_coverage: 'Nishritha' -> 'Anushka' at (929, 815)
+- 05_survey_coverage: 'Parth' -> 'Arjun' at (1094, 815)
+- 05_survey_coverage: 'Nishritha' -> 'Anushka' at (1361, 815)
+- 05_survey_coverage: blurred (595, 450, 886, 542) (lines of inquiry may come from a client's confidential framework)
+- 05_survey_coverage: blurred (595, 667, 886, 759) (lines of inquiry may come from a client's confidential framework)
 - 06_performance_review: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
 - 06_performance_review: 'Parth 1 | Principal' -> 'Parth | Principal'
+- 06_performance_review: 'Parth' -> 'Arjun' at (1102, 124)
+- 06_performance_review: 'Parth' -> 'Arjun' at (804, 386)
+- 06_performance_review: 'Parth' -> 'Arjun' at (173, 413)
+- 06_performance_review: 'Parth' -> 'Arjun' at (157, 567)
+- 06_performance_review: 'Parth' -> 'Arjun' at (1001, 504)
+- 06_performance_review: 'Parth' -> 'Arjun' at (932, 580)
+- 06_performance_review: blurred (560, 686, 1890, 905) (the writeup body below the summary quotes a client's framework language)

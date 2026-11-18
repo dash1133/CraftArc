@@ -82,11 +82,12 @@ async function fillValid(page, over = {}) {
   await page.fill("#email", v.email);
   await page.fill("#firm", v.firm);
   await page.selectOption("#role", v.role);
+  if (v.timing) await page.selectOption("#timing", v.timing);
+  if (v.aum || v.team || v.framework || v.message) await page.evaluate(() => { document.getElementById("more").open = true; });
   if (v.aum) await page.selectOption("#aum", v.aum);
   if (v.team) await page.selectOption("#team", v.team);
-  if (v.timing) await page.selectOption("#timing", v.timing);
   if (v.framework) await page.selectOption("#framework", v.framework);
-  await page.fill("#message", v.message);
+  if (v.message) await page.fill("#message", v.message);
   await page.check("#consent");
   return v;
 }
@@ -113,7 +114,11 @@ await test("every image has alt text and loads", async () => {
     await new Promise((r) => setTimeout(r, 800));
   });
   const bad = await page.evaluate(() => [...document.images]
-    .filter((i) => !i.hasAttribute("alt") || !i.complete || i.naturalWidth === 0).map((i) => i.currentSrc || i.src));
+    .filter((i) => !i.closest("dialog"))
+    .filter((i) => !i.hasAttribute("alt") || (i.closest("figure") && !i.alt) || !i.complete || i.naturalWidth === 0)
+    .map((i) => i.currentSrc || i.src));
+  const unsized = await page.evaluate(() => [...document.querySelectorAll("main img")].filter((i) => !i.getAttribute("width")).map((i) => i.src));
+  eq(unsized.length, 0, `images without width and height (layout shift) ${unsized.join(", ")}`);
   eq(bad.length, 0, `broken or alt-less images ${bad.join(", ")}`);
   await ctx.close();
 });
@@ -178,6 +183,63 @@ await test("header 'Book a demo' scrolls to the form", async () => {
   const headerBottom = await page.evaluate(() => document.querySelector(".site-header").getBoundingClientRect().bottom);
   const formTop = await page.evaluate(() => document.querySelector("#book .kicker").getBoundingClientRect().top);
   assert(formTop > headerBottom, "section heading is not hidden under the sticky header");
+  await ctx.close();
+});
+
+
+await test("stated video length matches the real video", async () => {
+  const { ctx, page } = await openPage();
+  const r = await page.evaluate(async () => {
+    const v = document.querySelector("video");
+    if (v.readyState < 1) await new Promise((res) => { v.addEventListener("loadedmetadata", res, { once: true }); setTimeout(res, 8000); });
+    return { d: v.duration, cap: document.querySelector(".video-card figcaption").textContent, label: v.getAttribute("aria-label") };
+  });
+  const m = r.cap.match(/(\d+) minutes (\d+) seconds/);
+  assert(m, "caption states the length");
+  const stated = Number(m[1]) * 60 + Number(m[2]);
+  assert(Math.abs(stated - r.d) < 1.5, `stated ${stated}s, real ${r.d.toFixed(1)}s`);
+  assert(r.label.includes(`${m[1]} minutes ${m[2]} seconds`), "aria-label matches");
+  await ctx.close();
+});
+
+await test("offer lines awaiting approval stay hidden unless config allows them", async () => {
+  const a = await openPage();
+  const hidden = await a.page.evaluate(() => [...document.querySelectorAll("[data-pending]")].every((el) => el.offsetParent === null));
+  assert(hidden, "pending lines hidden by default");
+  const text = await a.page.evaluate(() => document.body.innerText);
+  assert(!text.includes("fixed for four years") && !text.includes("three to four meetings"), "pending wording not visible");
+  await a.ctx.close();
+  const b = await openPage({ config: TEST_CONFIG({ showPendingOffer: true }) });
+  const shown = await b.page.evaluate(() => [...document.querySelectorAll("[data-pending]")].every((el) => el.offsetParent !== null));
+  assert(shown, "pending lines shown when approved");
+  await b.ctx.close();
+});
+
+await test("product screens enlarge in a viewer and close with Escape", async () => {
+  const { ctx, page } = await openPage();
+  const btn = page.locator("#how .zoom").nth(2);
+  await btn.scrollIntoViewIfNeeded();
+  await btn.click();
+  await page.waitForSelector("#viewer[open]");
+  const loaded = await page.evaluate(async () => {
+    const img = document.querySelector("#viewer img");
+    if (!img.complete) await new Promise((r) => img.addEventListener("load", r, { once: true }));
+    return { w: img.naturalWidth, alt: img.alt };
+  });
+  assert(loaded.w > 1800, `full screen loads (${loaded.w}px)`);
+  assert(loaded.alt.length > 10, "viewer image has alt text");
+  await page.keyboard.press("Escape");
+  await page.waitForFunction(() => !document.getElementById("viewer").open);
+  await ctx.close();
+});
+
+await test("optional questions start folded so the form shows five fields", async () => {
+  const { ctx, page } = await openPage();
+  eq(await page.evaluate(() => document.getElementById("more").open), false, "optional section closed");
+  const visible = await page.evaluate(() => [...document.querySelectorAll("#lead-form input, #lead-form select, #lead-form textarea")]
+    .filter((el) => !el.closest(".hp") && el.type !== "checkbox" && el.checkVisibility({ contentVisibilityAuto: true, visibilityProperty: true }))
+    .map((el) => el.id));
+  eq(visible.join(","), "name,email,firm,role,timing", "visible fields");
   await ctx.close();
 });
 
@@ -325,7 +387,7 @@ await test("lead form: server error keeps the visitor's input, explains, and a r
   assert((await page.textContent("#form-status")).includes("not sent"), "error message shown");
   eq(await page.inputValue("#name"), "Alex Morgan", "input kept");
   assert(await page.isEnabled("#submit"), "button re-enabled");
-  eq(await page.textContent("#submit"), "Book my demo", "button label restored");
+  eq(await page.textContent("#submit"), "Request my demo", "button label restored");
   await page.click("#submit");
   await page.waitForSelector("#thanks:not([hidden])");
   eq(leads.length, before + 1, "retry stored the lead");

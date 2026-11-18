@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 sys.path.insert(0, str(Path(__file__).parent))
-from script import CTA, OFFER_ITEMS, PROOF_CARDS, SCENES, STEPS, caption_chunks  # noqa: E402
+from script import CTA, GRADES, OFFER_ITEMS, PROOF_CARDS, SCENES, STEPS, caption_chunks  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build"
@@ -241,7 +241,7 @@ def render_kinetic(canvas, t, si, ti):
             reveal_logo(canvas, t - st["start"])
             continue
         big, small, kicker = s.get("big", ""), s.get("small", ""), s.get("kicker", "")
-        size = 150 if (si == 0 and i == 0) else (96 if len(big) < 40 else 80)
+        size = 150 if s.get("accent") else (96 if len(big) < 40 else 80)
         fb = font("display_bold", size)
         lines = wrap(big, fb, 1500)
         lh = int(size * 1.14)
@@ -254,7 +254,7 @@ def render_kinetic(canvas, t, si, ti):
         if kicker:
             ld.text((W / 2, top), kicker.upper(), font=font("semi", 30), fill=ORANGE + (int(255 * a),), anchor="ma")
             top += 70
-        col = ORANGE if si == 0 and i == 0 else WHITE
+        col = ORANGE if s.get("accent") else WHITE
         y = text_block(ld, lines, fb, W / 2, top, col, lh, alpha=a)
         if slines:
             text_block(ld, slines, fs, W / 2, y + 34, SOFT, 54, alpha=a)
@@ -299,7 +299,7 @@ def render_doc(canvas, t, si, ti):
     if len(st) > 2 and t >= st[2]["start"] - 0.1:
         third = len(st) > 3 and t >= st[3]["start"] - 0.1
         title = "What the DIY attempt cost" if third else "What a page cannot do"
-        items = (["60 to 100 hours of senior time", "About 350 lines of instructions", "Nothing the team could share"]
+        items = (["60 to 100 hours of senior time", "About 350 lines of instructions", "No process the firm could run"]
                  if third else ["Interview your people", "Gather the evidence", "Write the review"])
         base = st[3]["start"] if third else st[2]["start"]
         a_t = ease((t - base + 0.1) / 0.4)
@@ -478,6 +478,37 @@ def render_screen(canvas, t, si, ti):
     canvas.paste(win, (WX0, WY0), window_mask())
     if chip_box is not None and a > 0.01:
         draw_chip(canvas, sc["sentences"][ti]["chip"], chip_box, a)
+    if sc["sentences"][ti].get("overlay") == "grades":
+        draw_grades(canvas, t, si, ti)
+
+
+def draw_grades(canvas, t, si, ti):
+    """A designed card (not product UI) naming the three evidence grades."""
+    st = SENT[si][ti]
+    nxt = SENT[si][ti + 1]["start"] if ti + 1 < len(SENT[si]) else SCENE_T[si][1] + 1
+    a = ease((t - st["start"] - 0.2) / 0.35) * (1 - ease((t - nxt + 0.25) / 0.2))
+    if a <= 0.01:
+        return
+    layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    d.rounded_rectangle([WX0, WY0, WX1, WY1], 18, fill=(15, 23, 42, int(150 * a)))
+    cw, ch = 1160, 330
+    x0, y0 = (W - cw) / 2, (WY0 + WY1) / 2 - ch / 2 + (1 - a) * 16
+    d.rounded_rectangle([x0, y0, x0 + cw, y0 + ch], 24, fill=(255, 255, 255, int(255 * a)))
+    d.text((W / 2, y0 + 56), "EVERY FACT CARRIES ITS SOURCE", font=font("semi", 26), fill=ORANGE + (int(255 * a),), anchor="ma")
+    f = font("display_semi", 40)
+    widths = [f.getlength(g) + 120 for g, _ in GRADES]
+    gap = 28
+    x = (W - (sum(widths) + gap * (len(GRADES) - 1))) / 2
+    for i, (g, col) in enumerate(GRADES):
+        k = ease((t - st["start"] - 0.45 - i * 0.3) / 0.35) * a
+        yy = y0 + 140
+        d.rounded_rectangle([x, yy, x + widths[i], yy + 92], 46, fill=col + (int(40 * k),), outline=col + (int(255 * k),), width=3)
+        d.ellipse([x + 32, yy + 34, x + 56, yy + 58], fill=col + (int(255 * k),))
+        d.text((x + 76, yy + 46), g, font=f, fill=INK + (int(255 * k),), anchor="lm")
+        x += widths[i] + gap
+    d.text((W / 2, y0 + 270), "How each fact in an interview is graded", font=font("regular", 26), fill=MUTED + (int(255 * a),), anchor="ma")
+    canvas.alpha_composite(layer)
 
 
 # ----------------------------------------------------------------- proof
@@ -554,6 +585,10 @@ def render_cta(canvas, t, si, ti):
         d.text((W / 2, 500 + i * 56), ln, font=font("regular", 40), fill=SOFT + (int(255 * a1),), anchor="ma")
     canvas.alpha_composite(layer)
     draw_logo(canvas, (W - 520) / 2, 650, 80, on_dark=True, tagline=True, alpha=a1)
+    if CTA.get("url"):
+        url = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        ImageDraw.Draw(url).text((W / 2, 790), CTA["url"], font=font("semi", 40), fill=WHITE + (int(255 * a1),), anchor="ma")
+        canvas.alpha_composite(url)
     a2 = ease((t - st[2]["start"] + 0.1) / 0.4) if len(st) > 2 else 0
     fine = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     ImageDraw.Draw(fine).text((W / 2, 880), CTA["fine"], font=font("regular", 26), fill=(148, 163, 184, int(255 * a2)), anchor="ma")

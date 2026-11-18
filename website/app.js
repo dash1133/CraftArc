@@ -213,9 +213,12 @@
       .then(function () {
         sending = false;
         submitBtn.disabled = false;
-        submitBtn.textContent = "Book my demo";
+        submitBtn.textContent = "Request my demo";
       });
   });
+
+  /* ---------- offer lines waiting for approval: hidden unless config says so ---------- */
+  if (CFG.showPendingOffer) document.documentElement.classList.add("show-pending");
 
   /* ---------- CTA clicks, for analytics ---------- */
   document.querySelectorAll("[data-cta]").forEach(function (a) {
@@ -227,4 +230,24 @@
 
   // Exposed for tests.
   window.__craftarc = { scoreLead: scoreLead, emailType: emailType };
+})();
+
+/* ---------- screenshot viewer: open the full screen in a dialog ---------- */
+(function () {
+  "use strict";
+  var dlg = document.getElementById("viewer");
+  if (!dlg || typeof dlg.showModal !== "function") return;
+  var img = dlg.querySelector("img");
+  var cap = dlg.querySelector("p");
+  document.querySelectorAll("[data-full]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      img.src = btn.getAttribute("data-full");
+      img.alt = btn.getAttribute("data-alt") || "";
+      cap.textContent = btn.getAttribute("data-alt") || "";
+      dlg.showModal();
+    });
+  });
+  dlg.addEventListener("click", function (e) {
+    if (e.target === dlg || e.target.hasAttribute("data-close")) dlg.close();
+  });
 })();

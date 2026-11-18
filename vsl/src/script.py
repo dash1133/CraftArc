@@ -18,11 +18,13 @@ SCENES = [
     {
         "id": "hook", "kind": "kinetic", "label": "Hook",
         "sentences": [
-            {"cap": "One private equity firm spent 60 to 100 hours of senior time trying to make a general AI assistant run its leadership reviews.",
-             "claim": ["L01"], "kicker": "One private equity firm spent", "big": "60 to 100 hours", "small": "of senior time trying to make a general AI assistant run its leadership reviews"},
-            {"cap": "Then it gave up.", "claim": ["L01"], "big": "Then it gave up.", "small": ""},
-            {"cap": "If you are building your firm's next partners, here is what that firm did instead.",
-             "claim": ["N01"], "big": "Building your firm's next partners?", "small": "Here is what that firm did instead."},
+            {"cap": "If you are building your firm's next partners, this is for you.",
+             "claim": ["N01"], "big": "Building your firm's next partners?", "small": ""},
+            {"cap": "One private equity firm spent 60 to 100 hours of senior time trying to make a general AI assistant run its reviews.",
+             "claim": ["L01"], "kicker": "One private equity firm spent", "big": "60 to 100 hours", "accent": True,
+             "small": "of senior time trying to make a general AI assistant run its leadership reviews"},
+            {"cap": "Then it gave up. Here is what it did instead.", "claim": ["L01"], "big": "Then it gave up.",
+             "small": "Here is what it did instead."},
         ],
     },
     # ------------------------------------------------------------- 2 EPIPHANY
@@ -35,7 +37,7 @@ SCENES = [
              "claim": ["L02"], "doc_state": "page"},
             {"cap": "But a framework on paper cannot interview anyone, gather evidence or write a review.",
              "claim": ["L03"], "doc_state": "gaps"},
-            {"cap": "The AI assistant could not hold the framework, and what the team built could not be shared.",
+            {"cap": "And after about 350 lines of instructions, the team still had no process the whole firm could run.",
              "claim": ["L01"], "doc_state": "gaps"},
         ],
     },
@@ -44,65 +46,52 @@ SCENES = [
         "id": "pain", "kind": "kinetic", "label": "Two questions",
         "sentences": [
             {"cap": "Ask yourself. Do your principals know where they stand on each competency today?",
-             "claim": ["N02"], "big": "Do your principals know where they stand on each competency?", "small": "", "kicker": "Ask yourself"},
-            {"cap": "And does their feedback reach them in time for the next deal?",
-             "claim": ["N02"], "big": "Does their feedback reach them in time for the next deal?", "small": "", "kicker": "Ask yourself"},
+             "claim": ["N02"], "kicker": "Ask yourself", "big": "Do your principals know where they stand on each competency?", "small": ""},
+            {"cap": "And could you show the evidence behind your next partner-readiness call?",
+             "claim": ["N02"], "kicker": "Ask yourself", "big": "Could you show the evidence behind your next partner-readiness call?", "small": ""},
         ],
     },
     # -------------------------------------------------------------- 4 INSIGHT
     {
         "id": "insight", "kind": "logo", "label": "The insight",
         "sentences": [
-            {"cap": "Your framework is the asset.", "claim": ["N03"], "big": "Your framework is the asset.", "small": ""},
+            {"cap": "We believe your framework is the asset.", "claim": ["N03"], "kicker": "We believe", "big": "Your framework is the asset.", "small": ""},
             {"cap": "It needs a system that interviews your people, gathers the evidence and drafts the write-up.",
-             "claim": ["N03", "L05"], "big": "It needs a system that runs it.", "small": "It interviews your people, gathers the evidence and drafts the write-up."},
+             "claim": ["N03"], "big": "It needs a system that runs it.",
+             "small": "It interviews your people, gathers the evidence and drafts the write-up."},
             {"cap": "That is why we built CraftArc.", "say": "That is why we built Craft Arc.", "claim": ["N03"], "big": "", "small": "", "logo": True},
+            {"cap": "CraftArc runs your review cycle on your own competency framework, written in plain English.",
+             "say": "Craft Arc runs your review cycle on your own competency framework, written in plain English.",
+             "claim": ["L05"], "big": "It runs on your own framework.", "small": "Your roles, competencies and steps, written in plain English."},
         ],
     },
     # ----------------------------------------------------------------- 5 DEMO
     {
-        "id": "home", "kind": "screen", "label": "Your framework, in plain English", "step": None,
-        "sentences": [
-            {"cap": "CraftArc runs your review cycle on your own competency framework, written in plain English.",
-             "say": "Craft Arc runs your review cycle on your own competency framework, written in plain English.",
-             "claim": ["L05"], "img": "01_home.png", "focus": (0, 0, 1919, 913), "hl": [(75, 228, 1067, 586)],
-             "chip": "One home for every role"},
-        ],
-    },
-    {
-        "id": "steps", "kind": "screen", "label": "Five steps per person", "step": 0,
-        "sentences": [
-            {"cap": "Each person moves through five steps, from launching the review to a development plan.",
-             "claim": ["L07"], "img": "02_my_people.png", "focus": (20, 100, 1900, 460), "hl": [(840, 278, 1830, 400)],
-             "chip": "Five steps, tracked per person"},
-        ],
-    },
-    {
         "id": "self", "kind": "screen", "label": "Self-review with an AI coach", "step": 1,
         "sentences": [
             {"cap": "In the self-review, an AI coach interviews each person against your competencies.",
-             "claim": ["L08"], "img": "03_my_reviews.png", "focus": (20, 180, 1900, 560), "hl": [(1205, 425, 1295, 520)],
+             "claim": ["L08"], "img": "03_my_reviews.png", "focus": (20, 100, 1900, 560), "hl": [(1205, 425, 1295, 520)],
              "chip": "Self-review: your turn"},
             {"cap": "They answer by voice or text, and the coach asks for whatever is missing.",
              "claim": ["L08", "L09"], "img": "04_survey_roster.png", "focus": (0, 420, 545, 870), "hl": [(372, 742, 534, 822)],
-             "chip": "Voice or text"},
+             "chip": "Voice or text, in every agent conversation"},
         ],
     },
     {
         "id": "contrib", "kind": "screen", "label": "Contributor interviews", "step": 2,
         "sentences": [
-            {"cap": "Contributors give anonymous interviews about what they saw first-hand.",
+            {"cap": "Colleagues who worked with each person then give AI-led interviews about what they saw first-hand.",
              "claim": ["L10"], "img": "04_survey_roster.png", "focus": (548, 250, 1919, 862), "pad": 0, "hl": [(563, 705, 1882, 862)],
-             "chip": "Anonymous, AI-led interviews"},
-            {"cap": "Every fact is graded as directly observed, hearsay or third party.",
-             "claim": ["L11"], "img": "04_survey_roster.png", "focus": (548, 600, 1450, 870), "hl": [(750, 705, 1262, 862)],
-             "chip": "Facts, graded by source"},
+             "chip": "Every contributor, tracked"},
+            {"cap": "The agent grades every fact as directly observed, hearsay or third party.",
+             "claim": ["L11"], "img": "04_survey_roster.png", "focus": (548, 250, 1919, 862), "pad": 0, "hl": [],
+             "overlay": "grades"},
         ],
     },
     {
         "id": "coverage", "kind": "screen", "label": "Coverage, checked", "step": 2,
         "sentences": [
-            {"cap": "Before the interviews close, the agent checks coverage for every competency.",
+            {"cap": "The agent checks coverage for every competency and flags the gaps before you complete the survey.",
              "claim": ["L12"], "img": "05_survey_coverage.png", "focus": (548, 170, 1919, 782), "pad": 0, "hl": [(563, 300, 1888, 362)],
              "chip": "Coverage by competency"},
             {"cap": "Here, it warns that nobody who saw the banker meetings has been heard on sourcing.",
@@ -117,66 +106,80 @@ SCENES = [
              "say": "Then it drafts the Executive Committee write-up, the note to the person, and the scorecard.",
              "claim": ["L13"], "img": "06_performance_review.png", "focus": (0, 100, 1900, 915), "hl": [(46, 325, 516, 530)],
              "chip": "Three documents, drafted"},
-            {"cap": "If the evidence cannot answer a question, the writeup says so at the top.",
-             "say": "If the evidence cannot answer a question, the write-up says so at the top.",
+            {"cap": "Here, the writeup opens by naming the question the evidence could not answer.",
+             "say": "Here, the write-up opens by naming the question the evidence could not answer.",
              "claim": ["L14"], "img": "06_performance_review.png", "focus": (700, 180, 1760, 700), "hl": [(802, 430, 1643, 668)],
              "chip": "Honest about gaps"},
-            {"cap": "Your evaluation coordinator owns the final wording.",
+            {"cap": "The evaluation coordinator, the senior colleague who runs each review, owns the final wording.",
              "claim": ["L15"], "img": "06_performance_review.png", "focus": (0, 520, 1000, 915), "hl": [(140, 862, 425, 888)],
              "chip": "You own the final wording"},
         ],
     },
-    # ---------------------------------------------------------------- 6 PROOF
+    # ------------------------------------------------------------------ 6 FAQ
+    {
+        "id": "faq", "kind": "kinetic", "label": "Questions partners ask",
+        "sentences": [
+            {"cap": "Does the AI decide where someone stands? No. Your evaluation coordinator forms the view with the agent, from graded facts.",
+             "claim": ["L23"], "kicker": "Questions partners ask", "big": "Does the AI decide where someone stands?",
+             "small": "No. Your evaluation coordinator forms the view with the agent, from graded facts."},
+            {"cap": "Will our people take part? The coach never nags. It asks once or twice, then lets people go.",
+             "claim": ["L18"], "kicker": "Questions partners ask", "big": "Will our people take part?",
+             "small": "The coach never nags. It asks once or twice, then lets people go."},
+        ],
+    },
+    # ---------------------------------------------------------------- 7 PROOF
     {
         "id": "proof", "kind": "proof", "label": "Proof",
         "sentences": [
-            {"cap": "That firm now runs its senior deal team on CraftArc, from principals to partners.",
-             "say": "That firm now runs its senior deal team on Craft Arc, from principals to partners.",
-             "claim": ["P01"], "card": 0},
-            {"cap": "It signed a 24-month licence, and we built CraftArc with its COO, who designed the framework.",
-             "say": "It signed a 24-month licence, and we built Craft Arc with its C.O.O., who designed the framework.",
-             "claim": ["P02", "P03"], "card": 1},
+            {"cap": "The firm that gave up on its AI assistant then signed a 24-month licence, and now runs its senior deal team on CraftArc.",
+             "say": "The firm that gave up on its AI assistant then signed a 24-month licence, and now runs its senior deal team on Craft Arc.",
+             "claim": ["L01", "P01", "P02"], "card": 0},
+            {"cap": "We built it with that firm's COO, who designed the framework.",
+             "say": "We built it with that firm's C.O.O., who designed the framework.",
+             "claim": ["P03"], "card": 1},
             {"cap": "Our founder, Dash, worked at McKinsey, Microsoft and Siemens, and builds AI agents for private equity deal teams.",
              "claim": ["P04"], "card": 2},
         ],
     },
-    # ---------------------------------------------------------------- 7 OFFER
+    # ---------------------------------------------------------------- 8 OFFER
     {
         "id": "offer", "kind": "offer", "label": "How firms start",
         "sentences": [
-            {"cap": "You start with your senior deal team, and an implementation consultant adapts the framework to your firm.",
-             "claim": ["O01", "O02"], "item": 0},
-            {"cap": "One flat annual fee covers every participant and evaluator, contributors never pay, and there is no build-out fee.",
+            {"cap": "You start with your senior deal team only, which keeps the disruption low.",
+             "claim": ["O01"], "item": 0},
+            {"cap": "Every participant and evaluator is included, and contributors are never charged.",
              "claim": ["O03"], "item": 1},
-            {"cap": "If we miss a delivery stage and do not fix it, you can leave and we refund your prepaid fees pro rata.",
+            {"cap": "If we miss a stage we agreed to deliver and do not fix it, you can leave, and we refund your prepaid fees pro rata.",
              "claim": ["O04"], "item": 2},
         ],
     },
-    # ------------------------------------------------------------------ 8 CTA
+    # ------------------------------------------------------------------ 9 CTA
     {
         "id": "cta", "kind": "cta", "label": "Next step",
         "sentences": [
             {"cap": "If your next review cycle starts in the new year, plan it now.", "claim": ["U01"]},
-            {"cap": "Book a demo, bring your competency framework, and we will show you how it runs on CraftArc.",
-             "say": "Book a demo, bring your competency framework, and we will show you how it runs on Craft Arc.",
+            {"cap": "Book a demo, bring your competency framework, and we will talk through how it would run on CraftArc.",
+             "say": "Book a demo, bring your competency framework, and we will talk through how it would run on Craft Arc.",
              "claim": ["C01"]},
-            {"cap": "This video's voice is AI generated.", "claim": ["D01"]},
+            {"cap": "This voice is AI generated.", "claim": ["D01"]},
         ],
     },
 ]
 
 # Visual copy that is not spoken.
 PROOF_CARDS = [
-    ("Live today", "A mid-tier private equity firm runs its senior deal team on CraftArc", "Principals, MDs and partners"),
-    ("Built with a PE COO", "24-month licence. Framework designed by the firm's COO", "The firm tried the do-it-yourself AI route first"),
-    ("Who built it", "Founder: Bibhudatta \"Dash\"", "Ex-McKinsey, Microsoft and Siemens. Founder of AgenticPM"),
+    ("Tried it themselves first", "It signed a 24-month licence.", "It first spent 60 to 100 hours on a do-it-yourself AI attempt. Its principals, MDs and partners now take part."),
+    ("Built with practitioners", "We designed it with the firm's COO.", "Eight to ten client interviews shaped how each competency is weighted and probed."),
+    ("Who built it", "Bibhudatta \"Dash\", founder", "Dash worked at McKinsey, Microsoft and Siemens, and founded AgenticPM."),
 ]
 OFFER_ITEMS = [
-    ("Start with your senior deal team", "An implementation consultant adapts your framework, language and steps"),
-    ("One flat annual fee", "Unlimited participants and evaluators. Contributors never pay. No build-out fee"),
-    ("Exit right", "Miss a delivery stage and do not fix it: you leave, with prepaid fees refunded pro rata"),
+    ("Start with your senior deal team", "Begin with the principals, MDs and partners, then expand. The disruption stays low."),
+    ("Everyone is included", "Every participant and evaluator is included. Contributors are never charged."),
+    ("Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund."),
 ]
-CTA = {"title": "Book a demo", "sub": "Bring your competency framework. We will show you how it runs on CraftArc.",
+GRADES = [("Directly observed", (34, 197, 94)), ("Hearsay", (245, 158, 11)), ("Third party", (148, 163, 184))]
+CTA = {"title": "Book a demo", "sub": "Bring your competency framework. We will talk through how it would run on CraftArc.",
+       "url": "",  # set the website address here once the domain is live
        "fine": "Product screens use sample data. Voiceover is AI generated."}
 
 VOICE = {"voice": "af_heart", "speed": 1.0, "lang": "en-us"}

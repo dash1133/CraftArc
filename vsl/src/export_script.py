@@ -23,8 +23,10 @@ def visual(sc, s):
         return "Big type on navy: " + " / ".join(f'"{p}"' for p in parts)
     if k == "doc":
         return {"blank": "A blank page appears", "page": "The one page fills in: \"What great looks like\"",
-                "gaps": "Beside it, what the page cannot do, then what the DIY attempt cost"}[s["doc_state"]]
+                "gaps": "Beside it: what a page cannot do, then what the do-it-yourself attempt cost"}[s["doc_state"]]
     if k == "screen":
+        if s.get("overlay") == "grades":
+            return f'Screen `{s["img"]}` dimmed, with a designed card (not product UI): "Every fact carries its source": Directly observed, Hearsay, Third party'
         return f'Screen `{s["img"]}`, camera on {s["focus"]}, spotlight on {s["hl"]}, label "{s["chip"]}"'
     if k == "proof":
         c = PROOF_CARDS[s["card"]]

@@ -35,7 +35,7 @@ US_SPELLINGS = {
 }
 # Every number in public copy must be one of these, each traced to the claims ledger or the page itself.
 ALLOWED_NUMBERS = {
-    "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band", "35": "video length",
+    "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band",
     "1": "step 1 / $1B band", "3": "step 3", "4": "step 4", "5": "step 5 / $5B band", "10": "$10B band / team size",
     "25": "team size band", "26": "team size band", "50": "team size band", "2027": "form timing options",
 }
@@ -51,6 +51,8 @@ class TextGrab(HTMLParser):
         self.blocks = []
         self.cur = []
         self.attrs_text = []
+        self.pending_tag = None
+        self.pending = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -66,12 +68,17 @@ class TextGrab(HTMLParser):
         if tag in self.BLOCK:
             self.flush()
             self.stack.append(tag)
+        if "data-pending" in a:
+            self.flush()
+            self.pending_tag = tag
 
     def handle_endtag(self, tag):
         if tag in ("script", "style"):
             self.skip -= 1
         if tag in self.BLOCK:
             self.flush()
+        if tag == self.pending_tag:
+            self.pending_tag = None
 
     def handle_data(self, data):
         if not self.skip:
@@ -80,7 +87,7 @@ class TextGrab(HTMLParser):
     def flush(self):
         t = re.sub(r"\s+", " ", "".join(self.cur)).strip()
         if t:
-            self.blocks.append(t)
+            (self.pending if self.pending_tag else self.blocks).append(t)
         self.cur = []
 
 
@@ -88,7 +95,8 @@ def site_text():
     g = TextGrab()
     g.feed((ROOT / "website" / "index.html").read_text())
     g.flush()
-    return [html.unescape(b) for b in g.blocks], [html.unescape(a) for a in g.attrs_text]
+    return ([html.unescape(b) for b in g.blocks], [html.unescape(a) for a in g.attrs_text],
+            [html.unescape(p) for p in g.pending])
 
 
 def vsl_text():
@@ -114,8 +122,16 @@ def sentences(text):
 
 def main():
     errors, warnings = [], []
-    blocks, attrs = site_text()
-    items = [("site", b) for b in blocks] + [("site attr", a) for a in attrs] + [("vsl " + k, t) for k, t in vsl_text()]
+    tl = ROOT / "vsl" / "build" / "timeline.json"
+    if tl.exists():  # the stated video length is allowed, and only the real one
+        mins, secs = divmod(round(json.loads(tl.read_text())["duration"]), 60)
+        ALLOWED_NUMBERS.setdefault(str(mins), "video length")
+        ALLOWED_NUMBERS.setdefault(str(secs), "video length")
+    blocks, attrs, pending = site_text()
+    items = ([("site", b) for b in blocks] + [("site attr", a) for a in attrs] + [("site pending", p) for p in pending]
+             + [("vsl " + k, t) for k, t in vsl_text()])
+    for p in pending:
+        warnings.append(f"[hidden until Dash approves, see Claims_Ledger flag 4] {p[:90]}")
 
     for where, t in items:
         low = t.lower()
@@ -141,13 +157,12 @@ def main():
             warnings.append(f"[contrast framing, check it is deliberate] {where}: {t[:90]}")
         for s in sentences(t):
             n_words = len(s.split())
-            if n_words > 25 and where in ("site", "vsl caption"):
+            if n_words > 25 and where in ("site", "site pending", "vsl caption"):
                 errors.append(f"[sentence of {n_words} words, max 25] {where}: {s[:90]}")
 
     # Spoken word count and pace (Dash: 150 to 160 words a minute is his pace).
     spoken = sum(len(vsl.spoken(s).split()) for _, _, _, s in vsl.all_sentences())
     report = {"errors": errors, "warnings": warnings, "checked_items": len(items), "vsl_spoken_words": spoken}
-    tl = ROOT / "vsl" / "build" / "timeline.json"
     if tl.exists():
         d = json.loads(tl.read_text())["duration"]
         report["vsl_runtime_s"] = d

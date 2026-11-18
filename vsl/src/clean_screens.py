@@ -14,7 +14,7 @@ is auditable. Run:  python vsl/src/clean_screens.py
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "assets" / "screens" / "raw"
@@ -94,6 +94,85 @@ def replace_word(img, name, box, ref_text, new_text, weight, baseline=None, colo
     return font, base
 
 
+def line_end_from(img, x, y0, y1, bg, gap=30, limit=None):
+    """First x after which the text line on rows y0..y1 has `gap` blank columns."""
+    a = np.asarray(img.crop((x, y0, limit or img.width, y1)).convert("RGB")).astype(int)
+    ink = (np.abs(a - np.array(bg)).sum(axis=2) > 150).any(axis=0)
+    last, blank = 0, 0
+    for i, v in enumerate(ink):
+        if v:
+            last, blank = i, 0
+        else:
+            blank += 1
+            if blank >= gap:
+                break
+    return x + last + 1
+
+
+def ink_columns(img, x0, x1, y0, y1, bg, thresh=150):
+    a = np.asarray(img.crop((x0, y0, x1, y1)).convert("RGB")).astype(int)
+    return (np.abs(a - np.array(bg)).sum(axis=2) > thresh).any(axis=0)
+
+
+def cap_height_font(img, box, weight, bg):
+    """Font sized so its cap height matches the name's first capital letter."""
+    x0, y0, x1, y1 = box
+    a = np.asarray(img.crop((x0, y0 - 4, x0 + 7, y1 + 4)).convert("RGB")).astype(int)
+    rows = np.where((np.abs(a - np.array(bg)).sum(axis=2) > 150).any(axis=1))[0]
+    cap = rows[-1] - rows[0] + 1
+    ref = ImageFont.truetype(font_path(weight), 100)
+    hb = ref.getbbox("H")
+    return ImageFont.truetype(font_path(weight), cap * 100 / (hb[3] - hb[1])), y0 - 4 + rows[-1] + 1
+
+
+def token_end(img, box, bg):
+    """Right ink edge of the OCR word, widened to take in faint anti-aliased columns."""
+    x0, y0, x1, y1 = box
+    cols = ink_columns(img, x1 - 3, x1 + 5, y0 - 2, y1 + 3, bg, thresh=30)
+    end = x1 - 3
+    for i, v in enumerate(cols):
+        if v:
+            end = x1 - 3 + i
+        elif x1 - 3 + i > x1:
+            break
+    return end
+
+
+def replace_name(img, name, box, token, old, new, weight="regular", limit=None):
+    """Redraw the OCR word `token` (for example "Parth's") with `new` in place of
+    `old`, and slide the rest of the line so the gap after the word is kept."""
+    x0, y0, x1, y1 = box
+    colour = ink_color(img, box)
+    bg = bg_color(img, (max(x0 - 6, 0), y0, x0 - 1, y1))
+    font, base = cap_height_font(img, box, weight, bg)
+    end = token_end(img, box, bg)
+    new_token = new + token[len(old):]
+    nb = font.getbbox(new_token, anchor="ls")
+    delta = (x0 + (nb[2] - nb[0]) - 1) - end
+    ry0, ry1 = int(y0 - 3), int(base + font.size * 0.3)
+    line_end = line_end_from(img, end + 1, ry0, ry1, bg, limit=limit)
+    strip = img.crop((end + 1, ry0, line_end + 2, ry1))
+    erase(img, (x0 - 1, ry0, line_end + 2 + max(delta, 0), ry1), bg)
+    img.paste(strip, (end + 1 + delta, ry0))
+    draw(img, x0 - nb[0], base, new_token, font, colour)
+    EDIT_LOG.append(f"{name}: '{token}' -> '{new_token}' at ({x0}, {y0})")
+
+
+NAMES = {"Parth": "Arjun", "Nishritha": "Anushka", "Karan": "Varun"}
+
+
+def rename_all(img, name, hits):
+    """hits: (old name, OCR token, ink box, weight), found with Tesseract on the cleaned screen."""
+    for old, token, box, weight in hits:
+        replace_name(img, name, box, token, old, NAMES[old], weight)
+
+
+def blur(img, name, box, why):
+    region = img.crop(box).filter(ImageFilter.GaussianBlur(5))
+    img.paste(region, box[:2])
+    EDIT_LOG.append(f"{name}: blurred {box} ({why})")
+
+
 def header_user(img, name, top):
     """Signed-in user block (avatar, name, role, chevron) at the header right."""
     erase(img, (1724, top - 6, 1892, top + 38), (255, 255, 255))
@@ -125,8 +204,8 @@ def chips(img, name):
     f = fit_font("Spotlight FY26", 97, "medium")
     labels = [
         ["Spotlight FY26", "Elevate FY25", "Partner track H2 2026"],
-        ["Principal review FY26", "Standard nine-step journey"],
-        ["FY26 annual review", "Mid-year pulse 2026", "Deal team review"],
+        ["Principal review FY26", "Senior team review FY26"],
+        ["FY26 annual review", "H1 2026 review", "Deal team review"],
     ]
     active = "Deal team review"
     y = 186
@@ -143,7 +222,8 @@ def chips(img, name):
                 draw(img, x + 15, y + 20, lab, f, (30, 41, 59))
             x = box[2] + 8
         y += 38
-    EDIT_LOG.append(f"{name}: to-do cycle chips redrawn with neutral cycle names (test names removed)")
+    EDIT_LOG.append(f"{name}: to-do cycle chips redrawn (test names removed). New chip names, all invented sample "
+                    f"cycle names: {', '.join(l for row in labels for l in row)}")
 
 
 def clean_home(img):
@@ -159,19 +239,24 @@ def clean_home(img):
     col = ink_color(img, (117, 774, 404, 789))
     erase(img, (405, 770, 900, 795), (255, 255, 255))
     base = 774 - f.getbbox("Eval.coordinator", anchor="ls")[1]
-    draw(img, 405, base, " and Karan: done, so 2 of 5 are done.", f, col)
-    EDIT_LOG.append(f"{n}: 'Nishritha Employee and Nishritha Evaluator' -> 'Nishritha and Karan'")
+    draw(img, 405, base, " and Varun: done, so 2 of 5 are done.", f, col)
+    EDIT_LOG.append(f"{n}: 'Nishritha Employee and Nishritha Evaluator' -> 'Nishritha and Varun'")
     # "Nishritha Employee has completed" -> "Nishritha has completed"
     delete_span(img, 856, 880, 181, 258, 700)
     EDIT_LOG.append(f"{n}: 'Nishritha Employee has completed' -> 'Nishritha has completed'")
+    rename_all(img, n, [
+        ("Nishritha", "Nishritha", (340, 774, 404, 786), "regular"),
+        ("Nishritha", "Nishritha", (117, 860, 181, 872), "regular"),
+    ])
 
 
 def clean_my_people(img):
     n = "02_my_people"
     header_user(img, n, 40)
-    avatar_initials(img, n, (71, 377), "P", size=13)
+    avatar_initials(img, n, (71, 377), "A", size=13)
     erase(img, (140, 366, 152, 386), (255, 255, 255))
     EDIT_LOG.append(f"{n}: 'Parth 1' -> 'Parth'")
+    rename_all(img, n, [("Parth", "Parth", (101, 371, 139, 382), "semibold")])
 
 
 def clean_my_reviews(img):
@@ -186,13 +271,15 @@ def clean_my_reviews(img):
         replace_word(img, n, box, old, new, "semibold")
     # coordinators: "Parth 1" -> "Karan" (rows 1-3), "Nishritha Employee" -> "Nishritha" (row 4)
     for y in (298, 457, 616):
-        replace_word(img, n, (790, y, 841, y + 12), "Parth 1", "Karan", "semibold")
-        avatar_initials(img, n, (763.5, y + 18), "K", size=12)
+        replace_word(img, n, (790, y, 841, y + 12), "Parth 1", "Varun", "semibold")
+        avatar_initials(img, n, (763.5, y + 18), "V", size=12)
     erase(img, (857, 772, 940, 794), (255, 255, 255))
     EDIT_LOG.append(f"{n}: 'Nishritha Employee' -> 'Nishritha'")
-    avatar_initials(img, n, (763.5, 793), "N", size=12)
+    avatar_initials(img, n, (763.5, 793), "A", size=12)
+    rename_all(img, n, [("Nishritha", "Nishritha", (791, 774, 857, 786), "semibold")])
+    replace_word(img, n, (54, 774, 261, 789), "Standard nine-step journey", "Senior team review FY26", "semibold")
     # status circles showing whose turn it is
-    for cy, new in ((451, "K"), (609, "K"), (767, "N")):
+    for cy, new in ((451, "V"), (609, "V"), (767, "A")):
         d = ImageDraw.Draw(img)
         d.ellipse([1422, cy - 9, 1441, cy + 9], fill=(255, 255, 255))
         draw(img, 1431.5, cy + 0.5, new, ImageFont.truetype(font_path("semibold"), 12), (37, 99, 235), anchor="mm")
@@ -211,6 +298,16 @@ def clean_roster(img):
     draw(img, 1099, 614 - f.getbbox("Nishritha", anchor="ls")[1], ".", f, ink_color(img, (1034, 614, 1098, 626)))
     erase(img, (642, 780, 660, 800), (255, 255, 255))
     EDIT_LOG.append(f"{n}: status and roster 'Nishritha 2' -> 'Nishritha'")
+    rename_all(img, n, [
+        ("Nishritha", "Nishritha", (233, 184, 304, 197), "regular"),
+        ("Parth", "Parth", (1084, 402, 1121, 413), "regular"),
+        ("Nishritha", "Nishritha", (152, 474, 223, 487), "regular"),
+        ("Nishritha", "Nishritha.", (1035, 614, 1102, 627), "regular"),
+        ("Nishritha", "Nishritha", (574, 784, 641, 796), "semibold"),
+        ("Nishritha", "Nishritha,", (1023, 784, 1091, 799), "regular"),
+        ("Parth", "Parth", (835, 808, 872, 819), "regular"),
+        ("Parth", "Parth", (1158, 808, 1195, 819), "regular"),
+    ])
 
 
 def clean_coverage(img):
@@ -225,6 +322,24 @@ def clean_coverage(img):
     delete_span(img, 811, 835, 1425, 1439, 1600)
     delete_span(img, 634, 657, 1732, 1743, 1860)
     EDIT_LOG.append(f"{n}: 'Nishritha 2' -> 'Nishritha' (7 places), 'Karan 1' -> 'Karan'")
+    rename_all(img, n, [
+        ("Nishritha", "Nishritha", (233, 181, 304, 194), "regular"),
+        ("Nishritha", "Nishritha", (1361, 381, 1425, 393), "regular"),
+        ("Parth", "Parth's", (1361, 450, 1412, 461), "regular"),
+        ("Nishritha", "Nishritha", (152, 471, 223, 484), "regular"),
+        ("Parth", "Parth's", (744, 501, 795, 512), "regular"),
+        ("Nishritha", "Nishritha", (929, 598, 993, 610), "regular"),
+        ("Parth", "Parth", (1094, 598, 1131, 610), "regular"),
+        ("Nishritha", "Nishritha,", (1488, 598, 1555, 613), "regular"),
+        ("Parth", "Parth", (1361, 644, 1398, 655), "regular"),
+        ("Karan", "Karan,", (1691, 639, 1736, 653), "regular"),
+        ("Parth", "Parth", (723, 694, 760, 706), "regular"),
+        ("Nishritha", "Nishritha", (929, 815, 993, 827), "regular"),
+        ("Parth", "Parth", (1094, 815, 1131, 827), "regular"),
+        ("Nishritha", "Nishritha", (1361, 815, 1425, 827), "regular"),
+    ])
+    for box in ((595, 450, 886, 542), (595, 667, 886, 759)):
+        blur(img, n, box, "lines of inquiry may come from a client's confidential framework")
 
 
 def clean_review(img):
@@ -232,6 +347,15 @@ def clean_review(img):
     header_user(img, n, 40)
     delete_span(img, 382, 408, 847, 859, 1110)
     EDIT_LOG.append(f"{n}: 'Parth 1 | Principal' -> 'Parth | Principal'")
+    rename_all(img, n, [
+        ("Parth", "Parth", (1102, 124, 1139, 135), "regular"),
+        ("Parth", "Parth", (804, 386, 846, 400), "regular"),
+        ("Parth", "Parth", (173, 413, 212, 424), "semibold"),
+        ("Parth", "Parth", (157, 567, 199, 580), "regular"),
+    ])
+    for box in ((1001, 504, 1042, 518), (932, 580, 973, 594)):  # inside the red panel: stop before its border
+        replace_name(img, n, box, "Parth", "Parth", "Arjun", "regular", limit=1636)
+    blur(img, n, (560, 686, 1890, 905), "the writeup body below the summary quotes a client's framework language")
 
 
 def main():
@@ -249,7 +373,8 @@ def main():
         fn(img)
         img.save(OUT / fname, optimize=True)
     (OUT / "EDITS.md").write_text(
-        "# Screenshot edits\n\nDemo data relabelled for marketing use. No UI, feature or layout was changed.\n\n"
+        "# Screenshot edits\n\nSample data relabelled for marketing use: test names and a real staff name replaced with "
+        "invented names, and two areas blurred. No UI, feature or layout was changed.\n\n"
         + "\n".join(f"- {line}" for line in EDIT_LOG)
         + "\n"
     )

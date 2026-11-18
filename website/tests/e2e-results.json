@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-18T07:06:13.661Z",
+ "run_at": "2026-11-18T07:29:41.990Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -27,6 +27,23 @@
   },
   {
    "name": "header 'Book a demo' scrolls to the form",
+   "ok": true
+  },
+  {
+   "name": "stated video length matches the real video",
+   "ok": false,
+   "err": "stated 169s, real 155.3s"
+  },
+  {
+   "name": "offer lines awaiting approval stay hidden unless config allows them",
+   "ok": true
+  },
+  {
+   "name": "product screens enlarge in a viewer and close with Escape",
+   "ok": true
+  },
+  {
+   "name": "optional questions start folded so the form shows five fields",
    "ok": true
   },
   {
