@@ -178,7 +178,8 @@ OFFER_ITEMS = [
     ("Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund."),
 ]
 GRADES = [("Directly observed", (34, 197, 94)), ("Hearsay", (245, 158, 11)), ("Third party", (148, 163, 184))]
-CTA = {"title": "Book a demo", "sub": "Bring your competency framework. We will talk through how it would run on CraftArc.",
+CTA = {"intro": ("If your next cycle starts in the new year,", "plan it now."),
+       "title": "Book a demo", "sub": "Bring your competency framework. We will talk through how it would run on CraftArc.",
        "url": "",  # set the website address here once the domain is live
        "fine": "Product screens use sample data. Voiceover is AI generated."}
 

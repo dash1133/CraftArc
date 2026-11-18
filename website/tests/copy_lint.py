@@ -112,7 +112,7 @@ def vsl_text():
         out += [("proof card", c) for c in card]
     for item in vsl.OFFER_ITEMS:
         out += [("offer item", c) for c in item]
-    out += [("cta", vsl.CTA[k]) for k in ("title", "sub", "fine")]
+    out += [("cta", vsl.CTA[k]) for k in ("title", "sub", "fine")] + [("cta", " ".join(vsl.CTA["intro"]))]
     return out
 
 

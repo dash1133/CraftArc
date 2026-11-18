@@ -576,11 +576,19 @@ def render_offer(canvas, t, si, ti):
 # ----------------------------------------------------------------- cta
 def render_cta(canvas, t, si, ti):
     st = SENT[si]
-    a0 = ease((t - SCENE_T[si][0]) / 0.5)
+    a1 = ease((t - st[1]["start"] + 0.1) / 0.5) if len(st) > 1 else 0
+    # first line: the timing message, large, then it gives way to the call to action
+    a_intro = ease((t - SCENE_T[si][0]) / 0.5) * (1 - a1)
+    if a_intro > 0.01:
+        intro = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        di = ImageDraw.Draw(intro)
+        di.text((W / 2, 400), CTA["intro"][0], font=font("display_semi", 56), fill=SOFT + (int(255 * a_intro),), anchor="ma")
+        di.text((W / 2, 490), CTA["intro"][1], font=font("display_bold", 120), fill=ORANGE + (int(255 * a_intro),), anchor="ma")
+        canvas.alpha_composite(intro)
+    a0 = a1
     layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     d = ImageDraw.Draw(layer)
     d.text((W / 2, 250), "PLAN NEXT YEAR'S CYCLE NOW", font=font("semi", 32), fill=ORANGE + (int(255 * a0),), anchor="ma")
-    a1 = ease((t - st[1]["start"] + 0.1) / 0.5) if len(st) > 1 else 0
     d.text((W / 2, 330), CTA["title"], font=font("display_bold", 128), fill=WHITE + (int(255 * max(a1, 0.0)),), anchor="ma")
     for i, ln in enumerate(wrap(CTA["sub"], font("regular", 40), 1300)):
         d.text((W / 2, 500 + i * 56), ln, font=font("regular", 40), fill=SOFT + (int(255 * a1),), anchor="ma")
@@ -676,7 +684,7 @@ def render(web=False, t0=0.0, t1=None):
     if web and not excerpt:
         web_out = BUILD / "CraftArc_VSL_720p.mp4"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-vf", "scale=1280:720:flags=lanczos",
-                        "-c:v", "libx264", "-preset", "slow", "-crf", "24", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                        "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p", "-c:a", "aac",
                         "-b:a", "128k", "-movflags", "+faststart", str(web_out)], check=True)
         poster_t = TL["scenes"][0]["start"] + 3.0
         frame(poster_t).convert("RGB").resize((1280, 720), Image.LANCZOS).save(BUILD / "poster.jpg", quality=88)

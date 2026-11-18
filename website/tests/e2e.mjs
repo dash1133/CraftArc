@@ -169,15 +169,12 @@ await test("tablet (820px): no sideways scroll", async () => {
 
 await test("header 'Book a demo' scrolls to the form", async () => {
   const { ctx, page } = await openPage();
+  // Reduced motion makes the jump instant (the page honours it), so the check
+  // tests the anchor and the sticky-header offset, not animation timing.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.click(".site-header .btn-primary");
-  // wait for smooth scrolling to settle
-  let last = -1;
-  for (let i = 0; i < 40; i++) {
-    await page.waitForTimeout(150);
-    const y = await page.evaluate(() => window.scrollY);
-    if (y === last && y > 0) break;
-    last = y;
-  }
+  await page.waitForFunction(() => window.scrollY > 0);
+  await page.waitForTimeout(300);
   const top = await page.evaluate(() => document.getElementById("book").getBoundingClientRect().top);
   assert(top >= 0 && top < 120, `form section top at ${top}`);
   const headerBottom = await page.evaluate(() => document.querySelector(".site-header").getBoundingClientRect().bottom);

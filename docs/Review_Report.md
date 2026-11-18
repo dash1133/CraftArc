@@ -54,7 +54,21 @@ Round 2 found nine "do it now" fixes. All nine are applied, and both blockers ar
 
 ## Tests
 
-ROUND2_TESTS
+**Website: 27 of 27 pass** (`node website/tests/e2e.mjs`, Chromium; run three times in a row on the final files, including while a render loaded the CPU).
+
+| Area | Checks |
+|---|---|
+| Page health | No console errors. One h1. The meta description is under 160 characters. Every image has alt text, loads, and has explicit dimensions, so nothing shifts as it loads. |
+| Video | The source, poster and captions load. The captions have 30 or more cues. The length stated on the page matches the real file to within 1.5 s. |
+| Layout | No sideways scroll at 390, 820 and 1366 px. The header CTA lands on the form, clear of the sticky header. The screenshot viewer opens and closes with Escape. |
+| Claims | Unapproved offer terms are absent from the page source. Offer lines added from config are escaped, never injected as HTML. |
+| Leads (15 tests) | Required-field errors appear and focus the first bad field. Bad emails are rejected. A full submission sends the whole lead (contact details, firm profile, fit score, priority and attribution), checked field by field, and pushes a `lead_submitted` event. First-touch UTM and LinkedIn click IDs are kept across pages. A double click sends one lead. Personal email domains are tagged and score 10 lower. Optional fields can be left blank. The honeypot drops bots silently. A server error or network failure keeps the visitor's input and allows a retry. The form submits from the keyboard. The email fallback opens a filled-in email. An unconfigured form fails loudly, never silently. Labels and the live status region are wired. |
+
+**Copy lint: 0 errors, 0 warnings** across 283 text items (`python3 website/tests/copy_lint.py`). It checks the site and every VSL caption, card and label for dashes, semicolons, banned words, US spellings, sentences over 25 words, forbidden claims (client name, prices, roadmap features), and any number that is not in the claims ledger. That last check caught a stale video length twice.
+
+**Screens.** Tesseract OCR finds no Parth, Nishritha, Karan, "TESTING", "nine-step" or "pulse" in the cleaned or website images.
+
+**VSL: VIDEO_QA**
 
 ## Needs Dash
 
