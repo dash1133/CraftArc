@@ -1,0 +1,37 @@
+# Screenshot edits
+
+Demo data relabelled for marketing use. No UI, feature or layout was changed.
+
+- 01_home: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
+- 01_home: 'Parth 1.' -> 'Daniel.'
+- 01_home: to-do cycle chips redrawn with neutral cycle names (test names removed)
+- 01_home: avatar initials -> 'DS'
+- 01_home: 'Parth 1' -> 'Daniel Shaw'
+- 01_home: 'FY25 - Cycle Test' -> 'Elevate FY25'
+- 01_home: 'Nishritha Employee and Nishritha Evaluator' -> 'Nishritha and Karan'
+- 01_home: 'Nishritha Employee has completed' -> 'Nishritha has completed'
+- 02_my_people: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
+- 02_my_people: avatar initials -> 'P'
+- 02_my_people: 'Parth 1' -> 'Parth'
+- 03_my_reviews: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
+- 03_my_reviews: 'ARC H1 2026 - TESTING (Latest)' -> 'Spotlight FY26'
+- 03_my_reviews: 'ARC H1 2026 - TESTING (New)' -> 'Partner track H2 2026'
+- 03_my_reviews: 'ARC H1 2026 - TESTING' -> 'FY26 annual review'
+- 03_my_reviews: 'Parth 1' -> 'Karan'
+- 03_my_reviews: avatar initials -> 'K'
+- 03_my_reviews: 'Parth 1' -> 'Karan'
+- 03_my_reviews: avatar initials -> 'K'
+- 03_my_reviews: 'Parth 1' -> 'Karan'
+- 03_my_reviews: avatar initials -> 'K'
+- 03_my_reviews: 'Nishritha Employee' -> 'Nishritha'
+- 03_my_reviews: avatar initials -> 'N'
+- 03_my_reviews: turn indicator initials -> 'K'
+- 03_my_reviews: turn indicator initials -> 'K'
+- 03_my_reviews: turn indicator initials -> 'N'
+- 04_survey_roster: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
+- 04_survey_roster: chat 'Nishritha 2' -> 'Nishritha' (2 places)
+- 04_survey_roster: status and roster 'Nishritha 2' -> 'Nishritha'
+- 05_survey_coverage: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
+- 05_survey_coverage: 'Nishritha 2' -> 'Nishritha' (7 places), 'Karan 1' -> 'Karan'
+- 06_performance_review: header user 'Parth Yadav / Partner, India' (or 'Parth 1 / Principal') -> 'Daniel Shaw / Partner'
+- 06_performance_review: 'Parth 1 | Principal' -> 'Parth | Principal'

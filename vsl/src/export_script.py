@@ -1,0 +1,68 @@
+"""Write vsl/VSL_Script.md from script.py and build/timeline.json, so the script
+document always matches the rendered video. Run after make_voiceover.py."""
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from script import CTA, OFFER_ITEMS, PROOF_CARDS, SCENES  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def mmss(t):
+    return f"{int(t // 60)}:{t % 60:04.1f}"
+
+
+def visual(sc, s):
+    k = sc["kind"]
+    if k in ("kinetic", "logo"):
+        if s.get("logo"):
+            return "Logo reveal: CRAFT ARC, agentic leadership development"
+        parts = [p for p in (s.get("kicker"), s.get("big"), s.get("small")) if p]
+        return "Big type on navy: " + " / ".join(f'"{p}"' for p in parts)
+    if k == "doc":
+        return {"blank": "A blank page appears", "page": "The one page fills in: \"What great looks like\"",
+                "gaps": "Beside it, what the page cannot do, then what the DIY attempt cost"}[s["doc_state"]]
+    if k == "screen":
+        return f'Screen `{s["img"]}`, camera on {s["focus"]}, spotlight on {s["hl"]}, label "{s["chip"]}"'
+    if k == "proof":
+        c = PROOF_CARDS[s["card"]]
+        return f'Proof card {s["card"] + 1}: "{c[0]}", "{c[1]}", "{c[2]}"'
+    if k == "offer":
+        c = OFFER_ITEMS[s["item"]]
+        return f'Offer row {s["item"] + 1}: "{c[0]}", "{c[1]}"'
+    if k == "cta":
+        return f'End card: "{CTA["title"]}", "{CTA["sub"]}", fine print "{CTA["fine"]}"'
+    return ""
+
+
+def main():
+    tl = json.loads((ROOT / "build" / "timeline.json").read_text())
+    by = {(s["scene"], s["idx"]): s for s in tl["sentences"]}
+    words = sum(s["words"] for s in tl["sentences"])
+    out = [
+        "# CraftArc VSL: script and storyboard",
+        "",
+        f"Generated from `vsl/src/script.py` and the voiceover timeline. Runtime **{mmss(tl['duration'])}**, "
+        f"{words} spoken words ({words / tl['duration'] * 60:.0f} words a minute). "
+        "Claim IDs refer to `docs/Claims_Ledger.md`.",
+        "",
+        "Order follows the Hormozi VSL structure in the CraftArc VSL Fact Set: hook, epiphany bridge, pain, "
+        "solution, demo, proof, offer and risk reversal, urgency, call to action.",
+        "",
+    ]
+    for si, sc in enumerate(SCENES):
+        a = tl["scenes"][si]
+        out += [f"## {si + 1}. {sc['label']} ({mmss(a['start'])} to {mmss(a['end'])})", "",
+                "| Time | Voiceover | On screen | Claims |", "|---|---|---|---|"]
+        for ti, s in enumerate(sc["sentences"]):
+            t = by[(si, ti)]
+            out.append(f"| {mmss(t['start'])} | {s['cap']} | {visual(sc, s)} | {', '.join(s['claim'])} |")
+        out.append("")
+    (ROOT / "VSL_Script.md").write_text("\n".join(out))
+    print("wrote", ROOT / "VSL_Script.md")
+
+
+if __name__ == "__main__":
+    main()

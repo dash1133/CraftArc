@@ -1,0 +1,97 @@
+{
+ "run_at": "2026-11-18T07:06:13.661Z",
+ "results": [
+  {
+   "name": "page loads with no console errors and one h1",
+   "ok": true
+  },
+  {
+   "name": "every image has alt text and loads",
+   "ok": true
+  },
+  {
+   "name": "video has a source, poster and captions, and its metadata loads",
+   "ok": true
+  },
+  {
+   "name": "every in-page link points at an existing section",
+   "ok": true
+  },
+  {
+   "name": "mobile (390px): no sideways scroll, CTA and form usable",
+   "ok": true
+  },
+  {
+   "name": "tablet (820px): no sideways scroll",
+   "ok": true
+  },
+  {
+   "name": "header 'Book a demo' scrolls to the form",
+   "ok": true
+  },
+  {
+   "name": "lead form: empty submit shows every required error, focuses the first, sends nothing",
+   "ok": true
+  },
+  {
+   "name": "lead form: bad email is rejected, and fixing it clears the error",
+   "ok": true
+  },
+  {
+   "name": "lead form: valid submission posts the full lead, scores it hot and thanks the visitor",
+   "ok": true
+  },
+  {
+   "name": "lead form: attribution survives moving between pages in the session",
+   "ok": true
+  },
+  {
+   "name": "lead form: double click sends one lead only",
+   "ok": true
+  },
+  {
+   "name": "lead form: personal email is accepted but tagged and scored lower",
+   "ok": true
+  },
+  {
+   "name": "lead form: scoring separates warm and nurture leads",
+   "ok": true
+  },
+  {
+   "name": "lead form: only the required fields are needed",
+   "ok": true
+  },
+  {
+   "name": "lead form: honeypot filled by a bot sends nothing but looks successful",
+   "ok": true
+  },
+  {
+   "name": "lead form: server error keeps the visitor's input, explains, and a retry succeeds",
+   "ok": true
+  },
+  {
+   "name": "lead form: network failure is handled the same way",
+   "ok": true
+  },
+  {
+   "name": "lead form: keyboard only, Enter submits",
+   "ok": true
+  },
+  {
+   "name": "lead form: with no endpoint and no email it fails loudly, never silently",
+   "ok": true
+  },
+  {
+   "name": "lead form: with only an email configured it opens a filled-in email",
+   "ok": true
+  },
+  {
+   "name": "lead form: labels are tied to inputs and the status is announced",
+   "ok": true
+  },
+  {
+   "name": "production config.js is valid and documents how to connect leads",
+   "ok": true
+  }
+ ]
+}
