@@ -503,7 +503,8 @@ def draw_grades(canvas, t, si, ti):
     for i, (g, col) in enumerate(GRADES):
         k = ease((t - st["start"] - 0.45 - i * 0.3) / 0.35) * a
         yy = y0 + 140
-        d.rounded_rectangle([x, yy, x + widths[i], yy + 92], 46, fill=col + (int(40 * k),), outline=col + (int(255 * k),), width=3)
+        tint = tuple(int(255 - (255 - c) * 0.16) for c in col)  # opaque pale tint, so nothing shows through
+        d.rounded_rectangle([x, yy, x + widths[i], yy + 92], 46, fill=tint + (int(255 * k),), outline=col + (int(255 * k),), width=3)
         d.ellipse([x + 32, yy + 34, x + 56, yy + 58], fill=col + (int(255 * k),))
         d.text((x + 76, yy + 46), g, font=f, fill=INK + (int(255 * k),), anchor="lm")
         x += widths[i] + gap

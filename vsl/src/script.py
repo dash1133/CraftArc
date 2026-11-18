@@ -18,8 +18,8 @@ SCENES = [
     {
         "id": "hook", "kind": "kinetic", "label": "Hook",
         "sentences": [
-            {"cap": "If you are building your firm's next partners, this is for you.",
-             "claim": ["N01"], "big": "Building your firm's next partners?", "small": ""},
+            {"cap": "If you are building your firm's next partners, here is how to review them on evidence.",
+             "claim": ["N01", "L11"], "kicker": "For private equity leaders", "big": "Build your next partners on evidence.", "small": ""},
             {"cap": "One private equity firm spent 60 to 100 hours of senior time trying to make a general AI assistant run its reviews.",
              "claim": ["L01"], "kicker": "One private equity firm spent", "big": "60 to 100 hours", "accent": True,
              "small": "of senior time trying to make a general AI assistant run its leadership reviews"},
@@ -37,8 +37,6 @@ SCENES = [
              "claim": ["L02"], "doc_state": "page"},
             {"cap": "But a framework on paper cannot interview anyone, gather evidence or write a review.",
              "claim": ["L03"], "doc_state": "gaps"},
-            {"cap": "And after about 350 lines of instructions, the team still had no process the whole firm could run.",
-             "claim": ["L01"], "doc_state": "gaps"},
         ],
     },
     # ----------------------------------------------------------------- 3 PAIN
@@ -72,7 +70,7 @@ SCENES = [
             {"cap": "In the self-review, an AI coach interviews each person against your competencies.",
              "claim": ["L08"], "img": "03_my_reviews.png", "focus": (20, 100, 1900, 560), "hl": [(1205, 425, 1295, 520)],
              "chip": "Self-review: your turn"},
-            {"cap": "They answer by voice or text, and the coach asks for whatever is missing.",
+            {"cap": "Every conversation with the agent works by voice or text, and in the self-review the coach asks for whatever is missing.",
              "claim": ["L08", "L09"], "img": "04_survey_roster.png", "focus": (0, 420, 545, 870), "hl": [(372, 742, 534, 822)],
              "chip": "Voice or text, in every agent conversation"},
         ],
@@ -151,6 +149,8 @@ SCENES = [
              "claim": ["O03"], "item": 1},
             {"cap": "If we miss a stage we agreed to deliver and do not fix it, you can leave, and we refund your prepaid fees pro rata.",
              "claim": ["O04"], "item": 2},
+            {"cap": "It works best when leadership commits to running the cycle. If that commitment is not there yet, we will say so.",
+             "claim": ["O06"], "item": 2},
         ],
     },
     # ------------------------------------------------------------------ 9 CTA
