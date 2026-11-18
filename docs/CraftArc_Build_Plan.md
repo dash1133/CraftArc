@@ -1,6 +1,6 @@
 # CraftArc website and VSL: build plan and checks
 
-Inputs: the **CraftArc VSL Fact Set** (13 Nov 2026) and **Craft ARC Spotlight FY26 screenshots** (six app frames from `arc-dev`). Output: a 2:52 VSL and a one-page website with a tested lead form. Every step below has a check, and the check's result is recorded in `docs/Review_Report.md`.
+Inputs: the **CraftArc VSL Fact Set** (13 Nov 2026) and **Craft ARC Spotlight FY26 screenshots** (six app frames from `arc-dev`). Output: a 2:13 VSL and a one-page website with a tested lead form. Every step below has a check, and the check's result is recorded in `docs/Review_Report.md`.
 
 | # | Step | What was built | How it was checked |
 |---|---|---|---|
@@ -22,4 +22,4 @@ Inputs: the **CraftArc VSL Fact Set** (13 Nov 2026) and **Craft ARC Spotlight FY
 - **Price:** not shown, and quoted after a call. The flat-fee terms wait for Dash's approval.
 - **Anchor client:** described, never named.
 - **Narrator:** a calm AI voice in the "we" voice of the company, with an AI disclosure at the end, following Dash's rule.
-- **Length:** 2:52 against a 2-minute target. The reviewers added an FAQ beat and a fit qualifier, and nothing that carries a claim's frame was cut to hit the target. A 60 to 90 second cut for LinkedIn is a sensible next step.
+- **Length:** 2:13 against a 2-minute target. The reviewers added an FAQ beat and a fit qualifier, and nothing that carries a claim's frame was cut to hit the target. A 60 to 90 second cut for LinkedIn is a sensible next step.

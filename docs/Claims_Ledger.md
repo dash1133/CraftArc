@@ -8,6 +8,17 @@ Revised on 18 Nov 2026 after the claims review: offer terms withdrawn to approve
 
 Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash must confirm before launch (see the end of this file).
 
+## Research and narrative (rewrite of 18 Nov 2026, Dash's structure)
+
+| ID | Claim as used | Where | Source | Status |
+|---|---|---|---|---|
+| R1 | In a study of nearly 4,000 buyout managers at about 800 firms (1970 to 2017), the individual mattered about four times as much as the firm in explaining returns. | VSL evidence card; site evidence section | Braun, Dorau, Jenkinson and Urban, working paper, as reported by Institutional Investor ("about four times as important as the organization"). A working paper, so it is named as one on screen | OK, cite as working paper |
+| R2 | When senior partners leave, raising the next fund gets harder. | VSL evidence card; site evidence section | Ivashina and Lerner, "Pay now or pay later? The economics within the private equity partnership", Journal of Financial Economics 131 (2019); NBER w22660: senior partner departures have negative effects on the ability to raise additional capital | OK |
+| N04 | What separates great funds from mediocre ones is not investment judgement alone, but how they grow their next set of leaders. Leadership turns a fund into an institution. | VSL opening; site hero | Dash's thesis (brief, 18 Nov 2026), framed as the answer the evidence (R1, R2) points to | OK, Dash's view |
+| N05 | Most PE firms have never written down their craft. Few help each leader trace their arc. Feedback arrives once a year, too late to use. | VSL problem; site problem | Fact Set §1 "Most firms cannot say in writing" [Live] (T2); §2 [Claim] (T1, T2); Dash's brief | OK, Dash's view |
+| P07 | We bring the expertise to frame your competency model with you. | VSL why; site why | Dash's brief; Fact Set §5 (built with a sitting PE COO, calibrated in 8 to 10 interviews) [Live] | OK |
+| D02 | Agent lines in the five conversations are sample dialogue, except "I'm drafting the review documents now…" and "To get started, what have you worked on over the period?", which are the product's own words on screens 06 and 07. | VSL journey; site how | Screens 06 and 07 | OK, disclosed as sample |
+
 ## Story and pain
 
 | ID | Claim as used | Where | Source and tag | Status |
@@ -105,3 +116,4 @@ Candida's demo reactions (she is joining as CEO, so a quote reads as a testimoni
 5. **Demo readiness.** The call to action now promises a conversation about the buyer's framework. If you want to promise a full cycle on a sample firm, confirm the demo instance is ready first.
 6. **Sample names and framework.** The screens now use invented names (Arjun, Anushka, Varun, Kabir, Daniel Shaw). The competency names (Deal Sourcing & Origination, Investment Judgment, Portfolio Value Creation) are still readable. Confirm they are not a client's confidential framework.
 7. **Anonymity.** Closed: Dash confirmed interviews are anonymised as the firm chooses (L10).
+8. **"Tracks how each leader is progressing."** This is Dash's brief (18 Nov). The agreed Stage 1 scope has no view across review cycles (write-ups are "anchored to this cycle only"), so today progress is tracked within the year against the development plan. Cross-cycle trends arrive in Stage 2 (June 2027). Keep the line as Dash's commitment, or say "within the year" until Stage 2 ships.

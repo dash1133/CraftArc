@@ -9,8 +9,8 @@
   "[placeholder, blocked by launch_check.py] [Approved client quote goes here]",
   "[placeholder, blocked by launch_check.py] [Name and role, with permission]"
  ],
- "checked_items": 294,
- "vsl_spoken_words": 480,
- "vsl_runtime_s": 172.346,
- "vsl_wpm": 167
+ "checked_items": 269,
+ "vsl_spoken_words": 383,
+ "vsl_runtime_s": 133.565,
+ "vsl_wpm": 172
 }

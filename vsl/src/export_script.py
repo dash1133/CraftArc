@@ -32,8 +32,23 @@ def visual(sc, s):
         c = PROOF_CARDS[s["card"]]
         return f'Proof card {s["card"] + 1}: "{c[0]}", "{c[1]}", "{c[2]}"'
     if k == "offer":
-        c = OFFER_ITEMS[s["item"]]
-        return f'Offer row {s["item"] + 1}: "{c[0]}", "{c[1]}"'
+        c = sc.get("items", OFFER_ITEMS)[s["item"]]
+        return f'Row {s["item"] + 1}: "{c[0]}", "{c[1]}"'
+    if k == "stat":
+        if s.get("source"):
+            return f'Evidence card: "{s["big"]}", "{s["small"]}". Source on screen: {s["source"]}'
+        return f'Big type: "{s["big"]}"'
+    if k == "arcproblem":
+        return {"craft": 'An arc of empty competency nodes marked "?": "The craft. Never written down."',
+                "arc": 'A marker stalls at the start of the arc: "The arc. Never traced."',
+                "late": 'The arc fades: "The feedback. Once a year. Too late to use."'}[s["state"]]
+    if k == "journey":
+        stp = s.get("step")
+        if stp is None:
+            return "Five step icons appear along an arc: self-evaluation, design the feedback, contributor interviews, the memo, development plan"
+        if stp == "all":
+            return 'All five icons light up and the arc fills orange: "Every leader knows where they stand."'
+        return f'Step {stp + 1} icon lights up. Agent says (sample dialogue): "{s["bubble"]}"'
     if k == "cta":
         return f'End card: "{CTA["title"]}", "{CTA["sub"]}", fine print "{CTA["fine"]}"'
     return ""
@@ -50,8 +65,8 @@ def main():
         f"{words} spoken words ({words / tl['duration'] * 60:.0f} words a minute). "
         "Claim IDs refer to `docs/Claims_Ledger.md`.",
         "",
-        "Order follows the Hormozi VSL structure in the CraftArc VSL Fact Set: hook, epiphany bridge, pain, "
-        "solution, demo, proof, offer and risk reversal, urgency, call to action.",
+        "Structure from Dash's brief (18 Nov 2026): the question and the research evidence, the problem "
+        "(the craft and the arc), introducing CraftArc, why it works, five conversations told as a dialogue, the next step.",
         "",
     ]
     for si, sc in enumerate(SCENES):

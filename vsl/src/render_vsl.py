@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 sys.path.insert(0, str(Path(__file__).parent))
-from script import CTA, GRADES, OFFER_ITEMS, PROOF_CARDS, SCENES, STEPS, caption_chunks  # noqa: E402
+from script import CTA, GRADES, OFFER_ITEMS, PROOF_CARDS, SCENES, STEP_ICONS, STEP_NAMES, STEPS, caption_chunks  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build"
@@ -374,6 +374,8 @@ def screen_base(si):
     d.line([WX0 + 300, 42, WX0 + 300, 86], fill=SOFT, width=2)
     d.text((WX0 + 326, 64), sc["label"], font=font("display_bold", 34), fill=INK, anchor="lm")
     step = sc.get("step")
+    if step is None:
+        return base
     # step rail
     rx0, rx1, ry = 1010, 1780, 62
     xs = [lerp(rx0, rx1, i / (len(STEPS) - 1)) for i in range(len(STEPS))]
@@ -511,6 +513,270 @@ def draw_grades(canvas, t, si, ti):
     d.text((W / 2, y0 + 270), "How each fact in an interview is graded", font=font("regular", 26), fill=MUTED + (int(255 * a),), anchor="ma")
     canvas.alpha_composite(layer)
 
+# ----------------------------------------------------------------- icons
+def draw_icon(name, size, colour):
+    """Line icons in the style of the CraftArc home screen, drawn on a 24-unit grid."""
+    k = 4
+    S = size * k
+    im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    u = S / 24
+    w = max(int(1.9 * u), 2)
+    col = colour + (255,)
+
+    def P(x, y):
+        return (x * u, y * u)
+
+    def arc(bbox, a0, a1):
+        d.arc([bbox[0] * u, bbox[1] * u, bbox[2] * u, bbox[3] * u], a0, a1, fill=col, width=w)
+
+    def line(*pts):
+        d.line([P(*p) for p in pts], fill=col, width=w, joint="curve")
+        for p in (pts[0], pts[-1]):
+            x, y = P(*p)
+            d.ellipse([x - w / 2, y - w / 2, x + w / 2, y + w / 2], fill=col)
+
+    if name == "people":
+        arc((5, 3, 13, 11), 0, 360)
+        arc((1.5, 13, 16.5, 28), 180, 360)
+        arc((12, 3, 18, 11), 270, 450)
+        arc((14, 13.5, 22.5, 28), 250, 360)
+    elif name == "checklist":
+        d.rounded_rectangle([3 * u, 3.5 * u, 9 * u, 9.5 * u], radius=1.2 * u, outline=col, width=w)
+        line((12.5, 6.5), (21, 6.5))
+        line((12.5, 12), (21, 12))
+        line((3.5, 17), (5.5, 19), (9, 15.5))
+        line((12.5, 18), (21, 18))
+    elif name == "person_gear":
+        arc((5, 3, 13, 11), 0, 360)
+        arc((2, 14, 16, 30), 180, 285)
+        cx, cy, r = 17.5 * u, 17.5 * u, 3.0 * u
+        for t in range(8):
+            ang = math.radians(t * 45)
+            x0, y0 = cx + math.cos(ang) * r * 0.9, cy + math.sin(ang) * r * 0.9
+            x1, y1 = cx + math.cos(ang) * r * 1.45, cy + math.sin(ang) * r * 1.45
+            d.line([(x0, y0), (x1, y1)], fill=col, width=int(w * 1.3))
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=col, width=w)
+    elif name == "mic":
+        d.rounded_rectangle([9 * u, 2.5 * u, 15 * u, 14 * u], radius=3 * u, outline=col, width=w)
+        arc((5.5, 6.5, 18.5, 17.5), 0, 180)
+        line((12, 17.5), (12, 21.5))
+        line((8.5, 21.5), (15.5, 21.5))
+    elif name == "document":
+        d.line([P(6, 2.5), P(14, 2.5), P(19, 7.5), P(19, 21.5), P(6, 21.5), P(6, 2.5)], fill=col, width=w, joint="curve")
+        line((14, 2.5), (14, 7.5), (19, 7.5))
+        line((9, 12), (16, 12))
+        line((9, 16), (16, 16))
+    return im.resize((size, size), Image.LANCZOS)
+
+
+def icon_tile(name, size, state, glow_a=1.0):
+    """state: 'future' (pale tile, blue icon), 'done' (blue tile), 'active' (gradient tile with glow)."""
+    pad = int(size * 0.35)
+    full = size + 2 * pad
+    out = Image.new("RGBA", (full, full), (0, 0, 0, 0))
+    if state == "active":
+        glow = Image.new("RGBA", (full, full), (0, 0, 0, 0))
+        ImageDraw.Draw(glow).rounded_rectangle([pad - 6, pad - 6, pad + size + 6, pad + size + 6], int(size * 0.3),
+                                               fill=(59, 130, 246, int(170 * glow_a)))
+        out.alpha_composite(glow.filter(ImageFilter.GaussianBlur(size * 0.18)))
+    tile = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    td = ImageDraw.Draw(tile)
+    if state == "future":
+        td.rounded_rectangle([0, 0, size - 1, size - 1], int(size * 0.24), fill=(27, 41, 79, 255), outline=(71, 105, 170, 255), width=2)
+        ic = draw_icon(name, int(size * 0.5), (147, 178, 240))
+    else:
+        grad = Image.new("RGBA", (size, size))
+        top, bottom = ((59, 130, 246), (29, 78, 216)) if state == "active" else ((37, 99, 235), (30, 64, 175))
+        for y in range(size):
+            c = tuple(int(lerp(a, b, y / (size - 1))) for a, b in zip(top, bottom))
+            ImageDraw.Draw(grad).line([(0, y), (size, y)], fill=c + (255,))
+        mask = Image.new("L", (size, size), 0)
+        ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], int(size * 0.24), fill=255)
+        tile.paste(grad, (0, 0), mask)
+        if state == "active":
+            td.rounded_rectangle([0, 0, size - 1, size - 1], int(size * 0.24), outline=ORANGE + (255,), width=4)
+        ic = draw_icon(name, int(size * 0.5), WHITE)
+    tile.alpha_composite(ic, (int(size * 0.25), int(size * 0.25)))
+    out.alpha_composite(tile, (pad, pad))
+    return out
+
+
+def fade_layer(layer, a):
+    if a < 0.999:
+        layer.putalpha(layer.getchannel("A").point(lambda v: int(v * a)))
+    return layer
+
+
+# ----------------------------------------------------------------- stat
+def render_stat(canvas, t, si, ti):
+    sc = SCENES[si]
+    for i, s in enumerate(sc["sentences"]):
+        st = SENT[si][i]
+        nxt = SENT[si][i + 1]["start"] if i + 1 < len(SENT[si]) else SCENE_T[si][1] + 1
+        a = ease((t - st["start"] + 0.12) / 0.45) * (1 - ease((t - nxt + 0.12) / 0.25))
+        if a <= 0.01:
+            continue
+        layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        rise = (1 - ease((t - st["start"] + 0.12) / 0.45)) * 30
+        if s.get("source"):
+            d.text((W / 2, 250 + rise), "THE EVIDENCE", font=font("semi", 30), fill=ORANGE + (255,), anchor="ma")
+            d.text((W / 2, 320 + rise), s["big"], font=font("display_bold", 170), fill=WHITE + (255,), anchor="ma")
+            y = 540 + rise
+            for ln in wrap(s["small"], font("regular", 44), 1300):
+                d.text((W / 2, y), ln, font=font("regular", 44), fill=SOFT + (255,), anchor="ma")
+                y += 60
+            d.text((W / 2, y + 40), s["source"], font=font("medium", 26), fill=(148, 163, 184, 255), anchor="ma")
+        else:
+            fb = font("display_bold", 96)
+            lines = wrap(s["big"], fb, 1500)
+            y = 470 - len(lines) * 110 / 2 + rise
+            for ln in lines:
+                d.text((W / 2, y), ln, font=fb, fill=ORANGE + (255,), anchor="ma")
+                y += 110
+        canvas.alpha_composite(fade_layer(layer, a))
+
+
+# ----------------------------------------------------------------- the craft and the arc
+ARC_BOX = (330, 300, 1590, 1120)
+
+
+def arc_point(f):
+    """Point on the upper arc, f from 0 (left) to 1 (right)."""
+    x0, y0, x1, y1 = ARC_BOX
+    ang = math.radians(195 + 150 * f)
+    cx, cy, rx, ry = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2, (y1 - y0) / 2
+    return cx + rx * math.cos(ang), cy + ry * math.sin(ang)
+
+
+def draw_arc_path(d, f0, f1, col, width, dotted=False):
+    n = 120
+    pts = [arc_point(f0 + (f1 - f0) * i / n) for i in range(n + 1)]
+    if dotted:
+        for i in range(0, n, 4):
+            d.line([pts[i], pts[i + 2]], fill=col, width=width)
+    else:
+        d.line(pts, fill=col, width=width, joint="curve")
+
+
+def render_arcproblem(canvas, t, si, ti):
+    st = SENT[si]
+    state = SCENES[si]["sentences"][ti]["state"]
+    layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    a0 = ease((t - SCENE_T[si][0]) / 0.6)
+    late = state == "late"
+    dim = 0.35 if late else 1.0
+    draw_arc_path(d, 0, 1, (100, 116, 139, int(200 * a0 * dim)), 4, dotted=True)
+    nodes = [i / 6 for i in range(7)]
+    marker_f = 0.0
+    if state == "arc":
+        k = ease((t - st[1]["start"] - 0.6) / 1.4)
+        marker_f = 0.18 * k
+        draw_arc_path(d, 0, max(marker_f, 0.001), ORANGE + (int(255 * a0),), 6)
+    for i, f in enumerate(nodes):
+        k = ease((t - st[0]["start"] - 0.2 - i * 0.18) / 0.35) * dim
+        if k <= 0:
+            continue
+        x, y = arc_point(f)
+        r = 26
+        d.ellipse([x - r, y - r, x + r, y + r], fill=(15, 28, 61, int(255 * k)), outline=(148, 163, 184, int(255 * k)), width=3)
+        d.text((x, y + 1), "?", font=font("bold", 26), fill=(148, 163, 184, int(255 * k)), anchor="mm")
+    if state == "arc":
+        x, y = arc_point(marker_f)
+        glow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        ImageDraw.Draw(glow).ellipse([x - 40, y - 40, x + 40, y + 40], fill=ORANGE + (120,))
+        layer.alpha_composite(glow.filter(ImageFilter.GaussianBlur(16)))
+        d.ellipse([x - 18, y - 18, x + 18, y + 18], fill=ORANGE + (255,))
+    # headline in the middle of the arc
+    head = {"craft": ("THE CRAFT", "Never written down."),
+            "arc": ("THE ARC", "Never traced."),
+            "late": ("THE FEEDBACK", "Once a year. Too late to use.")}[state]
+    cur = st[ti]
+    ah = ease((t - cur["start"] + 0.1) / 0.45)
+    d.text((W / 2, 560), head[0], font=font("semi", 32), fill=ORANGE + (int(255 * ah),), anchor="ma")
+    d.text((W / 2, 620), head[1], font=font("display_bold", 88), fill=WHITE + (int(255 * ah),), anchor="ma")
+    canvas.alpha_composite(layer)
+
+
+# ----------------------------------------------------------------- the five conversations
+def tile_positions():
+    return [arc_point(0.06 + 0.22 * i) for i in range(5)]
+
+
+def render_journey(canvas, t, si, ti):
+    sc = SCENES[si]
+    st = SENT[si]
+    cur = sc["sentences"][ti]
+    step = cur.get("step")
+    a0 = ease((t - SCENE_T[si][0]) / 0.6)
+    layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    d.text((W / 2, 70), "FIVE CONVERSATIONS, ONE ARC", font=font("semi", 30), fill=ORANGE + (int(255 * a0),), anchor="ma")
+    # the arc, lit up to the current step
+    pos = tile_positions()
+    draw_arc_path(d, 0, 1, (71, 85, 105, int(220 * a0)), 4, dotted=True)
+    if step == "all":
+        k = ease((t - st[ti]["start"]) / 1.2)
+        draw_arc_path(d, 0, max(k, 0.001), ORANGE + (255,), 7)
+    elif isinstance(step, int):
+        f_to = 0.06 + 0.22 * step
+        f_from = 0.06 + 0.22 * max(step - 1, 0) if step else 0
+        k = ease((t - st[ti]["start"]) / 0.8)
+        draw_arc_path(d, 0, max(f_from + (f_to - f_from) * k, 0.001), ORANGE + (255,), 7)
+    canvas.alpha_composite(layer)
+    # tiles
+    for i, (x, y) in enumerate(pos):
+        if step is None:
+            appear = ease((t - st[ti]["start"] - 0.3 - i * 0.35) / 0.4)
+            state = "future"
+        elif step == "all":
+            appear, state = 1.0, "active"
+        else:
+            appear = 1.0
+            state = "active" if i == step else ("done" if i < step else "future")
+        if appear <= 0.01:
+            continue
+        size = 150 if state == "active" and step != "all" else 118
+        if state == "active" and step != "all":
+            size = int(lerp(118, 150, ease((t - st[ti]["start"]) / 0.5)))
+        tile = icon_tile(STEP_ICONS[i], size, state)
+        tile = fade_layer(tile, appear)
+        canvas.alpha_composite(tile, (int(x - tile.width / 2), int(y - tile.height / 2)))
+        lab = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        col = WHITE if state != "future" else (148, 163, 184)
+        ImageDraw.Draw(lab).text((x, y + size / 2 + 18), STEP_NAMES[i], font=font("semi", 26), fill=col + (int(255 * appear),), anchor="ma")
+        canvas.alpha_composite(lab)
+    # the agent's line, typed out like a conversation
+    if isinstance(step, int) and cur.get("bubble"):
+        ab = ease((t - st[ti]["start"] - 0.25) / 0.35)
+        text = cur["bubble"]
+        n = int(len(text) * min(max((t - st[ti]["start"] - 0.35) / 1.4, 0), 1))
+        shown = text[:n]
+        fb = font("medium", 38)
+        lines = wrap(text, fb, 1100)
+        bw = max(fb.getlength(ln) for ln in lines) + 64
+        bh = len(lines) * 52 + 44
+        bx, by = (W - bw) / 2 + 40, 745
+        bl = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        bd = ImageDraw.Draw(bl)
+        bl.alpha_composite(logo_icon(64), (int(bx - 92), int(by + 6)))
+        bd.text((bx, by - 40), f"CraftArc Agent  ·  Step {step + 1}: {STEP_NAMES[step]}", font=font("semi", 24), fill=(148, 163, 184, 255))
+        bd.rounded_rectangle([bx, by, bx + bw, by + bh], 26, fill=(255, 255, 255, 255))
+        # type the text line by line
+        yy, left = by + 22, shown
+        for ln in lines:
+            part, left = left[:len(ln)], left[len(ln):].lstrip()
+            bd.text((bx + 32, yy), part, font=fb, fill=INK + (255,))
+            yy += 52
+        canvas.alpha_composite(fade_layer(bl, ab))
+    if step == "all":
+        k = ease((t - st[ti]["start"] - 0.6) / 0.5)
+        fin = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        ImageDraw.Draw(fin).text((W / 2, 745), "Every leader knows where they stand.", font=font("display_bold", 72), fill=WHITE + (int(255 * k),), anchor="ma")
+        canvas.alpha_composite(fin)
+
 
 # ----------------------------------------------------------------- proof
 def render_proof(canvas, t, si, ti):
@@ -550,15 +816,17 @@ def render_offer(canvas, t, si, ti):
     canvas.alpha_composite(light_bg())
     a0 = ease((t - SCENE_T[si][0]) / 0.5)
     draw_logo(canvas, 160, 70, 50, on_dark=False, tagline=False)
+    sc = SCENES[si]
+    items = sc.get("items", OFFER_ITEMS)
     head = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     d = ImageDraw.Draw(head)
-    d.text((160, 220), "HOW FIRMS START", font=font("semi", 30), fill=ORANGE + (int(255 * a0),))
-    d.text((160, 262), "Low disruption, and a way out if we miss", font=font("display_bold", 60), fill=INK + (int(255 * a0),))
+    d.text((160, 220), sc.get("kicker", "HOW FIRMS START"), font=font("semi", 30), fill=ORANGE + (int(255 * a0),))
+    d.text((160, 262), sc.get("title", "Low disruption, and a way out if we miss"), font=font("display_bold", 60), fill=INK + (int(255 * a0),))
     canvas.alpha_composite(head)
     first = {}
     for j, sent in enumerate(SCENES[si]["sentences"]):
         first.setdefault(sent["item"], SENT[si][j]["start"])
-    for i, (title, sub) in enumerate(OFFER_ITEMS):
+    for i, (title, sub) in enumerate(items):
         if i not in first:
             continue
         st = first[i]
@@ -569,7 +837,7 @@ def render_offer(canvas, t, si, ti):
         layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
         ld = ImageDraw.Draw(layer)
         ld.rounded_rectangle([160, y, 1760, y + 120], 20, fill=(255, 255, 255, int(255 * k)), outline=(226, 232, 240, int(255 * k)), width=2)
-        col = ORANGE if i == 2 else BLUE
+        col = ORANGE if i == len(items) - 1 else BLUE
         cx, cy = 230, y + 60
         ld.ellipse([cx - 32, cy - 32, cx + 32, cy + 32], fill=col + (int(255 * k),))
         ld.line([(cx - 13, cy + 1), (cx - 3, cy + 11), (cx + 15, cy - 11)], fill=WHITE + (int(255 * k),), width=6, joint="curve")
@@ -610,10 +878,11 @@ def render_cta(canvas, t, si, ti):
 
 
 RENDER = {"kinetic": render_kinetic, "logo": render_kinetic, "doc": render_doc, "screen": render_screen,
-          "proof": render_proof, "offer": render_offer, "cta": render_cta}
+          "proof": render_proof, "offer": render_offer, "cta": render_cta, "stat": render_stat,
+          "arcproblem": render_arcproblem, "journey": render_journey}
 
 
-DARK = ("kinetic", "logo", "doc", "proof", "cta")
+DARK = ("kinetic", "logo", "doc", "proof", "cta", "stat", "arcproblem", "journey")
 
 
 def push_in(canvas, z):

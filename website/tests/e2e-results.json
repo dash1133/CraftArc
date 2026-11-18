@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-18T14:19:25.477Z",
+ "run_at": "2026-11-18T14:32:13.580Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -31,7 +31,8 @@
   },
   {
    "name": "stated video length matches the real video",
-   "ok": true
+   "ok": false,
+   "err": "stated 133s, real 171.5s"
   },
   {
    "name": "unapproved offer terms are not in the page, and approved lines can be added from config",

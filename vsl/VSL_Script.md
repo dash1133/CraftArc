@@ -1,98 +1,70 @@
 # CraftArc VSL: script and storyboard
 
-Generated from `vsl/src/script.py` and the voiceover timeline. Runtime **2:52.3**, 480 spoken words (167 words a minute). Claim IDs refer to `docs/Claims_Ledger.md`.
+Generated from `vsl/src/script.py` and the voiceover timeline. Runtime **2:13.6**, 383 spoken words (172 words a minute). Claim IDs refer to `docs/Claims_Ledger.md`.
 
-Order follows the Hormozi VSL structure in the CraftArc VSL Fact Set: hook, epiphany bridge, pain, solution, demo, proof, offer and risk reversal, urgency, call to action.
+Structure from Dash's brief (18 Nov 2026): the question and the research evidence, the problem (the craft and the arc), introducing CraftArc, why it works, five conversations told as a dialogue, the next step.
 
-## 1. Hook (0:00.0 to 0:16.2)
-
-| Time | Voiceover | On screen | Claims |
-|---|---|---|---|
-| 0:00.2 | If you are building your firm's next partners, here is how to review them on evidence. | Big type on navy: "For private equity leaders" / "Build your next partners on evidence." | N01, L11 |
-| 0:04.9 | One private equity firm spent 60 to 100 hours of senior time trying to make a general AI assistant run its reviews. | Big type on navy: "One private equity firm spent" / "60 to 100 hours" / "of senior time trying to make a general AI assistant run its leadership reviews" | L01 |
-| 0:13.5 | Then it gave up. Here is what it did instead. | Big type on navy: "Then it gave up." / "Here is what it did instead." | L01 |
-
-## 2. The story (0:16.2 to 0:29.3)
+## 1. The question (0:00.0 to 0:08.4)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 0:16.4 | The firm had done the hard part. | A blank page appears | L02 |
-| 0:18.3 | Its COO had written down, on one page, what a great senior deal professional does. | The one page fills in: "What great looks like" | L02 |
-| 0:24.0 | But a framework on paper cannot interview anyone, gather evidence or write a review. | Beside it: what a page cannot do, then what the do-it-yourself attempt cost | L03 |
+| 0:00.2 | What separates the great funds from the mediocre ones? | Big type on navy: "For private equity leaders" / "What separates the great funds from the mediocre ones?" | N04 |
+| 0:03.3 | It is not investment judgement alone. It is how they grow their next set of leaders. | Big type on navy: "Not investment judgement alone" / "How they grow their next set of leaders." | N04 |
 
-## 3. Two questions (0:29.3 to 0:37.9)
-
-| Time | Voiceover | On screen | Claims |
-|---|---|---|---|
-| 0:29.6 | Ask yourself. Do your principals know where they stand on each competency today? | Big type on navy: "Ask yourself" / "Do your principals know where they stand on each competency?" | N02 |
-| 0:34.2 | And could you show the evidence behind your next partner-readiness call? | Big type on navy: "Ask yourself" / "Could you show the evidence behind your next partner-readiness call?" | N02 |
-
-## 4. The insight (0:37.9 to 0:53.3)
+## 2. The evidence (0:08.4 to 0:26.1)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 0:38.1 | We believe your framework is the asset. | Big type on navy: "We believe" / "Your framework is the asset." | N03 |
-| 0:40.4 | It needs a system that interviews your people, gathers the evidence and drafts the write-up. | Big type on navy: "It needs a system that runs it." / "It interviews your people, gathers the evidence and drafts the write-up." | N03 |
-| 0:45.7 | That is why we built CraftArc. | Logo reveal: CRAFT ARC, agentic leadership development | N03 |
-| 0:47.6 | CraftArc runs your review cycle on your own competency framework, written in plain English. | Big type on navy: "It runs on your own framework." / "Your roles, competencies and steps, written in plain English." | L05 |
+| 0:08.7 | Judgement lives in people. In a study of nearly 4,000 buyout managers, the individual mattered about four times as much as the firm in explaining returns. | Evidence card: "About 4x", "how much more the individual manager mattered than the firm in explaining buyout returns". Source on screen: Braun, Dorau, Jenkinson and Urban, working paper. Nearly 4,000 managers at about 800 firms, 1970 to 2017. | R1 |
+| 0:19.0 | And when senior partners leave, raising the next fund gets harder. | Evidence card: "Partners leave", "and raising the next fund gets harder". Source on screen: Ivashina and Lerner, Journal of Financial Economics, 2019. | R2 |
+| 0:22.8 | Leadership is what turns a fund into an institution. | Big type: "Leadership turns a fund into an institution." | N04 |
 
-## 5. Self-review with an AI coach (0:53.3 to 1:05.8)
-
-| Time | Voiceover | On screen | Claims |
-|---|---|---|---|
-| 0:53.5 | In the self-review, an AI coach interviews each person against your competencies, and asks for whatever is missing. | Screen `07_self_review.png`, camera on (480, 210, 1500, 720), spotlight on [(544, 566, 1456, 620)], label "Asks for what is missing" | L08 |
-| 1:00.7 | People answer by voice or text, and a conversation takes about 25 minutes. | Screen `07_self_review.png`, camera on (520, 760, 1480, 1110), spotlight on [(940, 870, 1062, 1000), (1305, 1015, 1460, 1100)], label "Voice or text, about 25 minutes" | L08, L24 |
-
-## 6. Contributor interviews (1:05.8 to 1:16.9)
+## 3. The problem (0:26.1 to 0:45.6)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 1:06.1 | Colleagues who worked with each person then give AI-led interviews about what they saw first-hand. | Screen `04_survey_roster.png`, camera on (548, 250, 1919, 862), spotlight on [(563, 705, 1882, 862)], label "Every contributor, tracked" | L10 |
-| 1:12.0 | The agent grades every fact as directly observed, hearsay or third party. | Screen `04_survey_roster.png` dimmed, with a designed card (not product UI): "Every fact carries its source": Directly observed, Hearsay, Third party | L11 |
+| 0:26.3 | Yet most private equity firms have never written down their craft, what it takes to lead an investment fund, competency by competency. | An arc of empty competency nodes marked "?": "The craft. Never written down." | N05 |
+| 0:34.4 | And few help each leader trace their arc, the progress they make on every competency their craft demands. | A marker stalls at the start of the arc: "The arc. Never traced." | N05 |
+| 0:40.4 | So the craft stays in a few heads, and feedback arrives once a year, too late to use. | The arc fades: "The feedback. Once a year. Too late to use." | N05 |
 
-## 7. Coverage, checked (1:16.9 to 1:27.8)
-
-| Time | Voiceover | On screen | Claims |
-|---|---|---|---|
-| 1:17.1 | The agent checks coverage for every competency and flags the gaps before you complete the survey. | Screen `05_survey_coverage.png`, camera on (548, 170, 1919, 782), spotlight on [(563, 300, 1888, 362)], label "Coverage by competency" | L12 |
-| 1:22.9 | Here, it warns that nobody who saw the banker meetings has been heard on sourcing. | Screen `05_survey_coverage.png`, camera on (1080, 300, 1900, 690), spotlight on [(1614, 368, 1886, 540)], label "Gap flagged before close" | L12 |
-
-## 8. Coordinator feedback (1:27.8 to 1:42.8)
+## 4. Introducing CraftArc (0:45.6 to 0:56.8)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 1:28.1 | Then it drafts the Executive Committee writeup, the note to the person and the scorecard. | Screen `06_performance_review.png`, camera on (0, 100, 1900, 915), spotlight on [(46, 325, 516, 530)], label "Three documents, drafted" | L13 |
-| 1:33.2 | Here, the writeup opens by naming the question the evidence could not answer. | Screen `06_performance_review.png`, camera on (700, 180, 1760, 700), spotlight on [(802, 430, 1643, 668)], label "Honest about gaps" | L14 |
-| 1:37.9 | The evaluation coordinator runs each review and owns the final wording. | Screen `06_performance_review.png`, camera on (0, 520, 1000, 915), spotlight on [(140, 862, 425, 888)], label "You own the final wording" | L15 |
+| 0:45.8 | That is why we built CraftArc, to help funds build their next set of leaders. | Logo reveal: CRAFT ARC, agentic leadership development | N03 |
+| 0:50.4 | It tracks how each leader is progressing, on investment judgement and on fit with your people and culture. | Big type on navy: "It tracks each leader's progress" / "Investment judgement. Fit with your people and culture." | L05 |
 
-## 9. Questions partners ask (1:42.8 to 1:57.3)
-
-| Time | Voiceover | On screen | Claims |
-|---|---|---|---|
-| 1:43.0 | The AI does not decide where someone stands. Your evaluation coordinator forms the view with the agent, from graded facts. | Big type on navy: "What partners ask us" / "The AI does not decide where someone stands." / "Your evaluation coordinator forms the view with the agent, from graded facts." | L23 |
-| 1:51.1 | The coach never nags. If someone does not want to answer, it asks once or twice and then lets them go. | Big type on navy: "What partners ask us" / "The coach never nags." / "If someone does not want to answer, it asks once or twice and then lets them go." | L18 |
-
-## 10. Proof (1:57.3 to 2:17.5)
+## 5. Your whole senior team (0:56.8 to 1:01.3)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 1:57.6 | The firm that gave up on its AI assistant then signed a 24-month licence, and now runs its senior deal team on CraftArc. | Proof card 1: "Tried it themselves first", "One firm signed a 24-month licence.", "It first spent 60 to 100 hours on a do-it-yourself AI attempt. Its principals, MDs and partners now take part." | L01, P01, P02 |
-| 2:05.8 | We built it with that firm's COO, who designed the framework. | Proof card 2: "Built with practitioners", "We designed it with the firm's COO.", "Eight to ten client interviews shaped how each competency is weighted and probed." | P03 |
-| 2:09.8 | Our founder, Dash, worked at McKinsey, Microsoft and Siemens, and builds AI agents for private equity deal teams. | Proof card 3: "Who built it", "Bibhudatta "Dash", founder", "Dash worked at McKinsey, Microsoft and Siemens, and founded AgenticPM." | P04 |
+| 0:57.0 | And it gives you one view of your whole senior team, person by person. | Screen `02_my_people.png`, camera on (20, 100, 1900, 460), spotlight on [(36, 225, 1885, 436)], label "Your senior team, in one view" | L07 |
 
-## 11. How firms start (2:17.5 to 2:40.7)
+## 6. Why it works (1:01.3 to 1:27.2)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 2:17.8 | You start with your senior deal team only, which keeps the disruption low. | Offer row 1: "Start with your senior deal team", "Begin with the principals, MDs and partners only. The disruption stays low." | O01 |
-| 2:21.9 | Participants and evaluators are unlimited, and contributors are never charged. | Offer row 2: "Unlimited users", "Participants and evaluators are unlimited. Contributors are never charged." | O03 |
-| 2:26.8 | If we miss a stage we agreed to deliver and do not fix it, you can leave, and we refund your prepaid fees pro rata. | Offer row 3: "Exit right", "If we miss a stage we agreed to deliver and do not fix it, you can leave with a pro rata refund." | O04 |
-| 2:34.0 | It works best when leadership commits to running the cycle. If that commitment is not there yet, we will say so. | Offer row 4: "Who it is for", "It works best when leadership commits to running the cycle." | O06 |
+| 1:01.5 | Here is why it works. First, we bring the expertise to frame your competency model with you, so your craft is finally written down. | Row 1: "Your craft, framed with experts", "We frame your competency model with you, so what great looks like is written down." | P07 |
+| 1:09.4 | Second, it removes the administrative burden. An AI agent holds the conversations, gathers the feedback in one place and drafts the write-ups. | Row 2: "No administrative burden", "The agent holds the conversations, gathers feedback in one place and drafts the write-ups." | L08, L10, L13 |
+| 1:18.9 | Third, each person owns their development plan and tracks it. | Row 3: "Plans people own", "Each person owns their development plan and tracks it through the year." | L21 |
+| 1:22.6 | So your partners spend their time grooming leaders instead of chasing feedback. | Row 4: "Partners' time back", "Your partners spend their time grooming leaders instead of chasing feedback." | N03 |
 
-## 12. Next step (2:40.7 to 2:52.3)
+## 7. Five conversations (1:27.2 to 2:03.3)
 
 | Time | Voiceover | On screen | Claims |
 |---|---|---|---|
-| 2:40.9 | If your next review cycle starts in the new year, plan it now. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data and a sample conversation. Voiceover is AI generated." | U01 |
-| 2:44.5 | Book a demo, bring your competency framework, and we will talk through how it would run on CraftArc. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data and a sample conversation. Voiceover is AI generated." | C01 |
-| 2:50.1 | This voice is AI generated. | End card: "Book a demo", "Bring your competency framework. We will talk through how it would run on CraftArc.", fine print "Product screens use sample data and a sample conversation. Voiceover is AI generated." | D01 |
+| 1:27.4 | The agent is an expert in conversation. Here is how a cycle unfolds. | Five step icons appear along an arc: self-evaluation, design the feedback, contributor interviews, the memo, development plan | L08 |
+| 1:32.1 | It talks with each person for their self-evaluation, by voice or text, in about 25 minutes. | Step 1 icon lights up. Agent says (sample dialogue): "To get started, what have you worked on over the period?" | L08, L24 |
+| 1:38.3 | It helps the evaluator design the feedback interviews, so the right people speak to each competency. | Step 2 icon lights up. Agent says (sample dialogue): "Nobody who saw the banker meetings is on the list yet. Shall we add someone who did?" | L17, L12 |
+| 1:44.1 | It speaks with each contributor, and gathers what they saw first-hand in one place. | Step 3 icon lights up. Agent says (sample dialogue): "Tell me about a call you saw Arjun make on Atlas. What did you see first-hand?" | L10, L11 |
+| 1:48.7 | It drafts the memo for your Executive Committee, and the evaluator owns the final wording. | Step 4 icon lights up. Agent says (sample dialogue): "I'm drafting the review documents now. I'll let you know as each one is ready." | L13, L15 |
+| 1:54.1 | And it helps each person build their own development plan, then track it through the year. | Step 5 icon lights up. Agent says (sample dialogue): "Which of these goals would you like to start with?" | L21 |
+| 1:58.9 | Five conversations make one arc, and every leader knows where they stand. | All five icons light up and the arc fills orange: "Every leader knows where they stand." | N03 |
+
+## 8. Next step (2:03.3 to 2:13.6)
+
+| Time | Voiceover | On screen | Claims |
+|---|---|---|---|
+| 2:03.6 | If your next review cycle starts in the new year, now is the time to set it up. | End card: "Book a demo", "Write to dash@craftarc.ai, and bring your competency framework.", fine print "Product screens and agent dialogue use sample data. Voiceover is AI generated." | U01 |
+| 2:08.0 | To book a demo, write to dash@craftarc.ai. | End card: "Book a demo", "Write to dash@craftarc.ai, and bring your competency framework.", fine print "Product screens and agent dialogue use sample data. Voiceover is AI generated." | C01 |
+| 2:11.4 | This voice is AI generated. | End card: "Book a demo", "Write to dash@craftarc.ai, and bring your competency framework.", fine print "Product screens and agent dialogue use sample data. Voiceover is AI generated." | D01 |

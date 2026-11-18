@@ -37,7 +37,8 @@ US_SPELLINGS = {
 ALLOWED_NUMBERS = {
     "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band",
     "1": "step 1 / $1B band", "3": "step 3", "4": "step 4", "5": "step 5 / $5B band", "10": "$10B band / team size",
-    "25": "L24 (about 25 minutes per conversation) / team size band", "26": "team size band", "50": "team size band", "2027": "form timing options",
+    "25": "L24 (about 25 minutes per conversation) / team size band",
+    "4,000": "R1", "800": "R1", "1970": "R1", "2017": "R1", "2019": "R2", "26": "team size band", "50": "team size band", "2027": "form timing options",
 }
 
 
@@ -104,7 +105,7 @@ def vsl_text():
     for sc in vsl.SCENES:
         for s in sc["sentences"]:
             out.append(("caption", s["cap"]))
-            for k in ("big", "small", "kicker", "chip"):
+            for k in ("big", "small", "kicker", "chip", "source", "bubble"):
                 if s.get(k):
                     out.append((k, s[k]))
         out.append(("scene label", sc["label"]))
