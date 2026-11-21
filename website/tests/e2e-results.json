@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-21T22:14:32.110Z",
+ "run_at": "2026-11-21T22:45:20.042Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -51,6 +51,34 @@
   },
   {
    "name": "optional questions start folded so the form shows five fields",
+   "ok": true
+  },
+  {
+   "name": "every page loads cleanly: one h1, no console errors, images load, no sideways scroll on a phone",
+   "ok": true
+  },
+  {
+   "name": "homepage: no video, a badged placeholder that points to the private equity video",
+   "ok": true
+  },
+  {
+   "name": "homepage copy is industry-neutral outside the industries and proof sections",
+   "ok": true
+  },
+  {
+   "name": "industries menu: six industries, fifteen sub-sectors, opens and closes, every link lands",
+   "ok": true
+  },
+  {
+   "name": "mobile: the industries menu is reachable from the header",
+   "ok": true
+  },
+  {
+   "name": "homepage lead form sends the chosen industry",
+   "ok": true
+  },
+  {
+   "name": "private equity page tags its leads as private equity",
    "ok": true
   },
   {

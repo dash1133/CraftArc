@@ -115,16 +115,19 @@
 
   function collect() {
     var f = form.elements;
+    // Optional fields differ by page (the private equity page asks for AUM, the homepage for industry).
+    function val(name) { return f[name] ? String(f[name].value).trim() : ""; }
     var data = {
-      name: f.name.value.trim(),
-      email: f.email.value.trim(),
-      firm: f.firm.value.trim(),
-      role: f.role.value,
-      aum: f.aum.value,
-      team: f.team.value,
-      timing: f.timing.value,
-      framework: f.framework.value,
-      message: f.message.value.trim(),
+      name: val("name"),
+      email: val("email"),
+      firm: val("firm"),
+      role: val("role"),
+      industry: val("industry"),
+      aum: val("aum"),
+      team: val("team"),
+      timing: val("timing"),
+      framework: val("framework"),
+      message: val("message"),
       consent: f.consent.checked
     };
     data.email_type = emailType(data.email);
@@ -148,7 +151,8 @@
 
   function mailtoHref(data) {
     var lines = [
-      "Name: " + data.name, "Email: " + data.email, "Firm: " + data.firm, "Role: " + data.role,
+      "Name: " + data.name, "Email: " + data.email, "Organisation: " + data.firm, "Role: " + data.role,
+      "Industry: " + (data.industry || "not given"),
       "AUM: " + (data.aum || "not given"), "Senior deal team: " + (data.team || "not given"),
       "Next cycle: " + (data.timing || "not given"), "Framework: " + (data.framework || "not given"),
       "", data.message
@@ -261,5 +265,29 @@
   });
   dlg.addEventListener("click", function (e) {
     if (e.target === dlg || e.target.hasAttribute("data-close")) dlg.close();
+  });
+})();
+
+
+/* ---------- industries menu ---------- */
+(function () {
+  "use strict";
+  var btn = document.querySelector(".nav-menu");
+  var panel = document.getElementById("industries-menu");
+  if (!btn || !panel) return;
+  function setOpen(open) {
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    panel.hidden = !open;
+  }
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    setOpen(panel.hidden);
+    if (!panel.hidden) { var first = panel.querySelector("a"); if (first) first.focus(); }
+  });
+  document.addEventListener("click", function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== btn) setOpen(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !panel.hidden) { setOpen(false); btn.focus(); }
   });
 })();

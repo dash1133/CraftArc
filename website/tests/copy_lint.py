@@ -38,7 +38,7 @@ ALLOWED_NUMBERS = {
     "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band",
     "1": "step 1 / $1B band", "3": "step 3", "4": "step 4", "5": "step 5 / $5B band", "10": "$10B band / team size",
     "25": "L24 (about 25 minutes per conversation) / team size band",
-    "4,000": "R1", "800": "R1", "1970": "R1", "2017": "R1", "2019": "R2", "2026": "copyright year", "26": "team size band", "50": "team size band", "2027": "form timing options",
+    "4,000": "R1", "800": "R1", "1970": "R1", "2017": "R1", "2019": "R2", "2026": "copyright year", "70": "G1", "82": "G2", "2015": "G1, G2", "26": "team size band", "50": "team size band", "2027": "form timing options",
 }
 
 
@@ -94,8 +94,9 @@ class TextGrab(HTMLParser):
 
 def site_text():
     g = TextGrab()
-    g.feed((ROOT / "website" / "index.html").read_text())
-    g.flush()
+    for page in sorted((ROOT / "website").glob("*.html")):  # every page of the site
+        g.feed(page.read_text())
+        g.flush()
     return ([html.unescape(b) for b in g.blocks], [html.unescape(a) for a in g.attrs_text],
             [html.unescape(p) for p in g.pending])
 

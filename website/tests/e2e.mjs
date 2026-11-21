@@ -62,7 +62,10 @@ const browser = await chromium.launch();
 const TEST_CONFIG = (extra = {}) => `window.CRAFTARC_CONFIG = ${JSON.stringify({
   leadEndpoint: `${BASE}/api/lead`, leadEmail: "", personalEmailDomains: ["gmail.com", "outlook.com"], ...extra })};`;
 
-async function openPage({ viewport = { width: 1366, height: 900 }, config = TEST_CONFIG(), query = "", device } = {}) {
+const PE = "private-equity.html";
+const PAGES = ["", PE, "financial-services.html", "healthcare-life-sciences.html", "technology.html", "manufacturing-industrial.html", "professional-services.html"];
+
+async function openPage({ viewport = { width: 1366, height: 900 }, config = TEST_CONFIG(), query = "", device, path = "" } = {}) {
   const ctx = await browser.newContext(device || { viewport });
   const page = await ctx.newPage();
   const errors = [];
@@ -71,7 +74,7 @@ async function openPage({ viewport = { width: 1366, height: 900 }, config = TEST
   // Fonts come from Google in production; block them so tests run offline.
   await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: "text/css", body: "" }));
   await page.route("**/config.js", (r) => r.fulfill({ contentType: "text/javascript", body: config }));
-  await page.goto(`${BASE}/${query}`, { waitUntil: "load" });
+  await page.goto(`${BASE}/${path}${query}`, { waitUntil: "load" });
   return { ctx, page, errors };
 }
 
@@ -124,7 +127,7 @@ await test("every image has alt text and loads", async () => {
 });
 
 await test("video has a source, poster and captions, and its metadata loads", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   const info = await page.evaluate(async () => {
     const v = document.querySelector("video");
     if (v.readyState < 1) await new Promise((r) => { v.addEventListener("loadedmetadata", r, { once: true }); setTimeout(r, 8000); });
@@ -185,7 +188,7 @@ await test("header 'Book a demo' scrolls to the form", async () => {
 
 
 await test("stated video length matches the real video", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   const r = await page.evaluate(async () => {
     const v = document.querySelector("video");
     if (v.readyState < 1) await new Promise((res) => { v.addEventListener("loadedmetadata", res, { once: true }); setTimeout(res, 8000); });
@@ -212,7 +215,7 @@ await test("unapproved offer terms are not in the page, and approved lines can b
 });
 
 await test("placeholder proof is visibly labelled so it cannot pass as a real result", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   const blocks = await page.evaluate(() => [...document.querySelectorAll(".proof-card.placeholder")].map((el) => ({
     badge: el.querySelector(".ph-badge") && el.querySelector(".ph-badge").offsetParent !== null ? el.querySelector(".ph-badge").textContent : "",
   })));
@@ -244,8 +247,11 @@ await test("footer matches the AgenticPM family layout, and every footer link re
     } else if (l.href.startsWith("http")) {
       assert(/^https:\/\//.test(l.href), `external link uses https: ${l.href}`);
       assert(l.target === "_blank" && l.rel.includes("noopener"), `external link opens safely: ${l.href}`);
-    } else {
+    } else if (l.href.startsWith("mailto:")) {
       eq(l.href, "mailto:dash@craftarc.ai", "contact link");
+    } else {
+      const res = await fetch(`${BASE}/${l.href.split("#")[0]}`);
+      eq(res.status, 200, `internal footer link ${l.href} loads`);
     }
   }
   assert(f.links.some((l) => l.href.includes("legal/privacy-policy")) && f.links.some((l) => l.href.includes("trust.agenticprivatemarkets.ai")), "legal links present");
@@ -253,7 +259,7 @@ await test("footer matches the AgenticPM family layout, and every footer link re
 });
 
 await test("product screens enlarge in a viewer and close with Escape", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   const btn = page.locator("#how .zoom").nth(2);
   await btn.scrollIntoViewIfNeeded();
   await btn.click();
@@ -271,7 +277,7 @@ await test("product screens enlarge in a viewer and close with Escape", async ()
 });
 
 await test("optional questions start folded so the form shows five fields", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   eq(await page.evaluate(() => document.getElementById("more").open), false, "optional section closed");
   const visible = await page.evaluate(() => [...document.querySelectorAll("#lead-form input, #lead-form select, #lead-form textarea")]
     .filter((el) => !el.closest(".hp") && el.type !== "checkbox" && el.checkVisibility({ contentVisibilityAuto: true, visibilityProperty: true }))
@@ -280,10 +286,115 @@ await test("optional questions start folded so the form shows five fields", asyn
   await ctx.close();
 });
 
+
+await test("every page loads cleanly: one h1, no console errors, images load, no sideways scroll on a phone", async () => {
+  for (const path of PAGES) {
+    const { ctx, page, errors } = await openPage({ path, viewport: { width: 390, height: 844 } });
+    eq(await page.locator("h1").count(), 1, `h1 count on /${path}`);
+    await page.evaluate(async () => { for (const i of document.images) { i.loading = "eager"; } await new Promise((r) => setTimeout(r, 500)); });
+    const bad = await page.evaluate(() => [...document.images].filter((i) => !i.closest("dialog")).filter((i) => !i.complete || i.naturalWidth === 0).map((i) => i.src));
+    eq(bad.length, 0, `broken images on /${path}: ${bad.join(", ")}`);
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth);
+    assert(sw <= 390, `/${path} is ${sw}px wide at 390px`);
+    const missing = await page.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute("href")).filter((h) => h.length > 1 && !document.querySelector(h)));
+    eq(missing.length, 0, `missing anchors on /${path}: ${missing.join(", ")}`);
+    eq(errors.length, 0, `console errors on /${path}: ${errors.join(" | ")}`);
+    await ctx.close();
+  }
+});
+
+await test("homepage: no video, a badged placeholder that points to the private equity video", async () => {
+  const { ctx, page } = await openPage();
+  eq(await page.locator("video").count(), 0, "no video on the homepage");
+  const ph = page.locator(".video-placeholder");
+  assert(await ph.isVisible(), "placeholder visible");
+  assert((await ph.innerText()).match(/placeholder/i), "placeholder badge shown");
+  eq(await ph.locator("a").getAttribute("href"), "private-equity.html#video", "links to the PE video");
+  const pe = await openPage({ path: PE });
+  eq(await pe.page.locator("video source").getAttribute("src"), "assets/video/craftarc-vsl-720p.mp4", "PE page plays the existing video");
+  await pe.ctx.close();
+  await ctx.close();
+});
+
+await test("homepage copy is industry-neutral outside the industries and proof sections", async () => {
+  const { ctx, page } = await openPage();
+  const text = await page.evaluate(() => {
+    const main = document.querySelector("main").cloneNode(true);
+    main.querySelectorAll("#industries, #proof, .proof-strip, .how-more, .video-placeholder, .mega").forEach((el) => el.remove());
+    return main.innerText;
+  });
+  const hits = text.match(/\b(funds?|deal team|buyout|investment judgement|assets under management|partners ask)\b/gi) || [];
+  eq(hits.length, 0, `PE-specific words on the homepage: ${hits.join(", ")}`);
+  await ctx.close();
+});
+
+await test("industries menu: six industries, fifteen sub-sectors, opens and closes, every link lands", async () => {
+  const { ctx, page } = await openPage();
+  assert(await page.locator("#industries-menu").isHidden(), "menu starts closed");
+  await page.click(".nav-menu");
+  assert(await page.locator("#industries-menu").isVisible(), "menu opens");
+  eq(await page.getAttribute(".nav-menu", "aria-expanded"), "true", "aria-expanded");
+  const names = await page.$$eval(".mega-ind strong", (els) => els.map((e) => e.textContent.trim()));
+  eq(names.join(" | "), "Private Equity and VC Firms | Financial Services | Healthcare & Life Sciences | Technology | Manufacturing & Industrial | Professional Services", "industries in Dash's order");
+  const subs = await page.$$eval(".mega-col ul a", (els) => els.map((e) => e.getAttribute("href")));
+  eq(subs.length, 15, "sub-sector links");
+  await page.keyboard.press("Escape");
+  assert(await page.locator("#industries-menu").isHidden(), "Escape closes the menu");
+  for (const href of [...new Set([...(await page.$$eval(".mega-ind", (els) => els.map((e) => e.getAttribute("href")))), ...subs])]) {
+    const [file, hash] = href.split("#");
+    const p2 = await ctx.newPage();
+    await p2.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: "text/css", body: "" }));
+    const res = await p2.goto(`${BASE}/${file}`);
+    eq(res.status(), 200, `${file} loads`);
+    if (hash) assert(await p2.evaluate((h) => !!document.getElementById(h), hash), `${href} has a target`);
+    await p2.close();
+  }
+  await ctx.close();
+});
+
+await test("mobile: the industries menu is reachable from the header", async () => {
+  const { ctx, page } = await openPage({ viewport: { width: 390, height: 844 } });
+  assert(await page.locator(".nav-menu").isVisible(), "Industries button visible on a phone");
+  await page.click(".nav-menu");
+  assert(await page.locator(".mega-ind").first().isVisible(), "menu items visible");
+  await ctx.close();
+});
+
+await test("homepage lead form sends the chosen industry", async () => {
+  const before = leads.length;
+  const { ctx, page } = await openPage();
+  await page.fill("#name", "Riya Shah");
+  await page.fill("#email", "riya@exampletech.com");
+  await page.fill("#firm", "Example Tech");
+  await page.selectOption("#role", "talent_hr");
+  await page.selectOption("#timing", "q1_2027");
+  await page.evaluate(() => { document.getElementById("more").open = true; });
+  await page.selectOption("#industry", "technology");
+  await page.check("#consent");
+  await page.click("#submit");
+  await page.waitForSelector("#thanks:not([hidden])");
+  eq(leads.length, before + 1, "lead stored");
+  const b = leads[leads.length - 1].body;
+  eq(b.industry, "technology", "industry");
+  eq(b.aum, "", "no AUM on the homepage");
+  await ctx.close();
+});
+
+await test("private equity page tags its leads as private equity", async () => {
+  const before = leads.length;
+  const { ctx, page } = await openPage({ path: PE });
+  await fillValid(page);
+  await page.click("#submit");
+  await page.waitForSelector("#thanks:not([hidden])");
+  eq(leads[leads.length - 1].body.industry, "private_equity", "industry from the hidden field");
+  eq(leads.length, before + 1, "one lead");
+  await ctx.close();
+});
+
 // ---------------------------------------------------------------- leads
 await test("lead form: empty submit shows every required error, focuses the first, sends nothing", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await page.click("#submit");
   for (const id of ["name", "email", "firm", "role", "consent"]) {
     assert(await page.locator(`#${id}-err`).isVisible(), `${id} error visible`);
@@ -298,7 +409,7 @@ await test("lead form: empty submit shows every required error, focuses the firs
 
 await test("lead form: bad email is rejected, and fixing it clears the error", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await fillValid(page, { email: "alex@nodomain" });
   await page.click("#submit");
   assert(await page.locator("#email-err").isVisible(), "email error visible");
@@ -311,7 +422,7 @@ await test("lead form: bad email is rejected, and fixing it clears the error", a
 
 await test("lead form: valid submission posts the full lead, scores it hot and thanks the visitor", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage({ query: "?utm_source=linkedin&utm_medium=paid&utm_campaign=coo-q1&li_fat_id=abc123" });
+  const { ctx, page } = await openPage({ path: PE, query: "?utm_source=linkedin&utm_medium=paid&utm_campaign=coo-q1&li_fat_id=abc123" });
   await page.evaluate(() => { window.dataLayer = []; });
   const v = await fillValid(page);
   await page.click("#submit");
@@ -341,8 +452,8 @@ await test("lead form: valid submission posts the full lead, scores it hot and t
 
 await test("lead form: attribution survives moving between pages in the session", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage({ query: "?utm_source=newsletter&utm_campaign=nov" });
-  await page.goto(`${BASE}/#book`);
+  const { ctx, page } = await openPage({ path: PE, query: "?utm_source=newsletter&utm_campaign=nov" });
+  await page.goto(`${BASE}/${PE}#book`);
   await fillValid(page);
   await page.click("#submit");
   await page.waitForSelector("#thanks:not([hidden])");
@@ -353,7 +464,7 @@ await test("lead form: attribution survives moving between pages in the session"
 
 await test("lead form: double click sends one lead only", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await fillValid(page);
   await page.locator("#submit").dblclick();
   await page.waitForSelector("#thanks:not([hidden])");
@@ -364,7 +475,7 @@ await test("lead form: double click sends one lead only", async () => {
 
 await test("lead form: personal email is accepted but tagged and scored lower", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await fillValid(page, { email: "alex.morgan@gmail.com" });
   await page.click("#submit");
   await page.waitForSelector("#thanks:not([hidden])");
@@ -376,7 +487,7 @@ await test("lead form: personal email is accepted but tagged and scored lower", 
 });
 
 await test("lead form: scoring separates warm and nurture leads", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   const warm = await page.evaluate(() => window.__craftarc.scoreLead({ role: "partner_md", aum: "1to2b", timing: "q2_2027", framework: "draft", team: "10to25", email_type: "work" }));
   eq(warm.priority, "warm", "partner, $1B to $2B, Q2");
   const nurture = await page.evaluate(() => window.__craftarc.scoreLead({ role: "other", aum: "lt1b", timing: "unsure", framework: "no", team: "lt10", email_type: "personal" }));
@@ -387,7 +498,7 @@ await test("lead form: scoring separates warm and nurture leads", async () => {
 
 await test("lead form: only the required fields are needed", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await page.fill("#name", "Sam Lee");
   await page.fill("#email", "sam@firm.com");
   await page.fill("#firm", "Firm Partners");
@@ -404,7 +515,7 @@ await test("lead form: only the required fields are needed", async () => {
 
 await test("lead form: honeypot filled by a bot sends nothing but looks successful", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await fillValid(page);
   await page.evaluate(() => { document.getElementById("company_website").value = "http://spam.example"; });
   await page.click("#submit");
@@ -416,7 +527,7 @@ await test("lead form: honeypot filled by a bot sends nothing but looks successf
 
 await test("lead form: server error keeps the visitor's input, explains, and a retry succeeds", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await fillValid(page);
   failNext = 1;
   await page.click("#submit");
@@ -432,7 +543,7 @@ await test("lead form: server error keeps the visitor's input, explains, and a r
 });
 
 await test("lead form: network failure is handled the same way", async () => {
-  const { ctx, page } = await openPage({ config: TEST_CONFIG({ leadEndpoint: "http://127.0.0.1:9/api/lead", leadEmail: "demo@example.com" }) });
+  const { ctx, page } = await openPage({ path: PE, config: TEST_CONFIG({ leadEndpoint: "http://127.0.0.1:9/api/lead", leadEmail: "demo@example.com" }) });
   await fillValid(page);
   await page.click("#submit");
   await page.waitForFunction(() => document.getElementById("form-status").classList.contains("is-error"));
@@ -443,7 +554,7 @@ await test("lead form: network failure is handled the same way", async () => {
 
 await test("lead form: keyboard only, Enter submits", async () => {
   const before = leads.length;
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   await fillValid(page);
   await page.focus("#firm");
   await page.keyboard.press("Enter");
@@ -454,7 +565,7 @@ await test("lead form: keyboard only, Enter submits", async () => {
 
 await test("lead form: with no endpoint and no email it fails loudly, never silently", async () => {
   const before = leads.length;
-  const { ctx, page, errors } = await openPage({ config: TEST_CONFIG({ leadEndpoint: "", leadEmail: "" }) });
+  const { ctx, page, errors } = await openPage({ path: PE, config: TEST_CONFIG({ leadEndpoint: "", leadEmail: "" }) });
   await fillValid(page);
   await page.click("#submit");
   assert((await page.textContent("#form-status")).includes("not connected"), "visitor told");
@@ -464,7 +575,7 @@ await test("lead form: with no endpoint and no email it fails loudly, never sile
 });
 
 await test("lead form: with only an email configured it opens a filled-in email", async () => {
-  const { ctx, page } = await openPage({ config: TEST_CONFIG({ leadEndpoint: "", leadEmail: "demo@example.com" }) });
+  const { ctx, page } = await openPage({ path: PE, config: TEST_CONFIG({ leadEndpoint: "", leadEmail: "demo@example.com" }) });
   await page.evaluate(() => { window.__craftarcNavigate = (h) => { window.__lastMailto = h; }; });
   await fillValid(page);
   await page.click("#submit");
@@ -479,7 +590,7 @@ await test("lead form: with only an email configured it opens a filled-in email"
 });
 
 await test("lead form: labels are tied to inputs and the status is announced", async () => {
-  const { ctx, page } = await openPage();
+  const { ctx, page } = await openPage({ path: PE, path: PE });
   const unlabeled = await page.evaluate(() => [...document.querySelectorAll("#lead-form input, #lead-form select, #lead-form textarea")]
     .filter((el) => el.type !== "hidden" && !document.querySelector(`label[for="${el.id}"]`)).map((el) => el.id));
   eq(unlabeled.length, 0, `unlabelled fields ${unlabeled.join(", ")}`);

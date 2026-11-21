@@ -4,7 +4,11 @@ One static page: no build step, no framework. Open `index.html` through any web 
 
 ```
 website/
-├── index.html          the page
+├── index.html          the homepage (industry-neutral, video placeholder)
+├── private-equity.html the private equity page (PE story, evidence, product screens, video)
+├── financial-services.html, healthcare-life-sciences.html, technology.html,
+│   manufacturing-industrial.html, professional-services.html
+│                       sector placeholder pages, one per industry in the menu
 ├── styles.css          all styling
 ├── app.js              lead form, attribution and lead scoring
 ├── config.js           where leads go (edit before launch)

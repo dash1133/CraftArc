@@ -8,6 +8,16 @@ Revised on 18 Nov 2026 after the claims review: offer terms withdrawn to approve
 
 Status key: **OK** = sourced and safe to publish. **FLAG** = sourced, but Dash must confirm before launch (see the end of this file).
 
+## Industry-neutral homepage (21 Nov 2026)
+
+The homepage now speaks to every industry. The private equity story, evidence (R1, R2), product screens, proof slots and video moved to `website/private-equity.html` unchanged. The industries menu follows Dash's launch list: Private Equity and VC Firms (live), Financial Services, Healthcare & Life Sciences, Technology, Manufacturing & Industrial and Professional Services, each with three sub-sectors. The five non-PE pages are placeholders, marked as such, until the sector template is built.
+
+| ID | Claim as used | Where | Source | Status |
+|---|---|---|---|---|
+| G1 | Gallup estimates that managers account for at least 70% of the variance in employee engagement across business units. | Homepage evidence | Gallup, State of the American Manager (2015); gallup.com/workplace/236570 ("at least 70%"; some Gallup summaries say "up to 70%", so the copy quotes the report body) | OK |
+| G2 | Gallup finds that companies fail to choose the candidate with the right talent for a manager role 82% of the time. | Homepage evidence | Gallup, State of the American Manager (2015); gallup.com/workplace/231593. Gallup's own analytics estimate | OK |
+| N06 | Homepage thesis: what separates great organisations is how they grow their next set of leaders. | Homepage hero | Dash's thesis, generalised from N04 | OK, Dash's view |
+
 ## Research and narrative (rewrite of 18 Nov 2026, Dash's structure)
 
 | ID | Claim as used | Where | Source | Status |

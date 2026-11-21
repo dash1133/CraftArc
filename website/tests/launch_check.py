@@ -9,12 +9,15 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-html = (ROOT / "index.html").read_text()
+PAGES = sorted(ROOT.glob("*.html"))
+html = "\n".join(p.read_text() for p in PAGES)  # every page of the site
 config = (ROOT / "config.js").read_text()
 
 checks = []
 ph = re.findall(r'data-placeholder|class="[^"]*\bplaceholder\b', html)
-checks.append(("No placeholder proof on the page", not ph, f"{len(ph)} placeholder block(s) still in index.html"))
+by_page = {p.name: len(re.findall(r'data-placeholder', p.read_text())) for p in PAGES}
+left = ", ".join(f"{k} ({v})" for k, v in by_page.items() if v)
+checks.append(("No placeholders left (proof slots, homepage video, sector pages)", not ph, f"still in: {left}"))
 endpoint = re.search(r'leadEndpoint:\s*"([^"]*)"', config).group(1)
 email = re.search(r'leadEmail:\s*"([^"]*)"', config).group(1)
 checks.append(("Lead form is connected", bool(endpoint or email), "set leadEndpoint or leadEmail in config.js"))
@@ -23,7 +26,7 @@ checks.append(("Leads arrive without the visitor's email app", bool(endpoint),
 for term in ("fixed for four years", "build-out", "three to four meetings", "small number of firms"):
     checks.append((f'Unapproved term absent: "{term}"', term not in html.lower(), "remove it from index.html"))
 checks.append(("Search indexing allowed (noindex removed)", 'name="robots" content="noindex"' not in html,
-               "remove the robots noindex meta tag from index.html"))
+               "remove the robots noindex meta tag from every page"))
 video = ROOT / "assets" / "video" / "craftarc-vsl-720p.mp4"
 checks.append(("Video file present", video.exists() and video.stat().st_size > 1_000_000, "copy the 720p render"))
 
