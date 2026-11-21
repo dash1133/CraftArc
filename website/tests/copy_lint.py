@@ -38,7 +38,7 @@ ALLOWED_NUMBERS = {
     "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band",
     "1": "step 1 / $1B band", "3": "step 3", "4": "step 4", "5": "step 5 / $5B band", "10": "$10B band / team size",
     "25": "L24 (about 25 minutes per conversation) / team size band",
-    "4,000": "R1", "800": "R1", "1970": "R1", "2017": "R1", "2019": "R2", "26": "team size band", "50": "team size band", "2027": "form timing options",
+    "4,000": "R1", "800": "R1", "1970": "R1", "2017": "R1", "2019": "R2", "2026": "copyright year", "26": "team size band", "50": "team size band", "2027": "form timing options",
 }
 
 
@@ -149,7 +149,8 @@ def main():
             if re.search(r"(?<![a-z0-9])" + re.escape(w) + r"(?![a-z0-9])", low):
                 errors.append(f"[forbidden claim '{w}'] {where}: {t[:90]}")
         for us, gb in US_SPELLINGS.items():
-            if re.search(r"\b" + us + r"(s|d|ing)?\b", low):
+            # proper names keep their own spelling (the AgenticPM "Trust Center" page)
+            if re.search(r"\b" + us + r"(s|d|ing)?\b", low.replace("trust center", "")):
                 errors.append(f"[US spelling '{us}', use '{gb}'] {where}: {t[:90]}")
         for n in re.findall(r"(?<![\w.])\d+(?:,\d{3})*", t):
             if n not in ALLOWED_NUMBERS and where != "site pending":

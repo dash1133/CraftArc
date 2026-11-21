@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-18T14:55:38.640Z",
+ "run_at": "2026-11-21T22:14:32.110Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -39,6 +39,10 @@
   },
   {
    "name": "placeholder proof is visibly labelled so it cannot pass as a real result",
+   "ok": true
+  },
+  {
+   "name": "footer matches the AgenticPM family layout, and every footer link resolves",
    "ok": true
   },
   {

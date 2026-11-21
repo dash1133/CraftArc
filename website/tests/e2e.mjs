@@ -225,6 +225,33 @@ await test("placeholder proof is visibly labelled so it cannot pass as a real re
   await ctx.close();
 });
 
+await test("footer matches the AgenticPM family layout, and every footer link resolves", async () => {
+  const { ctx, page } = await openPage();
+  const f = await page.evaluate(() => {
+    const footer = document.querySelector(".site-footer");
+    const heads = [...footer.querySelectorAll(".footer-head")].map((h) => h.textContent.trim());
+    const links = [...footer.querySelectorAll("a[href]")].map((a) => ({ href: a.getAttribute("href"), text: a.textContent.trim() || a.getAttribute("aria-label"), target: a.target, rel: a.rel }));
+    return { heads, links, family: footer.querySelector(".footer-family").textContent, privacy: !!footer.querySelector("#privacy"), bg: getComputedStyle(footer).backgroundColor };
+  });
+  eq(f.heads.join(","), "Product,Company,Get Started,Legal", "column headings");
+  assert(/AgenticPM family/.test(f.family), "family line present");
+  assert(f.privacy, "consent checkbox's #privacy target lives in the footer");
+  eq(f.bg, "rgb(241, 245, 249)", "light slate background, as on agenticprivatemarkets.ai");
+  for (const l of f.links) {
+    if (l.href.startsWith("#")) {
+      const ok = await page.evaluate((h) => !!document.querySelector(h), l.href);
+      assert(ok, `in-page footer link ${l.href} has a target`);
+    } else if (l.href.startsWith("http")) {
+      assert(/^https:\/\//.test(l.href), `external link uses https: ${l.href}`);
+      assert(l.target === "_blank" && l.rel.includes("noopener"), `external link opens safely: ${l.href}`);
+    } else {
+      eq(l.href, "mailto:dash@craftarc.ai", "contact link");
+    }
+  }
+  assert(f.links.some((l) => l.href.includes("legal/privacy-policy")) && f.links.some((l) => l.href.includes("trust.agenticprivatemarkets.ai")), "legal links present");
+  await ctx.close();
+});
+
 await test("product screens enlarge in a viewer and close with Escape", async () => {
   const { ctx, page } = await openPage();
   const btn = page.locator("#how .zoom").nth(2);
