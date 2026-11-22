@@ -22,6 +22,20 @@ BANNED_WORDS = [
     "in conclusion", "at the end of the day", "thrilled", "humbled", "guaranteed", "100%", "revolutionary",
     "best-in-class", "world-class", "ai decides", "replace your",
 ]
+# AI-writing fingerprints from Dash's edit-pass checklist (dash-writing, part A). Each is an error.
+FINGERPRINTS = [
+    (r"[\u2014\u2013\u2012\u2015]", "A1 em or en dash"),
+    (r"\s--\s", "A1 double hyphen used as a dash"),
+    (r"\bit'?s not (just )?[^.,]{1,40}, it'?s\b", "A2 'it's not X, it's Y' framing"),
+    (r"\bnot just\b", "A2 'not just' framing"),
+    (r"\b(the result|the kicker|the catch|the twist|the answer|why does this matter|what does this mean)\?", "A5 set-up question answered straight away"),
+    (r"\bhere'?s (the thing|the kicker|the catch|why)\b", "A6 colon teaser"),
+    (r"[\u2192\u2190\u21d2\u27f6\u279c\u2794]", "A7 arrow in prose"),
+    (r"\b(could|might|may) potentially\b|\bmay help to\b|\bcan help to\b", "A9 stacked hedge"),
+    (r"\bin (today's|this) (fast-paced|ever-changing|rapidly evolving)\b", "A4 stock phrase"),
+    (r"!", "exclamation mark (not in Dash's voice)"),
+]
+
 # Must never reach public copy (fact set: [Internal], [To build], unapproved price, confidential client detail).
 FORBIDDEN = [
     "brightstar", "bcp", "candida", "$35", "$50", "35,000", "50,000", "$2k", "163", "stage 2", "trend", "email and chat",
@@ -143,6 +157,9 @@ def main():
             errors.append(f"[spaced hyphen used as a dash] {where}: {t[:90]}")
         if ";" in t:
             errors.append(f"[semicolon] {where}: {t[:90]}")
+        for pat, label in FINGERPRINTS:
+            if re.search(pat, t, flags=re.I):
+                errors.append(f"[{label}] {where}: {t[:90]}")
         for w in BANNED_WORDS:
             if re.search(r"(?<![a-z])" + re.escape(w) + r"(?![a-z])", low):
                 errors.append(f"[banned word '{w}'] {where}: {t[:90]}")
@@ -156,7 +173,7 @@ def main():
         for n in re.findall(r"(?<![\w.])\d+(?:,\d{3})*", t):
             if n not in ALLOWED_NUMBERS and where != "site pending":
                 errors.append(f"[number '{n}' not in the claims ledger] {where}: {t[:90]}")
-        if re.search(r"\bnot just\b", low) or re.search(r"\bnot\b[^.]{0,50}\bbut\b", low):
+        if re.search(r"\bnot\b[^.]{0,50}\bbut\b", low):
             warnings.append(f"[contrast framing, check it is deliberate] {where}: {t[:90]}")
         for s in sentences(t):
             n_words = len(s.split())
@@ -181,5 +198,31 @@ def main():
     sys.exit(1 if errors else 0)
 
 
+FINGERPRINT_SAMPLES = {
+    "A1 em or en dash": "Leaders grow \u2014 and so do firms.",
+    "A1 double hyphen used as a dash": "Leaders grow -- and so do firms.",
+    "A2 'it's not X, it's Y' framing": "It's not a tool, it's a partner.",
+    "A2 'not just' framing": "This is not just software.",
+    "A5 set-up question answered straight away": "The result? Faster reviews.",
+    "A6 colon teaser": "Here's the thing: reviews are slow.",
+    "A7 arrow in prose": "Read more \u2192",
+    "A9 stacked hedge": "It could potentially help.",
+    "A4 stock phrase": "In today's fast-paced world, leaders matter.",
+    "exclamation mark (not in Dash's voice)": "Book now!",
+}
+
+
+def self_test():
+    """Prove every fingerprint check still fires, and a clean sentence passes."""
+    failed = [label for label, text in FINGERPRINT_SAMPLES.items()
+              if label not in [l for p, l in FINGERPRINTS if re.search(p, text, flags=re.I)]]
+    clean = "CraftArc helps every leader trace their arc, competency by competency."
+    if [l for p, l in FINGERPRINTS if re.search(p, clean, flags=re.I)]:
+        failed.append("clean sentence was flagged")
+    print(f"fingerprint self-test: {len(FINGERPRINT_SAMPLES) - len(failed)} of {len(FINGERPRINT_SAMPLES)} checks fire"
+          + ("" if not failed else f", FAILED: {failed}"))
+    sys.exit(1 if failed else 0)
+
+
 if __name__ == "__main__":
-    main()
+    self_test() if "--self-test" in sys.argv else main()

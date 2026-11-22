@@ -335,7 +335,7 @@ await test("industries menu: six industries, eighteen sub-sectors, no status lab
   assert(await page.locator("#industries-menu").isVisible(), "menu opens");
   eq(await page.getAttribute(".nav-menu", "aria-expanded"), "true", "aria-expanded");
   const names = await page.$$eval(".mega-ind strong", (els) => els.map((e) => e.textContent.trim()));
-  eq(names.join(" | "), "Private Equity, VC & Investment Banks | Financial Services | Healthcare & Life Sciences | Technology | Manufacturing & Industrial | Professional Services", "industries in Dash's order");
+  eq(names.join(" | "), "Private Markets | Financial Services | Healthcare & Life Sciences | Technology | Manufacturing & Industrial | Professional Services", "industries in Dash's order");
   const subs = await page.$$eval(".mega-col ul a", (els) => els.map((e) => e.getAttribute("href")));
   eq(subs.length, 18, "sub-sector links");
   eq(await page.locator("#industries-menu .mega-live").count(), 0, "no 'Live today' label in the menu");

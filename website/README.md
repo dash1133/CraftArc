@@ -51,6 +51,14 @@ python3 website/tests/launch_check.py
 
 ## Tests
 
+Every website change follows the ordered checklist in `CLAUDE.md` at the repository root. Run its automated steps with:
+
+```bash
+bash website/tests/check_all.sh
+```
+
+Or run the pieces one by one:
+
 ```bash
 node website/tests/e2e.mjs
 ```
