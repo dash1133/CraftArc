@@ -42,11 +42,26 @@ FORBIDDEN = [
     "assessment centre", "95%", "succession economy", "seven domains", "32 skills", "two central tests",
     "firm-wide insight", "calibration across", "managing out", "pulse check", "baseline framework", "sandbox",
 ]
-US_SPELLINGS = {
-    "color": "colour", "organization": "organisation", "organize": "organise", "behavior": "behaviour",
-    "analyze": "analyse", "optimize": "optimise", "judgment": "judgement", "center": "centre", "license": "licence",
-    "program": "programme", "favorite": "favourite", "labor": "labour", "modeled": "modelled", "prioritize": "prioritise",
+# American spelling (Dash, 22 Nov 2026). Each British form maps to the American one.
+BRITISH_SPELLINGS = {
+    "organisation": "organization", "organise": "organize", "judgement": "judgment", "licence": "license",
+    "colour": "color", "behaviour": "behavior", "centre": "center", "programme": "program", "favourite": "favorite",
+    "labour": "labor", "modelled": "modeled", "modelling": "modeling", "analyse": "analyze", "optimise": "optimize",
+    "prioritise": "prioritize", "recognise": "recognize", "realise": "realize", "summarise": "summarize",
+    "anonymise": "anonymize", "anonymised": "anonymized", "standardise": "standardize", "customise": "customize",
+    "minimise": "minimize", "maximise": "maximize", "emphasise": "emphasize", "specialise": "specialize",
+    "honour": "honor", "favour": "favor", "neighbour": "neighbor", "endeavour": "endeavor", "catalogue": "catalog",
+    "travelling": "traveling", "cancelled": "canceled", "defence": "defense", "offence": "offense", "ageing": "aging",
+    "whilst": "while", "amongst": "among", "learnt": "learned", "spelt": "spelled", "grey": "gray", "cheque": "check",
+    "enrol": "enroll", "fulfil": "fulfill", "practise": "practice",
 }
+# ASD-STE100 (Simplified Technical English), the measurable parts, adapted for marketing copy.
+STE_MAX_DESCRIPTIVE = 25   # rule 4.x: descriptive sentences, 25 words at most
+STE_MAX_PROCEDURAL = 20    # rule 5.x: procedural (instruction) sentences, 20 words at most
+STE_MAX_PARAGRAPH = 6      # rule 6.x: paragraphs, 6 sentences at most
+IMPERATIVE_STARTS = ("book", "bring", "write", "see", "read", "watch", "choose", "enter", "please", "tell", "ask",
+                     "start", "set", "add", "remove", "run", "check", "confirm", "send", "call", "email", "request")
+PASSIVE = re.compile(r"\b(is|are|was|were|be|been|being)\s+(\w+ed|\w+en)\s+by\b", re.I)
 # Every number in public copy must be one of these, each traced to the claims ledger or the page itself.
 ALLOWED_NUMBERS = {
     "60": "L01", "100": "L01", "350": "L01", "24": "P02", "2": "video length / $2B band",
@@ -71,7 +86,7 @@ class TextGrab(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag in ("script", "style"):
+        if tag in ("script", "style", "svg"):  # svg text is diagram labels, not copy
             self.skip += 1
         for k in ("alt", "aria-label", "content", "title"):
             if a.get(k) and (tag != "meta" or a.get("name") == "description" or a.get("property", "").startswith("og:")):
@@ -88,7 +103,7 @@ class TextGrab(HTMLParser):
             self.pending_tag = tag
 
     def handle_endtag(self, tag):
-        if tag in ("script", "style"):
+        if tag in ("script", "style", "svg"):
             self.skip -= 1
         if tag in self.BLOCK:
             self.flush()
@@ -166,19 +181,30 @@ def main():
         for w in FORBIDDEN:
             if re.search(r"(?<![a-z0-9])" + re.escape(w) + r"(?![a-z0-9])", low):
                 errors.append(f"[forbidden claim '{w}'] {where}: {t[:90]}")
-        for us, gb in US_SPELLINGS.items():
-            # proper names keep their own spelling (the AgenticPM "Trust Center" page)
-            if re.search(r"\b" + us + r"(s|d|ing)?\b", low.replace("trust center", "")):
-                errors.append(f"[US spelling '{us}', use '{gb}'] {where}: {t[:90]}")
+        for gb, us in BRITISH_SPELLINGS.items():
+            if re.search(r"\b" + gb + r"(s|d|ing)?\b", low):
+                msg = f"[British spelling '{gb}', use '{us}'] {where}: {t[:90]}"
+                # The rendered video's burned-in captions cannot change without a re-render (CLAUDE.md item 7).
+                (warnings if where.startswith("vsl") else errors).append(msg + (" (video: needs a re-render)" if where.startswith("vsl") else ""))
+        if where.startswith("site") and PASSIVE.search(t):
+            warnings.append(f"[STE: passive voice, prefer active] {where}: {t[:90]}")
+        sents = sentences(t)
+        if where.startswith("site") and len(sents) > STE_MAX_PARAGRAPH:
+            errors.append(f"[STE: paragraph of {len(sents)} sentences, max {STE_MAX_PARAGRAPH}] {where}: {t[:90]}")
         for n in re.findall(r"(?<![\w.])\d+(?:,\d{3})*", t):
             if n not in ALLOWED_NUMBERS and where != "site pending":
                 errors.append(f"[number '{n}' not in the claims ledger] {where}: {t[:90]}")
         if re.search(r"\bnot\b[^.]{0,50}\bbut\b", low):
             warnings.append(f"[contrast framing, check it is deliberate] {where}: {t[:90]}")
-        for s in sentences(t):
+        for s in sents:
             n_words = len(s.split())
-            if n_words > 25 and where in ("site", "site pending", "vsl caption"):
-                errors.append(f"[sentence of {n_words} words, max 25] {where}: {s[:90]}")
+            if where not in ("site", "site pending", "vsl caption"):
+                continue
+            procedural = s.lower().startswith(IMPERATIVE_STARTS)
+            limit = STE_MAX_PROCEDURAL if procedural else STE_MAX_DESCRIPTIVE
+            if n_words > limit:
+                kind = "procedural" if procedural else "descriptive"
+                errors.append(f"[STE: {kind} sentence of {n_words} words, max {limit}] {where}: {s[:90]}")
 
     # Spoken word count and pace (Dash: 150 to 160 words a minute is his pace).
     spoken = sum(len(vsl.spoken(s).split()) for _, _, _, s in vsl.all_sentences())
@@ -219,7 +245,18 @@ def self_test():
     clean = "CraftArc helps every leader trace their arc, competency by competency."
     if [l for p, l in FINGERPRINTS if re.search(p, clean, flags=re.I)]:
         failed.append("clean sentence was flagged")
-    print(f"fingerprint self-test: {len(FINGERPRINT_SAMPLES) - len(failed)} of {len(FINGERPRINT_SAMPLES)} checks fire"
+    # American spelling and ASD-STE100 checks
+    if not re.search(r"\borganisation(s|d|ing)?\b", "our organisations grow"):
+        failed.append("British spelling check")
+    long_instruction = "Book a demo " + "and bring your framework " * 5
+    if not (long_instruction.lower().startswith(IMPERATIVE_STARTS) and len(long_instruction.split()) > STE_MAX_PROCEDURAL):
+        failed.append("STE procedural sentence limit")
+    if len(sentences("One. Two. Three. Four. Five. Six. Seven.")) <= STE_MAX_PARAGRAPH:
+        failed.append("STE paragraph limit")
+    if not PASSIVE.search("The memo is drafted by the agent."):
+        failed.append("STE passive voice check")
+    total = len(FINGERPRINT_SAMPLES) + 4
+    print(f"self-test: {total - len(failed)} of {total} checks fire (AI fingerprints, American spelling, ASD-STE100)"
           + ("" if not failed else f", FAILED: {failed}"))
     sys.exit(1 if failed else 0)
 

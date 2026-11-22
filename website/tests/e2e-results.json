@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-22T00:50:45.797Z",
+ "run_at": "2026-11-22T01:00:23.556Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -55,6 +55,10 @@
   },
   {
    "name": "every page loads cleanly: one h1, no console errors, images load, no sideways scroll on a phone",
+   "ok": true
+  },
+  {
+   "name": "captions are not shown twice: the caption track is off by default because captions are burned in",
    "ok": true
   },
   {

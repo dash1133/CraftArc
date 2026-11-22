@@ -151,7 +151,7 @@
 
   function mailtoHref(data) {
     var lines = [
-      "Name: " + data.name, "Email: " + data.email, "Organisation: " + data.firm, "Role: " + data.role,
+      "Name: " + data.name, "Email: " + data.email, "Organization: " + data.firm, "Role: " + data.role,
       "Industry: " + (data.industry || "not given"),
       "AUM: " + (data.aum || "not given"), "Senior deal team: " + (data.team || "not given"),
       "Next cycle: " + (data.timing || "not given"), "Framework: " + (data.framework || "not given"),

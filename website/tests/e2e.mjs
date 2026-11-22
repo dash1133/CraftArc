@@ -303,6 +303,14 @@ await test("every page loads cleanly: one h1, no console errors, images load, no
   }
 });
 
+await test("captions are not shown twice: the caption track is off by default because captions are burned in", async () => {
+  const { ctx, page } = await openPage({ path: PE });
+  const t = await page.evaluate(() => { const tr = document.querySelector("video track"); return { def: tr.default, mode: tr.track.mode }; });
+  eq(t.def, false, "track has no default attribute");
+  assert(t.mode !== "showing", "track not showing on load");
+  await ctx.close();
+});
+
 await test("homepage: no video, a badged placeholder that points to the private equity video", async () => {
   const { ctx, page } = await openPage();
   eq(await page.locator("video").count(), 0, "no video on the homepage");

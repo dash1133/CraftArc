@@ -10,7 +10,7 @@ step() { echo; echo "== $1"; }
 step "1. AI-writing fingerprints: the checks themselves still work"
 python3 website/tests/copy_lint.py --self-test || fail=1
 
-step "1-3. Copy lint: fingerprints, banned words, British spelling, sentence length, claims and numbers"
+step "1-3. Copy lint: fingerprints, banned words, American spelling, ASD-STE100 limits, claims and numbers"
 out=$(python3 website/tests/copy_lint.py 2>&1); rc=$?
 echo "$out" | grep -v "  WARN " ; [ "$rc" -eq 0 ] || fail=1
 
