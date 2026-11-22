@@ -63,6 +63,6 @@ python3 website/tests/copy_lint.py
 
 ## Hosting
 
-**Vercel works with no settings to change.** `vercel.json` at the repository root serves `website/` as the site, and `.vercelignore` uploads only `website/` (not `docs/`, `vsl/` or the claims ledger). Push to `main`, and Vercel redeploys. If you prefer, set the project's Root Directory to `website` instead; both work.
+**Vercel works with no settings to change.** `vercel.json` at the repository root sets `outputDirectory` to `website`, so every page is served at its own address (for example `/private-equity.html`) with no rewrites. `.vercelignore` uploads only `website/` (not `docs/`, `vsl/`, the tests or this README). Push to `main`, and Vercel redeploys. In the Vercel project settings, leave Root Directory empty and the Output Directory override off, so `vercel.json` applies.
 
 Any other static host works too (Netlify, Cloudflare Pages, GitHub Pages or S3): serve `website/` as the site root. Fonts load from Google Fonts, with a system-font fallback.

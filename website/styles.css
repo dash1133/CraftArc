@@ -432,3 +432,6 @@ details.more summary::after { top: 8px; }
 @media (max-width: 980px) {
   .mega-inner { grid-template-columns: 1fr; }
 }
+a.sub-card { text-decoration: none; color: var(--body); display: block; }
+a.sub-card h3 { color: var(--ink); }
+a.sub-card:hover { border-color: var(--blue-soft); }

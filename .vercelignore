@@ -1,6 +1,7 @@
 # Deploy only the website. The rest of the repository (docs, VSL build files,
-# the claims ledger) stays private. vercel.json maps "/" to website/.
+# the claims ledger) stays private. vercel.json serves website/ as the site root.
 /*
 !/website
 !/vercel.json
 /website/tests
+/website/README.md

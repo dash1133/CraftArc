@@ -328,16 +328,19 @@ await test("homepage copy is industry-neutral outside the industries and proof s
   await ctx.close();
 });
 
-await test("industries menu: six industries, fifteen sub-sectors, opens and closes, every link lands", async () => {
+await test("industries menu: six industries, eighteen sub-sectors, no status labels, opens and closes, every link lands", async () => {
   const { ctx, page } = await openPage();
   assert(await page.locator("#industries-menu").isHidden(), "menu starts closed");
   await page.click(".nav-menu");
   assert(await page.locator("#industries-menu").isVisible(), "menu opens");
   eq(await page.getAttribute(".nav-menu", "aria-expanded"), "true", "aria-expanded");
   const names = await page.$$eval(".mega-ind strong", (els) => els.map((e) => e.textContent.trim()));
-  eq(names.join(" | "), "Private Equity and VC Firms | Financial Services | Healthcare & Life Sciences | Technology | Manufacturing & Industrial | Professional Services", "industries in Dash's order");
+  eq(names.join(" | "), "Private Equity, VC & Investment Banks | Financial Services | Healthcare & Life Sciences | Technology | Manufacturing & Industrial | Professional Services", "industries in Dash's order");
   const subs = await page.$$eval(".mega-col ul a", (els) => els.map((e) => e.getAttribute("href")));
-  eq(subs.length, 15, "sub-sector links");
+  eq(subs.length, 18, "sub-sector links");
+  eq(await page.locator("#industries-menu .mega-live").count(), 0, "no 'Live today' label in the menu");
+  const peSubs = await page.$$eval('.mega-col:first-child ul a', (els) => els.map((e) => e.textContent.trim()));
+  eq(peSubs.join(" | "), "Private Equity | Venture Capital | Investment Banks", "PE group sub-sectors");
   await page.keyboard.press("Escape");
   assert(await page.locator("#industries-menu").isHidden(), "Escape closes the menu");
   for (const href of [...new Set([...(await page.$$eval(".mega-ind", (els) => els.map((e) => e.getAttribute("href")))), ...subs])]) {
