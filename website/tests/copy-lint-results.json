@@ -5,6 +5,8 @@
   "[placeholder, blocked by launch_check.py] We are building this page from the CraftArc sector template. In the meantime, see how a re",
   "[placeholder, blocked by launch_check.py] Sector page in development",
   "[placeholder, blocked by launch_check.py] We are building this page from the CraftArc sector template. In the meantime, see how a re",
+  "[placeholder, blocked by launch_check.py] Placeholder, replace before launch",
+  "[placeholder, blocked by launch_check.py] [Result or quote from Brightstar goes here]",
   "[placeholder, blocked by launch_check.py] Overview video coming soon",
   "[placeholder, blocked by launch_check.py] A short film on how CraftArc works in any organization.",
   "[placeholder, blocked by launch_check.py] Watch the private equity video",
@@ -28,7 +30,7 @@
   "[British spelling 'judgement', use 'judgment'] vsl caption: It tracks how each leader is progressing, on investment judgement and on fit with your peo (video: needs a re-render)",
   "[British spelling 'judgement', use 'judgment'] vsl big: Investment judgement. Fit with your people and culture. (video: needs a re-render)"
  ],
- "checked_items": 1073,
+ "checked_items": 1107,
  "vsl_spoken_words": 383,
  "vsl_runtime_s": 133.565,
  "vsl_wpm": 172

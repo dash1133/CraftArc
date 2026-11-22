@@ -18,6 +18,20 @@ The homepage now speaks to every industry. The private equity story, evidence (R
 | G2 | Gallup finds that companies fail to choose the candidate with the right talent for a manager role 82% of the time. | Homepage evidence | Gallup, State of the American Manager (2015); gallup.com/workplace/231593. Gallup's own analytics estimate | OK |
 | N06 | Homepage thesis: what separates great organisations is how they grow their next set of leaders. | Homepage hero | Dash's thesis, generalised from N04 | OK, Dash's view |
 
+## Homepage content v5 (22 Nov 2026, Dash's copy)
+
+Dash supplied the homepage copy. It was converted to American spelling and the checklist terms, and three long sentences were split. Claims new to the site:
+
+| ID | Claim as used | Where | Source | Status |
+|---|---|---|---|---|
+| V1 | Brightstar Capital Partners is named as the client, and it "runs development for its managing directors and partners on CraftArc". | Homepage hero, case study, industries, FAQ; Private Markets page proof | Dash's content v5. The Fact Set says naming the client needs its permission | **FLAG: permission.** `launch_check.py` fails until the line "PERMISSION RECORDED: Brightstar (date, who approved)" is added here |
+| V2 | "Ready for your next review cycle in six to eight weeks." | Homepage hero, how organizations start | Dash's content v5. Not in the Fact Set | **FLAG: Dash's commitment.** Confirm delivery can meet it |
+| V3 | Onboarding in four steps: assess, write down the craft, set up CraftArc, run the next cycle. | How organizations start | Dash's content v5, consistent with the [CT] services | OK, Dash's offer |
+| V4 | "Trace each one's arc from cycle to cycle." | Homepage hero promise | Dash's content v5. Cross-cycle trends are Stage 2 (June 2027) in the agreed scope | **FLAG: Stage 2** (see flag 8) |
+| V5 | "The firm started with its senior investment team and plans to extend CraftArc across the firm." | Case study | Dash's content v5. Not in the Fact Set | **FLAG: confirm with Brightstar** |
+| V6 | "We will show you how it would run on CraftArc." | Book a demo | Dash's content v5 | FLAG 5: confirm the demo instance is ready |
+| V7 | The headline "What separates great organizations from the rest? It is how they grow their next set of leaders." | Why it matters | Dash's content v5 and thesis N06 | OK, Dash's device. Style note: Dash's writing rule A5 discourages questions answered straight away; kept as his deliberate hook |
+
 ## Research and narrative (rewrite of 18 Nov 2026, Dash's structure)
 
 | ID | Claim as used | Where | Source | Status |

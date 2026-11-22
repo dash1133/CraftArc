@@ -38,7 +38,7 @@ FINGERPRINTS = [
 
 # Must never reach public copy (fact set: [Internal], [To build], unapproved price, confidential client detail).
 FORBIDDEN = [
-    "brightstar", "bcp", "candida", "$35", "$50", "35,000", "50,000", "$2k", "163", "stage 2", "trend", "email and chat",
+    "bcp", "candida", "$35", "$50", "35,000", "50,000", "$2k", "163", "stage 2", "trend", "email and chat",
     "assessment centre", "95%", "succession economy", "seven domains", "32 skills", "two central tests",
     "firm-wide insight", "calibration across", "managing out", "pulse check", "baseline framework", "sandbox",
 ]

@@ -328,11 +328,25 @@ await test("homepage copy is industry-neutral outside the industries and proof s
   const { ctx, page } = await openPage();
   const text = await page.evaluate(() => {
     const main = document.querySelector("main").cloneNode(true);
-    main.querySelectorAll("#industries, #proof, .proof-strip, .how-more, .video-placeholder, .mega").forEach((el) => el.remove());
+    main.querySelectorAll("#industries, #proof, #case, .proofline, .proof-strip, .how-more, .video-placeholder, .mega").forEach((el) => el.remove());
     return main.innerText;
   });
   const hits = text.match(/\b(funds?|deal team|buyout|investment judgement|assets under management|partners ask)\b/gi) || [];
   eq(hits.length, 0, `PE-specific words on the homepage: ${hits.join(", ")}`);
+  await ctx.close();
+});
+
+await test("homepage follows content v5: section order, hero promises, case study placeholder", async () => {
+  const { ctx, page } = await openPage();
+  const ids = await page.$$eval("main > section", (els) => els.map((e) => e.id));
+  eq(ids.join(","), "top,cycle,case,craftarc,how,why,evidence,industries,start,faq,book", "section order");
+  eq(await page.locator(".promise-card").count(), 3, "three promises in the hero");
+  eq(await page.locator(".cycle-block").count(), 4, "four blocks in each cycle");
+  eq(await page.locator(".start-steps li").count(), 4, "four onboarding steps");
+  const slot = page.locator(".case-slot");
+  assert((await slot.getAttribute("data-placeholder")) !== null, "case study result slot is a marked placeholder");
+  assert(/placeholder/i.test(await slot.innerText()), "case study slot shows its badge");
+  assert(await page.locator('a[href="#case"]').first().isVisible(), "hero links to the case study");
   await ctx.close();
 });
 

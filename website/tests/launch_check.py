@@ -27,6 +27,14 @@ for term in ("fixed for four years", "build-out", "three to four meetings", "sma
     checks.append((f'Unapproved term absent: "{term}"', term not in html.lower(), "remove it from index.html"))
 checks.append(("Search indexing allowed (noindex removed)", 'name="robots" content="noindex"' not in html,
                "remove the robots noindex meta tag from every page"))
+# Naming the client needs its written permission (Dash's content v5 names Brightstar, 22 Nov 2026).
+ledger = (ROOT.parent / "docs" / "Claims_Ledger.md").read_text()
+if "brightstar" in html.lower():
+    # Only a line that starts with the marker counts, so the instruction quoted in the ledger cannot pass it.
+    granted = re.search(r"^PERMISSION RECORDED: Brightstar\b", ledger, flags=re.M) is not None
+    checks.append(("Client named with written permission", granted,
+                   "get Brightstar's written permission to be named, then add the line "
+                   "'PERMISSION RECORDED: Brightstar (date, who approved)' to docs/Claims_Ledger.md"))
 video = ROOT / "assets" / "video" / "craftarc-vsl-720p.mp4"
 checks.append(("Video file present", video.exists() and video.stat().st_size > 1_000_000, "copy the 720p render"))
 

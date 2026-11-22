@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-22T01:00:23.556Z",
+ "run_at": "2026-11-22T01:30:54.159Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -67,6 +67,10 @@
   },
   {
    "name": "homepage copy is industry-neutral outside the industries and proof sections",
+   "ok": true
+  },
+  {
+   "name": "homepage follows content v5: section order, hero promises, case study placeholder",
    "ok": true
   },
   {

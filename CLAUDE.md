@@ -18,7 +18,7 @@ bash website/tests/check_all.sh
 
    Automated by `copy_lint.py` (American spelling, sentence and paragraph limits, passive-voice warnings), plus your own read for the rest.
 
-   **Terminology (one term per concept):** self-evaluation (not self-review), contributor interviews, evaluation coordinator (not evaluator), memo for the Executive Committee or leadership document, write-ups for the full set of drafted documents (memo, note to the person, scorecard), development plan, Book a demo. Labels inside product screenshots keep the product's own wording.
+   **Terminology (one term per concept):** self-evaluation (not self-review), contributor interviews, evaluation coordinator (not evaluator), memo for the Executive Committee or leadership document, write-ups for the full set of drafted documents (memo, note to the person, scorecard), development dialogue (the conversation between the evaluation coordinator and the leader), Prepare the dialogue (step 4), development plan, Book a demo. Labels inside product screenshots keep the product's own wording.
 3. **Every claim is sourced.** Each new fact, figure or name traces to `docs/Claims_Ledger.md`. Only items tagged [Live] or [CT] in the CraftArc VSL Fact Set are stated as fact. A number added to the copy lint's allowlist must carry its ledger ID. Never invent a result, quote, client name or price.
 4. **Placeholders are visible.** Anything invented or unfinished (proof slots, the homepage video placeholder, sector pages) carries a visible "Placeholder" or "in development" badge and a `data-placeholder` attribute, so `launch_check.py` blocks it.
 5. **All browser tests pass.** `node website/tests/e2e.mjs` must report 0 failures. When you add a page, add it to `PAGES` in `e2e.mjs`, to the Industries menu if it is a sector page, and make sure every menu, footer and in-page link resolves.
@@ -35,4 +35,5 @@ bash website/tests/check_all.sh
 - `website/`: the static site (no build step). `index.html` is industry-neutral. `private-equity.html` is the Private Markets page with the video. Five sector pages are placeholders. Shared `styles.css`, `app.js` and `config.js`.
 - `website/tests/`: `e2e.mjs` (browser tests), `copy_lint.py` (writing rules and claims), `launch_check.py` (go or no-go), `check_all.sh` (runs them in checklist order).
 - `vsl/`: the video, its script (`vsl/src/script.py`) and the renderer.
+- `tools/`: one-off build scripts (for example `build_home_v5.py`, which produced the current homepage). Edit `website/index.html` directly now; re-running a build script overwrites later edits.
 - `docs/`: the claims ledger, review report, buyer persona, build plan and launch to-do list.

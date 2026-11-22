@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 OUT_HTML = ROOT / "docs" / "CraftArc_Launch_ToDo.html"
 OUT_PDF = ROOT / "docs" / "CraftArc_Launch_ToDo.pdf"
-DATE = "21 November 2026"
+DATE = "22 November 2026"
 
 B, P, A = "Launch blocker", "Before launch", "After launch"
 
@@ -25,10 +25,11 @@ GROUPS = [
         ("Give leader hours per full cycle", "One number covering the self-review, contributor interviews and coordinator time, for the FAQ.", P),
         ("Decide the \"tracks progress\" wording", "Keep it as your commitment, or add \"within the year\" until cross-cycle trends ship in Stage 2 (June 2027).", P),
         ("Approve the sector page template", "Template agreed in the next session, then copy approved for each of the five sector pages.", P),
+        ("Confirm the six to eight week onboarding promise", "Delivery can take a new client from first meeting to a ready cycle in six to eight weeks, as the homepage now promises.", P),
         ("Record the voiceover in your own voice", "At least the founder line, so the spoken AI-voice disclosure can go.", A),
     ]),
     ("Anchor client relationship", "Permissions from the private equity firm whose story the site tells.", [
-        ("Get the client's OK to tell its story", "Written approval for the anonymous version: the do-it-yourself attempt, the 24-month licence and building it with their COO.", B),
+        ("Get Brightstar's written permission to be named", "Written approval to name Brightstar Capital Partners and tell its story on the site (the do-it-yourself attempt, the 24-month license, building it with their COO, and the plan to extend across the firm). Record it in the claims ledger so the launch check passes.", B),
         ("Confirm the demo framework is not theirs", "The competency names on the screens (Deal Sourcing & Origination, Investment Judgment, Portfolio Value Creation) are not from their confidential framework.", B),
         ("Ask whether they will take reference calls", "A yes or no, and a contact if yes.", A),
     ]),
@@ -62,8 +63,8 @@ GROUPS = [
 ]
 
 LIVE = [
-    "Website: industry-neutral homepage, private equity page with the video, six-industry menu, light design, AgenticPM-style footer.",
-    "Lead form: validation, scoring, attribution and email fallback to dash@craftarc.ai. 36 browser tests pass.",
+    "Website: homepage from content v5, Private Markets page with the video, six-industry menu, light design, AgenticPM-style footer.",
+    "Lead form: validation, scoring, attribution and email fallback to dash@craftarc.ai. 38 browser tests pass.",
     "Video: 2 minute 13 second private equity film with captions, on the private equity page.",
     "Claims ledger: every figure on the site traced to its source.",
 ]
