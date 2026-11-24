@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-22T01:30:54.159Z",
+ "run_at": "2026-11-24T06:09:32.649Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -26,7 +26,11 @@
    "ok": true
   },
   {
-   "name": "header 'Book a demo' scrolls to the form",
+   "name": "header 'Book a demo' opens the Book a demo page, with the form in view",
+   "ok": true
+  },
+  {
+   "name": "every 'Book a demo' link on every page goes to the Book a demo page, and the wording never changes",
    "ok": true
   },
   {
@@ -34,7 +38,7 @@
    "ok": true
   },
   {
-   "name": "unapproved offer terms are not in the page, and approved lines can be added from config",
+   "name": "no page carries unapproved offer terms, the client's name or a first-client figure",
    "ok": true
   },
   {
@@ -70,7 +74,31 @@
    "ok": true
   },
   {
-   "name": "homepage follows content v5: section order, hero promises, case study placeholder",
+   "name": "homepage follows the website guidance: twelve sections in order",
+   "ok": true
+  },
+  {
+   "name": "hero: the question is the largest text, the answer sits under it, the time line is smaller, one button",
+   "ok": true
+  },
+  {
+   "name": "three claims: Know, Grow and Without the time, equal blocks, three outcomes each, each linked to its module",
+   "ok": true
+  },
+  {
+   "name": "solution: the Leadership Cockpit sits above the other two, tagged as not yet live, and the agent runs along the bottom",
+   "ok": true
+  },
+  {
+   "name": "how it works: eight steps, and the video stays in view while the reader scrolls (desktop), below the steps on a phone",
+   "ok": true
+  },
+  {
+   "name": "homepage: the onboarding, FAQ and proof follow the guidance",
+   "ok": true
+  },
+  {
+   "name": "industry pages reuse the homepage's three claims and solution, changing only the role words",
    "ok": true
   },
   {
@@ -82,11 +110,11 @@
    "ok": true
   },
   {
-   "name": "homepage lead form sends the chosen industry",
+   "name": "Book a demo form: an industry page presets the industry, and the visitor's choice is sent",
    "ok": true
   },
   {
-   "name": "private equity page tags its leads as private equity",
+   "name": "private equity page sends its visitors to the form tagged as private equity, with the AUM question",
    "ok": true
   },
   {

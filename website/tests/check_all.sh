@@ -7,6 +7,9 @@ cd "$(dirname "$0")/../.."
 fail=0
 step() { echo; echo "== $1"; }
 
+step "0. Pages match their source (tools/build_site.py)"
+python3 tools/build_site.py --check || fail=1
+
 step "1. AI-writing fingerprints: the checks themselves still work"
 python3 website/tests/copy_lint.py --self-test || fail=1
 

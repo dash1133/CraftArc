@@ -18,12 +18,23 @@ bash website/tests/check_all.sh
 
    Automated by `copy_lint.py` (American spelling, sentence and paragraph limits, passive-voice warnings), plus your own read for the rest.
 
-   **Terminology (one term per concept):** self-evaluation (not self-review), contributor interviews, evaluation coordinator (not evaluator), memo for the Executive Committee or leadership document, write-ups for the full set of drafted documents (memo, note to the person, scorecard), development dialogue (the conversation between the evaluation coordinator and the leader), Prepare the dialogue (step 4), development plan, Book a demo. Labels inside product screenshots keep the product's own wording.
+   **Terminology (one term per concept).** The CraftArc Website Guidance (Dash, 24 Nov 2026) sets these, and its source, CraftArc Approved Copy section 5, wins any disagreement:
+   - Leadership Cockpit, Review Cycle, Development Arc: the three modules, always capitalized.
+   - Know, Grow, Without the time: the three claims, never used as module names.
+   - 360-degree dialogues (never "360 reviews", "360 surveys" or "contributor interviews").
+   - a slate of successors, with its horizons where there is room: ready now, ready in 3 years, ready in 5 to 7 years.
+   - move up or move out (always the pair). based on evidence, not opinion (always in full).
+   - leadership time (never "senior time"). development commitments (never "development plan" or "goals").
+   - a private equity firm (never name the client).
+   - self-evaluation (not self-review), evaluation coordinator (not evaluator), memo for the Executive Committee, write-ups for the full set of drafted documents (memo, note to the leader, scorecard), development dialogue (the conversation between the evaluation coordinator and the leader), Prepare the dialogue (step 5 of the eight Review Cycle steps), Book a demo.
+   - Labels inside product screenshots keep the product's own wording.
+
+   **Approved Copy and drafts.** Lines the guidance marks Approved are used word for word (`copy_lint.py` checks the homepage for them). Everything else, including copy that should come from CraftArc Approved Copy before that document arrives, is a draft with a visible badge and `data-placeholder` (item 4). Never write: that CraftArc is not an appraisal or ratings tool, that it predicts when a leader will be ready, that the Leadership Cockpit works today, any result or figure from the first client, or a hedge such as "some companies". `copy_lint.py` enforces these (`GUIDANCE_RULES`).
 3. **Every claim is sourced.** Each new fact, figure or name traces to `docs/Claims_Ledger.md`. Only items tagged [Live] or [CT] in the CraftArc VSL Fact Set are stated as fact. A number added to the copy lint's allowlist must carry its ledger ID. Never invent a result, quote, client name or price.
 4. **Placeholders are visible.** Anything invented or unfinished (proof slots, the homepage video placeholder, sector pages) carries a visible "Placeholder" or "in development" badge and a `data-placeholder` attribute, so `launch_check.py` blocks it.
 5. **All browser tests pass.** `node website/tests/e2e.mjs` must report 0 failures. When you add a page, add it to `PAGES` in `e2e.mjs`, to the Industries menu if it is a sector page, and make sure every menu, footer and in-page link resolves.
 6. **Look at it.** Screenshot every changed page at desktop (1440 px) and phone (390 px) width with the pre-installed Playwright, and check for overlaps, clipped text, broken layout and anything covering the video controls or captions. The tests cannot see design problems.
-7. **The video is untouched unless asked.** The private equity video lives on `website/private-equity.html`. Do not re-render, re-encode or move it unless the user asks. If it does change, update the stated length on the page (a test checks it). Its captions are burned in, so the caption track stays off by default. The video still uses British spelling ("judgement") in its burned-in captions, and the lint reports this as a warning until the user asks for a re-render.
+7. **The video is untouched unless asked.** The private equity video lives on `website/private-equity.html`, beside the eight Review Cycle steps (guidance section 6). Do not re-render, re-encode or move it to another page unless the user asks. A revamp is planned; until then the lint reports its old terms ("development plan", "evaluator", "goals") as warnings. If it does change, update the stated length on the page (a test checks it). Its captions are burned in, so the caption track stays off by default. The video still uses British spelling ("judgement") in its burned-in captions, and the lint reports this as a warning until the user asks for a re-render.
 8. **Deployment still works.** `vercel.json` serves `website/` as the site root with no rewrites. If you add or rename pages or change `vercel.json` or `.vercelignore`, run `npx vercel build` on a copy and confirm every page appears in `.vercel/output/static` and nothing from `docs/` or `vsl/` does.
 9. **Docs match the change.** Add an issue entry to `website/CHANGELOG.md` (next issue number, date, change, reason). Update `website/README.md`, `docs/Claims_Ledger.md` and, where relevant, the launch to-do list (`docs/todo/build_todo.py`, then re-run it).
 10. **Run the launch check and report it.** `python3 website/tests/launch_check.py`. NOT READY is expected while placeholders remain, so report which items are still open rather than hiding them.
@@ -32,8 +43,9 @@ bash website/tests/check_all.sh
 
 ## Where things live
 
-- `website/`: the static site (no build step). `index.html` is industry-neutral. `private-equity.html` is the Private Markets page with the video. Five sector pages are placeholders. Shared `styles.css`, `app.js` and `config.js`.
+- `website/`: the static site (no build step on the server). `index.html` follows the guidance's twelve sections. `private-equity.html` is the Private Equity and VC page with the video. Five more industry pages, `about.html` and `book-a-demo.html` (the only page with the lead form). Shared `styles.css`, `app.js` and `config.js`.
+- `tools/build_site.py`: **the source of every page.** Header, footer, the three claims, the solution and the industry list are defined once there. Edit the copy in this script, run `python3 tools/build_site.py`, then work through the checklist. Never hand-edit the generated HTML: `check_all.sh` runs `build_site.py --check` and fails if a page differs from the source.
 - `website/tests/`: `e2e.mjs` (browser tests), `copy_lint.py` (writing rules and claims), `launch_check.py` (go or no-go), `check_all.sh` (runs them in checklist order).
 - `vsl/`: the video, its script (`vsl/src/script.py`) and the renderer.
-- `tools/`: one-off build scripts (for example `build_home_v5.py`, which produced the current homepage). Edit `website/index.html` directly now; re-running a build script overwrites later edits.
+- `tools/build_home_v5.py`: retired one-off builder of the issue 009 homepage. Do not run it; it would overwrite the current homepage.
 - `docs/`: the claims ledger, review report, buyer persona, build plan and launch to-do list.

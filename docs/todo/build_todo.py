@@ -12,61 +12,58 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 OUT_HTML = ROOT / "docs" / "CraftArc_Launch_ToDo.html"
 OUT_PDF = ROOT / "docs" / "CraftArc_Launch_ToDo.pdf"
-DATE = "22 November 2026"
+DATE = "24 November 2026"
 
 B, P, A = "Launch blocker", "Before launch", "After launch"
 
 GROUPS = [
     ("Dash, founder", "Decisions and approvals only you can give.", [
-        ("Supply the live firm's first-cycle result", "A real figure, such as the self-review completion rate or senior hours saved, fills the proof slot on the private equity page.", B),
-        ("Supply an approved client quote", "A quote with the person's name and role, and their written permission to use it.", B),
-        ("Confirm the exit right is a standard term", "The refund-if-we-miss term holds for every new client, not only the first one.", P),
-        ("Confirm the public pricing position", "\"Participants and evaluators are unlimited, contributors are never charged\" is the stance you want, which rules out per-person pricing.", P),
-        ("Give leader hours per full cycle", "One number covering the self-review, contributor interviews and coordinator time, for the FAQ.", P),
-        ("Decide the \"tracks progress\" wording", "Keep it as your commitment, or add \"within the year\" until cross-cycle trends ship in Stage 2 (June 2027).", P),
-        ("Approve the sector page template", "Template agreed in the next session, then copy approved for each of the five sector pages.", P),
-        ("Confirm the six to eight week onboarding promise", "Delivery can take a new client from first meeting to a ready cycle in six to eight weeks, as the homepage now promises.", P),
+        ("Send CraftArc Approved Copy", "The master document the website guidance points to. Its sections 1, 3, 4 and the eight Review Cycle steps replace the drafts on the homepage, the industry pages and the About page, word for word.", B),
+        ("Approve or reword the Leadership Cockpit tag", "The site shows \"Not yet live\" on the Cockpit. Approve it, reword it, or decide to leave the Cockpit off the homepage for now (guidance gap 1).", B),
+        ("Approve the drafted copy", "How you start steps, Who it is for, the seven FAQ answers, the Book a demo line and form fields, the industry cards and the industry page heroes (guidance gaps 3, 4 and 5). Each shows a draft badge on the site.", B),
+        ("Write the founder note for the About page", "A short note beside the elevator pitch (guidance gap 6). The site shows your content v5 note as a stand-in.", B),
+        ("Confirm the Development Arc status", "The guidance calls it partly live. Say which parts are live, so its card matches (claims ledger flag 11).", B),
+        ("Confirm the public pricing position", "\"Leaders and evaluation coordinators are unlimited, colleagues who give feedback are never charged\" is the stance you want, as the FAQ draft says.", P),
+        ("Decide on Investment Banks", "The menu keeps Investment Banks under Private Equity and VC, marked coming soon (claims ledger flag 14).", P),
         ("Record the voiceover in your own voice", "At least the founder line, so the spoken AI-voice disclosure can go.", A),
     ]),
-    ("Anchor client relationship", "Permissions from the private equity firm whose story the site tells.", [
-        ("Get Brightstar's written permission to be named", "Written approval to name Brightstar Capital Partners and tell its story on the site (the do-it-yourself attempt, the 24-month license, building it with their COO, and the plan to extend across the firm). Record it in the claims ledger so the launch check passes.", B),
+    ("Anchor client relationship", "The private equity firm that is the first paying client. The site never names it.", [
+        ("Get one result or one quote, with written consent", "Fills the proof slot on the homepage and the Private Equity and VC page (guidance gap 2).", B),
         ("Confirm the demo framework is not theirs", "The competency names on the screens (Deal Sourcing & Origination, Investment Judgment, Portfolio Value Creation) are not from their confidential framework.", B),
         ("Ask whether they will take reference calls", "A yes or no, and a contact if yes.", A),
     ]),
     ("Engineering", "Website, deployment and lead handling.", [
         ("Confirm the Vercel deployment", "craftarc-website.vercel.app shows the homepage from main, and the craftarc.ai domain points to it.", B),
+        ("Swap in approved copy as it arrives", "Edit tools/build_site.py, remove each draft badge, run the build and the checklist in CLAUDE.md.", B),
         ("Connect a lead endpoint", "A form service (for example Formspree) forwards to dash@craftarc.ai, set as leadEndpoint in website/config.js, so leads arrive without the visitor's email app.", P),
-        ("Swap in the homepage overview video", "Replace the placeholder on index.html when Marketing delivers the video.", P),
-        ("Build the five sector pages", "Financial Services, Healthcare & Life Sciences, Technology, Manufacturing & Industrial and Professional Services, from the approved template.", P),
-        ("Remove noindex and run the launch check", "Delete the robots noindex tag from every page and run website/tests/launch_check.py until it prints READY TO LAUNCH.", B),
+        ("Swap in the new product video", "Replace the homepage placeholder and the Private Equity and VC video after the revamp, and update the stated length.", P),
+        ("Remove noindex and run the launch check", "Delete the robots noindex tag in tools/build_site.py and run website/tests/launch_check.py until it prints READY TO LAUNCH.", B),
         ("Add analytics", "Google Tag Manager or the LinkedIn Insight Tag reads the lead_submitted and cta_click events the site already sends.", A),
     ]),
     ("Product", "The app, the demo and the screens the site shows.", [
-        ("Make the sample-firm demo ready", "A demo instance you can run live, so the call to action can promise \"we will show you\" rather than \"talk through\".", P),
-        ("Confirm how anonymity works in small teams", "What \"anonymised as your firm chooses\" means in practice when a writeup cites a contributor's role.", P),
-        ("Provide industry-neutral product screens", "Sample data that is not private equity, for the homepage and the sector pages.", P),
-        ("Capture a real self-review conversation", "Replace the four sample turns on the self-review screen with a real, anonymised exchange.", A),
+        ("Make the demo ready", "A demo instance you can run live on a prospect's leadership levels, so the Book a demo copy can promise it.", P),
+        ("Confirm how anonymity works in small teams", "What \"colleagues can give feedback anonymously\" means in practice when a write-up cites a colleague's role.", P),
+        ("Provide industry-neutral product screens", "Sample data that is not private equity, for the homepage and the industry pages.", P),
+        ("Build the Leadership Cockpit", "The slate of successors, with ready now, ready in 3 years and ready in 5 to 7 years. Then the \"Not yet live\" tag comes off.", A),
     ]),
-    ("Marketing and content", "Video, sector copy and reviews.", [
-        ("Produce the industry-neutral overview video", "A short film for the homepage placeholder, built the same way as the private equity video.", P),
-        ("Research evidence for each sector", "One or two sourced findings per industry, traced in the claims ledger the way the Gallup figures are.", P),
-        ("Write the five sector pages", "Copy for each industry and its three sub-sectors, in the approved template and Dash's writing style.", P),
-        ("Re-run the three reviews", "The simulated Hormozi lens, the buyer persona and the claims check, on the new homepage and the private equity page.", P),
-        ("Cut a 60 to 90 second version for LinkedIn", "A short cut of the private equity video with captions.", A),
+    ("Marketing and content", "Video, industry copy and reviews.", [
+        ("Revamp the product video", "A new film that follows the eight Review Cycle steps and the guidance's terms (development commitments, evaluation coordinator, 360-degree dialogues).", P),
+        ("Test the drafts with CEO readers", "Run the drafted industry copy and the solution section past real CEOs. docs/CEO_Reader_Test.md has the simulated first round.", P),
+        ("Cut a 60 to 90 second version for LinkedIn", "A short cut of the new video with captions.", A),
     ]),
     ("Legal and compliance", "Policies and the claims the site makes.", [
         ("Confirm the footer legal links cover CraftArc", "AgenticPM's Terms of Service, Privacy Policy and Trust Center apply to CraftArc, or CraftArc versions are published and the links swapped.", B),
         ("Publish a full privacy notice", "Replaces the short statement in the footer, and covers the demo form.", B),
-        ("Review the \"general AI assistant\" line", "The anchor story stands in for a named AI assistant. Confirm the wording is acceptable.", P),
+        ("Review the \"general AI assistant\" FAQ answer", "Confirm the comparison is acceptable as worded.", P),
         ("Add cookie consent if analytics go live", "Consent banner and settings in line with the analytics Engineering adds.", A),
     ]),
 ]
 
 LIVE = [
-    "Website: homepage from content v5, Private Markets page with the video, six-industry menu, light design, AgenticPM-style footer.",
-    "Lead form: validation, scoring, attribution and email fallback to dash@craftarc.ai. 38 browser tests pass.",
-    "Video: 2 minute 13 second private equity film with captions, on the private equity page.",
-    "Claims ledger: every figure on the site traced to its source.",
+    "Website: rebuilt to the CraftArc Website Guidance. Twelve-section homepage, About and Book a demo pages, six industry pages, every page generated from one source.",
+    "Lead form: on the Book a demo page, with the industry preset from each industry page. Attribution, scoring and email fallback to dash@craftarc.ai. 45 browser tests pass.",
+    "Video: the 2 minute 13 second private equity film, beside the eight steps on the Private Equity and VC page, until the revamp.",
+    "Claims ledger: approved lines, drafts and withdrawn claims traced for issue 010.",
 ]
 
 PILL = {B: "blocker", P: "before", A: "after"}

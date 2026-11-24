@@ -59,18 +59,19 @@
   }
 
   /* ---------- form ---------- */
+  // Read attribution on every page, so a visitor who lands on an industry page keeps their first touch on the form page.
+  var attribution = readAttribution();
   var form = document.getElementById("lead-form");
   if (!form) return;
   var statusEl = document.getElementById("form-status");
   var submitBtn = document.getElementById("submit");
   var thanks = document.getElementById("thanks");
   var sending = false;
-  var attribution = readAttribution();
 
   var RULES = {
     name: function (v) { return v.trim().length >= 2 ? "" : "Please enter your full name."; },
     email: function (v) { return EMAIL_RE.test(v.trim()) ? "" : "Please enter a valid email address."; },
-    firm: function (v) { return v.trim().length >= 2 ? "" : "Please enter your firm's name."; },
+    firm: function (v) { return v.trim().length >= 2 ? "" : "Please enter your organization's name."; },
     role: function (v) { return v ? "" : "Please choose your role."; },
     consent: function (_v, el) { return el.checked ? "" : "Please agree so we can reply to you."; }
   };
@@ -115,7 +116,7 @@
 
   function collect() {
     var f = form.elements;
-    // Optional fields differ by page (the private equity page asks for AUM, the homepage for industry).
+    // Optional fields can be missing (AUM shows only for private equity).
     function val(name) { return f[name] ? String(f[name].value).trim() : ""; }
     var data = {
       name: val("name"),
@@ -153,7 +154,7 @@
     var lines = [
       "Name: " + data.name, "Email: " + data.email, "Organization: " + data.firm, "Role: " + data.role,
       "Industry: " + (data.industry || "not given"),
-      "AUM: " + (data.aum || "not given"), "Senior deal team: " + (data.team || "not given"),
+      "AUM: " + (data.aum || "not given"), "Leaders in scope: " + (data.team || "not given"),
       "Next cycle: " + (data.timing || "not given"), "Framework: " + (data.framework || "not given"),
       "", data.message
     ];
@@ -226,15 +227,23 @@
       });
   });
 
-  /* ---------- offer lines waiting for approval: hidden unless config says so ---------- */
-  // Offer lines Dash has approved since launch (config.js: extraOfferItems). Plain text only.
-  var stack = document.getElementById("offer-stack");
-  (CFG.extraOfferItems || []).forEach(function (text) {
-    if (!stack || typeof text !== "string" || !text.trim()) return;
-    var li = document.createElement("li");
-    li.textContent = text.trim();
-    stack.appendChild(li);
-  });
+  /* ---------- industry: preset from the page that sent the visitor (?industry=), AUM only for private equity ---------- */
+  var industrySel = form.elements.industry;
+  var aumField = document.getElementById("aum-field");
+  function syncAum() {
+    if (!aumField || !industrySel) return;
+    var pe = industrySel.value === "private_equity";
+    aumField.hidden = !pe;
+    if (!pe && form.elements.aum) form.elements.aum.value = "";
+  }
+  if (industrySel && industrySel.tagName === "SELECT") {
+    var preset = new URLSearchParams(window.location.search).get("industry");
+    if (preset && industrySel.querySelector('option[value="' + preset.replace(/[^a-z_]/g, "") + '"]')) {
+      industrySel.value = preset;
+    }
+    industrySel.addEventListener("change", syncAum);
+    syncAum();
+  }
 
   /* ---------- CTA clicks, for analytics ---------- */
   document.querySelectorAll("[data-cta]").forEach(function (a) {
