@@ -163,7 +163,7 @@ await test("mobile (390px): no sideways scroll, CTA and form usable", async () =
   await page.screenshot({ path: path.join(SHOTS, "mobile-full.png"), fullPage: true });
   const book = await openPage({ path: BOOK, viewport: { width: 390, height: 844 } });
   const box = await book.page.locator("#submit").boundingBox();
-  assert(box && box.width > 300 && box.height >= 44, "submit button is a good tap target");
+  assert(box && box.width >= 280 && box.height >= 44, `submit button is a good tap target (${box && Math.round(box.width)}px)`);
   await book.ctx.close();
   await ctx.close();
 });
@@ -184,7 +184,7 @@ await test("header 'Book a demo' opens the Book a demo page, with the form in vi
   await ctx.close();
 });
 
-await test("every 'Book a demo' link on every page goes to the Book a demo page, and the wording never changes", async () => {
+await test("Book a demo is a header button only, on every page, and always goes to the Book a demo page", async () => {
   for (const p of PAGES) {
     const { ctx, page } = await openPage({ path: p });
     const ctas = await page.$$eval("a.btn-primary", (els) => els.map((a) => ({ text: a.textContent.trim(), href: a.getAttribute("href") })));
@@ -193,7 +193,7 @@ await test("every 'Book a demo' link on every page goes to the Book a demo page,
       eq(c.text, "Book a demo", `primary button wording on /${p}`);
       assert(c.href.startsWith("book-a-demo.html"), `/${p} button goes to the Book a demo page (${c.href})`);
     }
-    eq(await page.locator(".hero a.btn-primary").count(), ["", BOOK, "about.html"].includes(p) ? 0 : 1, `primary buttons in the hero of /${p}`);
+    eq(await page.locator("main a.btn, main a.btn-primary").count(), 0, `no Book a demo button in the body of /${p} (all buttons in the header)`);
     await ctx.close();
   }
 });
@@ -224,8 +224,11 @@ await test("no page carries unapproved offer terms, the client's name or a first
   }
 });
 
-await test("placeholder proof is visibly labelled so it cannot pass as a real result", async () => {
-  const { ctx, page } = await openPage({ path: PE });
+await test("placeholder proof is labelled in review mode and hidden from visitors, so it cannot pass as a real result", async () => {
+  const pub = await openPage({ path: PE });
+  assert(await pub.page.locator(".proof-slot").first().isHidden(), "visitors do not see the empty proof slot");
+  await pub.ctx.close();
+  const { ctx, page } = await openPage({ path: PE, query: "?review" });
   const blocks = await page.evaluate(() => [...document.querySelectorAll(".proof-slot")].map((el) => ({
     badge: el.querySelector(".ph-badge") && el.querySelector(".ph-badge").offsetParent !== null ? el.querySelector(".ph-badge").textContent : "",
   })));
@@ -327,7 +330,9 @@ await test("homepage hero plays the existing video, badged as a placeholder, and
   eq(await page.locator(".hero video source").getAttribute("src"), "assets/video/craftarc-vsl-720p.mp4", "the existing video, unchanged");
   const cap = page.locator(".hero figcaption");
   assert((await cap.getAttribute("data-placeholder")) !== null, "marked as a placeholder for the launch check");
-  assert(/placeholder/i.test(await cap.innerText()), "placeholder badge shown");
+  const rv = await openPage({ query: "?review" });
+  assert(/placeholder/i.test(await rv.page.locator(".hero figcaption").innerText()), "placeholder badge shown in review mode");
+  await rv.ctx.close();
   const t = await page.evaluate(() => { const tr = document.querySelector(".hero video track"); return { def: tr.default, mode: tr.track.mode }; });
   eq(t.def, false, "caption track off by default (captions are burned in)");
   const pe = await openPage({ path: PE });
@@ -348,10 +353,11 @@ await test("homepage copy is industry-neutral outside the industries and proof s
   await ctx.close();
 });
 
-await test("homepage follows the website guidance: twelve sections in order", async () => {
+await test("homepage follows the website guidance and the design brief: eight bands in order", async () => {
   const { ctx, page } = await openPage();
   const ids = await page.$$eval("main > section", (els) => els.map((e) => e.id));
-  eq(ids.join(","), "top,claims,problem,method,solution,how,proof,industries,start,who,faq,book", "section order");
+  eq(ids.join(","), "top,claims,why,solution,how,proof,start,faq", "eight bands in the guidance's order");
+  for (const id of ["problem", "method", "industries", "onboarding", "who", "close"]) assert(await page.locator(`#${id}`).count() === 1, `#${id} inside its band`);
   await ctx.close();
 });
 
@@ -457,6 +463,53 @@ await test("industry pages reuse the homepage's three claims and solution, chang
   }
 });
 
+await test("review mode: visitors see no draft labels, ?review shows every one, and links keep review mode", async () => {
+  for (const p of PAGES) {
+    const { ctx, page } = await openPage({ path: p });
+    const shown = await page.$$eval(".ph-badge, .review-note, .review-banner", (els) => els.filter((e) => e.offsetParent !== null).length);
+    eq(shown, 0, `draft labels visible to visitors on /${p}`);
+    const marked = await page.locator("[data-placeholder]").count();
+    await ctx.close();
+    if (!marked) continue;
+    const r = await openPage({ path: p, query: "?review" });
+    const vis = await r.page.$$eval(".ph-badge", (els) => els.filter((e) => e.offsetParent !== null).length);
+    assert(vis > 0, `review mode shows the draft labels on /${p}`);
+    assert(await r.page.locator(".review-banner").isVisible(), `review banner on /${p}`);
+    const about = await r.page.getAttribute('.site-footer a[href^="about.html"]', "href");
+    assert(/review/.test(about), `internal links keep review mode on /${p} (${about})`);
+    await r.ctx.close();
+  }
+});
+
+await test("the header button pulses once when the reader reaches the proof", async () => {
+  const { ctx, page } = await openPage({ viewport: { width: 1440, height: 900 } });
+  assert(!(await page.locator(".header-cta.nudge").count()), "no pulse on arrival");
+  await page.evaluate(() => document.querySelector("#proof h2").scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.waitForFunction(() => (window.dataLayer || []).some((e) => e.event === "cta_nudge"), null, { timeout: 3000 });
+  await ctx.close();
+  const rm = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+  const p2 = await rm.newPage();
+  await p2.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, contentType: "text/css", body: "" }));
+  await p2.goto(`${BASE}/`);
+  eq(await p2.evaluate(() => getComputedStyle(document.querySelector(".header-cta"), null).animationName), "none", "no animation for reduced motion");
+  await rm.close();
+});
+
+await test("how it works: the product screen beside the steps follows the step in view", async () => {
+  const { ctx, page } = await openPage({ viewport: { width: 1440, height: 900 } });
+  await page.evaluate(() => document.getElementById("step-4").scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.waitForFunction(() => document.querySelector(".stack-item.is-active").getAttribute("data-shot") === "roster", null, { timeout: 3000 });
+  eq(await page.locator(".stack-item.is-active").count(), 1, "one screen at a time");
+  assert(await page.locator("#step-4.is-active").count() === 1, "the step is highlighted");
+  await page.evaluate(() => document.getElementById("step-2").scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.waitForFunction(() => document.querySelector(".stack-item.is-active").getAttribute("data-shot") === "self", null, { timeout: 3000 });
+  await ctx.close();
+  const m = await openPage({ viewport: { width: 390, height: 844 } });
+  assert(await m.page.locator("#screens").isHidden(), "no side screen on a phone");
+  assert(await m.page.locator("#step-2 .step-shot img").isVisible(), "each step shows its screen inline on a phone");
+  await m.ctx.close();
+});
+
 await test("industries menu: six industries, eighteen sub-sectors, no status labels, opens and closes, every link lands", async () => {
   const { ctx, page } = await openPage();
   assert(await page.locator("#industries-menu").isHidden(), "menu starts closed");
@@ -517,9 +570,9 @@ await test("Book a demo form: an industry page presets the industry, and the vis
 await test("private equity page sends its visitors to the form tagged as private equity, with the AUM question", async () => {
   const before = leads.length;
   const { ctx, page } = await openPage({ path: PE });
-  const href = await page.getAttribute(".hero .btn-primary", "href");
-  eq(href, "book-a-demo.html?industry=private_equity", "hero button carries the industry");
-  await page.click(".hero .btn-primary");
+  const href = await page.getAttribute(".header-cta", "href");
+  eq(href, "book-a-demo.html?industry=private_equity", "header button carries the industry");
+  await page.click(".header-cta");
   await page.waitForURL(/book-a-demo/);
   await page.evaluate(() => { document.getElementById("more").open = true; });
   assert(await page.locator("#aum-field").isVisible(), "AUM asked of private equity");

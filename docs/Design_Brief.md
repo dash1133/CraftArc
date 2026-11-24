@@ -103,3 +103,23 @@ Every change gets the existing checklist, plus five new automated checks added t
 2. **Buttons in the body.** The header button plus one closing Book a demo band at the bottom of the page, and no other buttons. Or the header button alone.
 3. **Scheduling.** Add a calendar to the Book a demo page after the form, with a tool Dash chooses.
 4. **Eight bands.** Group the guidance's twelve modules into eight visual bands, keeping the order and the words.
+
+## 7. Dash's decisions (24 Nov 2026)
+
+1. Drafts in review mode: yes. 2. Buttons: every Book a demo button lives in the header, none in the body. 3. Scheduling: coming soon, kept on the launch to-do list. 4. Eight bands: yes.
+
+## 8. Version 3: the conversion pass
+
+Dash asked for one more pass whose single test is whether the reader wants to reach for Book a demo. Decision 2 changes the mechanics of that. With no buttons in the body, the page cannot ask for the meeting section by section, so it has to build the wish to act and then make the one button impossible to miss when the wish peaks. Version 3 does that in five ways.
+
+**The header button is the only door, so it is always open and always visible.** The header stays fixed on every page and every width, the button keeps the same position and wording, and on industry pages it carries the industry to the form. Nothing else in the header is blue. At three moments where conversion research says intent peaks (after the reader has seen the product, after the proof, and at the close) the button gives one soft, single pulse as the band comes into view. It never loops, and it does not move at all for readers who ask for reduced motion.
+
+**Every band ends higher than it starts.** Each band opens with its claim and closes with the strongest specific it has: a sourced number (about 25 minutes per conversation), a real screen, the first-paying-client line or the founder's background. The reader should finish each band slightly more certain than they began it, which is the Hormozi test of likelihood of achievement.
+
+**Proof arrives in the first screen.** A thin line under the hero copy states the two strongest facts the site may use: the first paying client is a private equity firm, and the founder's background at McKinsey, Microsoft and Siemens. Logos and quotes would be stronger, and they replace this line when the client consents.
+
+**The product is shown, not described.** In How it works, the eight steps sit on the left and a framed product screen sits on the right, changing as the reader moves through the steps. This is the moment a CEO decides CraftArc is real. On a phone, each step carries its own screen inline.
+
+**Anxiety is removed before the end.** The FAQ answers the seven questions CEOs asked, the qualifier tells the reader when CraftArc is not right for them (the approved "If that commitment is not there yet, we will say so" is a form of risk reversal), and the close restates the board's question so the last thing the reader sees is the reason to book. The Book a demo page then lists what the demo will show, so the click has a clear payoff, and keeps the form to five visible fields.
+
+The visual system from version 2 stands, with one change: the hero, industries and close use the same soft blue-to-white wash as the header, so the page opens and ends in the same colour and the middle bands sit on white and one pale tint.

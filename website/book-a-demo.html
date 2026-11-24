@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>if (/[?&]review(=|&|$)/.test(location.search)) document.documentElement.classList.add("review");</script>
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
   <script src="app.js" defer></script>
@@ -34,7 +35,7 @@
         <a href="index.html#faq">FAQ</a>
         <a href="about.html">About</a>
       </nav>
-      <a class="btn btn-primary btn-sm" href="book-a-demo.html" data-cta="header">Book a demo</a>
+      <a class="btn btn-primary btn-sm header-cta" href="book-a-demo.html" data-cta="header">Book a demo</a>
     </div>
     <div class="mega" id="industries-menu" hidden>
       <div class="wrap mega-inner">
@@ -43,6 +44,7 @@
       </div>
     </div>
   </header>
+  <p class="review-banner">Review mode. Draft labels are shown. Remove ?review from the address to see the public page.</p>
 
   <main id="main">
     <section class="hero page-hero book-page" id="book">
@@ -50,11 +52,14 @@
         <div class="book-copy">
           <p class="crumbs"><a href="index.html">CraftArc</a> <span aria-hidden="true">/</span> Book a demo</p>
           <h1>Book a demo</h1>
-          <div class="draft-block" data-placeholder>
-            <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: the line and the form fields</span>
-            <p class="lede">Tell us who you are, and we will email you to arrange a time.</p>
-          </div>
-          <p class="hero-time"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>All without blocking days of leadership time.</span></p>
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: the line, the list and the form fields</span></p>
+          <p class="lede">Tell us who you are, and we will email you to arrange a time.</p>
+          <p class="see-head">What you will see</p>
+          <ul class="see-list"><li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 12a8 8 0 0 1-13.7 5.7"/><path d="M4 12a8 8 0 0 1 13.7-5.7"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></span><span>The Review Cycle in the product, step by step, with sample data.</span></li><li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 12h7M9 16h7"/></svg></span><span>The write-ups the agent drafts for one leader: the memo, the note and the scorecard.</span></li><li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg></span><span>How you would start before your next review cycle.</span></li></ul>
+          <ul class="proof-line">
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>All without blocking days of leadership time.</span></li>
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20h18"/><path d="M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span>Our first paying client is a private equity firm.</span></li>
+          </ul>
         </div>
         <form class="lead-form" id="lead-form" novalidate>
           <div class="field">

@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>if (/[?&]review(=|&|$)/.test(location.search)) document.documentElement.classList.add("review");</script>
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
   <script src="app.js" defer></script>
@@ -34,7 +35,7 @@
         <a href="index.html#faq">FAQ</a>
         <a href="about.html">About</a>
       </nav>
-      <a class="btn btn-primary btn-sm" href="book-a-demo.html" data-cta="header">Book a demo</a>
+      <a class="btn btn-primary btn-sm header-cta" href="book-a-demo.html" data-cta="header">Book a demo</a>
     </div>
     <div class="mega" id="industries-menu" hidden>
       <div class="wrap mega-inner">
@@ -43,49 +44,44 @@
       </div>
     </div>
   </header>
+  <p class="review-banner">Review mode. Draft labels are shown. Remove ?review from the address to see the public page.</p>
 
   <main id="main">
     <section class="hero page-hero" id="top">
       <div class="wrap">
         <p class="crumbs"><a href="index.html">CraftArc</a> <span aria-hidden="true">/</span> About</p>
         <p class="eyebrow">About CraftArc</p>
+        <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: page headline</span></p>
         <h1>We help CEOs grow their next leaders on purpose.</h1>
-        <p class="draft-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: page headline</span></p>
       </div>
     </section>
 
-    <section class="section about" id="pitch">
+    <section class="section band about" id="pitch">
       <div class="wrap about-grid">
         <div class="pitch" data-placeholder>
           <span class="ph-badge">Placeholder: the elevator pitch from Approved Copy, section 1, goes here word for word</span>
           <p class="pitch-text">CraftArc can. Know where every leader stands, and keep every one of them growing toward their next role. Built on the best practices of leading management consulting firms, CraftArc defines what good looks like at each leadership level.</p>
-          <p class="pitch-note">Stand-in built only from approved lines in the website guidance.</p>
+          <p class="proof-note">We have just come out of stealth with our first paying client, a private equity firm.</p>
         </div>
-        <aside class="box founder" id="founder" data-placeholder>
-          <span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
-          <div>
-            <span class="ph-badge">Placeholder: founder note, Dash to write</span>
-            <h2>From the founder</h2>
-            <p>I worked at McKinsey, Microsoft and Siemens, and I founded AgenticPM, which builds AI agents for private markets. I modeled CraftArc on how the best management consulting firms develop and select their leaders.</p>
-            <p class="box-sign">Bibhudatta "Dash"</p>
-          </div>
-        </aside>
-      </div>
-      <div class="wrap">
-        <p class="about-proof">We have just come out of stealth with our first paying client, a private equity firm.</p>
+        <aside class="founder" data-placeholder>
+            <span class="avatar" aria-hidden="true">D</span>
+            <div>
+              <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: founder note</span>
+              <p class="founder-quote">I worked at McKinsey, Microsoft and Siemens, and I founded AgenticPM, which builds AI agents for private markets. I modeled CraftArc on how the best management consulting firms develop and select their leaders.</p>
+              <p class="founder-sign">Bibhudatta "Dash", founder</p>
+            </div>
+          </aside>
       </div>
     </section>
 
-    <!-- 12 BOOK A DEMO (needs approval): one button, repeated from the hero -->
-    <section class="section book book-cta" id="book">
-      <div class="wrap narrow">
-        <p class="kicker">Book a demo</p>
-        <div class="draft-block" data-placeholder>
-          <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval</span>
-          <h2>Bring the question your board keeps asking.</h2>
-          <p class="section-lede">We will show you how CraftArc answers it.</p>
+    <!-- CLOSE -->
+    <section class="band close-only" id="book">
+      <div class="close wash" id="close">
+        <div class="wrap">
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval</span></p>
+          <p class="close-line" data-nudge>Bring the question your board keeps asking.</p>
+          <p class="close-sub">We will show you how CraftArc answers it.</p>
         </div>
-        <a class="btn btn-primary btn-lg" href="book-a-demo.html" data-cta="book">Book a demo</a>
       </div>
     </section>
 

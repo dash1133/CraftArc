@@ -20,7 +20,7 @@ GROUPS = [
     ("Dash, founder", "Decisions and approvals only you can give.", [
         ("Send CraftArc Approved Copy", "The master document the website guidance points to. Its sections 1, 3, 4 and the eight Review Cycle steps replace the drafts on the homepage, the industry pages and the About page, word for word.", B),
         ("Approve or reword the Leadership Cockpit tag", "The site shows \"Not yet live\" on the Cockpit. Approve it, reword it, or decide to leave the Cockpit off the homepage for now (guidance gap 1).", B),
-        ("Approve the drafted copy", "How you start steps, Who it is for, the seven FAQ answers, the Book a demo line and form fields, the industry cards and the industry page heroes (guidance gaps 3, 4 and 5). Each shows a draft badge on the site.", B),
+        ("Approve the drafted copy", "How you start steps, Who it is for, the seven FAQ answers, the proof line under the hero, the closing line, the Book a demo page, the industry cards and the industry page heroes (guidance gaps 3, 4 and 5). Add ?review to any page address to see every draft label.", B),
         ("Write the founder note for the About page", "A short note beside the elevator pitch (guidance gap 6). The site shows your content v5 note as a stand-in.", B),
         ("Confirm the Development Arc status", "The guidance calls it partly live. Say which parts are live, so its card matches (claims ledger flag 11).", B),
         ("Confirm the public pricing position", "\"Leaders and evaluation coordinators are unlimited, colleagues who give feedback are never charged\" is the stance you want, as the FAQ draft says.", P),
@@ -36,6 +36,7 @@ GROUPS = [
         ("Confirm the Vercel deployment", "craftarc-website.vercel.app shows the homepage from main, and the craftarc.ai domain points to it.", B),
         ("Swap in approved copy as it arrives", "Edit tools/build_site.py, remove each draft badge, run the build and the checklist in CLAUDE.md.", B),
         ("Connect a lead endpoint", "A form service (for example Formspree) forwards to dash@craftarc.ai, set as leadEndpoint in website/config.js, so leads arrive without the visitor's email app.", P),
+        ("Add scheduling to the Book a demo page", "Coming soon (Dash, 24 Nov): a calendar right after the form, so a request becomes a booked meeting. Pick the tool (HubSpot Meetings, Calendly or Chili Piper).", P),
         ("Swap in the new product video", "Replace the homepage placeholder and the Private Equity and VC video after the revamp, and update the stated length.", P),
         ("Remove noindex and run the launch check", "Delete the robots noindex tag in tools/build_site.py and run website/tests/launch_check.py until it prints READY TO LAUNCH.", B),
         ("Add analytics", "Google Tag Manager or the LinkedIn Insight Tag reads the lead_submitted and cta_click events the site already sends.", A),
@@ -60,8 +61,8 @@ GROUPS = [
 ]
 
 LIVE = [
-    "Website: rebuilt to the CraftArc Website Guidance. Twelve-section homepage, About and Book a demo pages, six industry pages, every page generated from one source.",
-    "Lead form: on the Book a demo page, with the industry preset from each industry page. Attribution, scoring and email fallback to dash@craftarc.ai. 45 browser tests pass.",
+    "Website: rebuilt to the guidance and the design brief. Eight-band homepage, Book a demo in the header only, drafts visible with ?review, six industry pages, About and Book a demo pages, every page generated from one source.",
+    "Lead form: on the Book a demo page, with the industry preset from each industry page. Attribution, scoring and email fallback to dash@craftarc.ai. 48 browser tests pass.",
     "Video: the 2 minute 13 second private equity film, beside the eight steps on the Private Equity and VC page, until the revamp.",
     "Claims ledger: approved lines, drafts and withdrawn claims traced for issue 010.",
 ]

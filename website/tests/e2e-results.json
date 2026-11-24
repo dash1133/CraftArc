@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-24T12:35:39.296Z",
+ "run_at": "2026-11-24T17:00:18.525Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -30,7 +30,7 @@
    "ok": true
   },
   {
-   "name": "every 'Book a demo' link on every page goes to the Book a demo page, and the wording never changes",
+   "name": "Book a demo is a header button only, on every page, and always goes to the Book a demo page",
    "ok": true
   },
   {
@@ -42,7 +42,7 @@
    "ok": true
   },
   {
-   "name": "placeholder proof is visibly labelled so it cannot pass as a real result",
+   "name": "placeholder proof is labelled in review mode and hidden from visitors, so it cannot pass as a real result",
    "ok": true
   },
   {
@@ -74,7 +74,7 @@
    "ok": true
   },
   {
-   "name": "homepage follows the website guidance: twelve sections in order",
+   "name": "homepage follows the website guidance and the design brief: eight bands in order",
    "ok": true
   },
   {
@@ -99,6 +99,18 @@
   },
   {
    "name": "industry pages reuse the homepage's three claims and solution, changing only the role words",
+   "ok": true
+  },
+  {
+   "name": "review mode: visitors see no draft labels, ?review shows every one, and links keep review mode",
+   "ok": true
+  },
+  {
+   "name": "the header button pulses once when the reader reaches the proof",
+   "ok": true
+  },
+  {
+   "name": "how it works: the product screen beside the steps follows the step in view",
    "ok": true
   },
   {

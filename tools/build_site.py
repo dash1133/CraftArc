@@ -132,6 +132,7 @@ def head(title, description, extra=""):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>if (/[?&]review(=|&|$)/.test(location.search)) document.documentElement.classList.add("review");</script>
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
   <script src="app.js" defer></script>{extra}
@@ -152,7 +153,7 @@ def mega(current=""):
     return "".join(cols)
 
 
-def header(current=""):
+def header(current="", cta="book-a-demo.html"):
     return f"""
   <header class="site-header">
     <div class="wrap header-inner">
@@ -166,7 +167,7 @@ def header(current=""):
         <a href="index.html#faq">FAQ</a>
         <a href="about.html">About</a>
       </nav>
-      <a class="btn btn-primary btn-sm" href="book-a-demo.html" data-cta="header">Book a demo</a>
+      <a class="btn btn-primary btn-sm header-cta" href="{cta}" data-cta="header">Book a demo</a>
     </div>
     <div class="mega" id="industries-menu" hidden>
       <div class="wrap mega-inner">
@@ -245,29 +246,26 @@ VIEWER = """
 """
 
 
-def page(title, description, current, main, viewer=False):
-    return (head(title, description) + header(current) + '\n  <main id="main">\n' + main + "  </main>\n"
+def page(title, description, current, main, viewer=False, cta="book-a-demo.html"):
+    return (head(title, description) + header(current, cta) + REVIEW_BANNER + '\n  <main id="main">\n' + main + "  </main>\n"
             + FOOTER + (VIEWER if viewer else "") + "</body>\n</html>\n")
 
 
-# ------------------------------------------------------------------ shared modules (sections)
+# ------------------------------------------------------------------ the eight bands (docs/Design_Brief.md, version 3)
+# Book a demo lives only in the header (Dash, 24 Nov 2026). Elements marked data-nudge make the header
+# button pulse once when they come into view (app.js). Draft badges show only in review mode (?review).
 
-
-def hero(q, a, cta_href, crumbs="", eyebrow="", draft=False):
-    crumb = f'\n        <p class="crumbs">{crumbs}</p>' if crumbs else ""
-    eb = f'\n        <p class="eyebrow">{escape(eyebrow)}</p>' if eyebrow else ""
-    mark = f'\n        <p class="hero-draft" data-placeholder>{badge(B_NEEDS_APPROVAL + ": industry wording")}</p>' if draft else ""
-    return f"""    <!-- 1 HERO (approved): the question, the answer, the time line, one button -->
-    <section class="hero hero-q" id="top">
-      <div class="wrap hero-q-inner">{crumb}{eb}{mark}
-        <h1>{escape(q)}</h1>
-        <p class="hero-answer">{escape(a)}</p>
-        <p class="hero-time">{tile("time")}<span>{escape(HERO_TIME)}</span></p>
-        <a class="btn btn-primary btn-lg" href="{cta_href}" data-cta="hero">Book a demo</a>
-      </div>
-    </section>
-
+REVIEW_BANNER = """  <p class="review-banner">Review mode. Draft labels are shown. Remove ?review from the address to see the public page.</p>
 """
+
+
+def icon(name, cls="ico"):
+    return f'<span class="{cls}" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false">{ICON[name]}</svg></span>'
+
+
+def review_note(text):
+    """A draft marker: invisible to visitors, visible with ?review, always counted by launch_check.py."""
+    return f'<p class="review-note" data-placeholder>{badge(text)}</p>'
 
 
 HERO_VIDEO = """<figure class="video-card hero-video-card">
@@ -276,22 +274,54 @@ HERO_VIDEO = """<figure class="video-card hero-video-card">
               <track kind="captions" src="assets/video/craftarc-vsl.vtt" srclang="en" label="English (also burned into the video)">
               Your browser cannot play this video. <a href="assets/video/craftarc-vsl-720p.mp4">Download it here.</a>
             </video>
-            <figcaption data-placeholder><span class="ph-badge">Placeholder video</span> The private equity film, until the new product video is ready.</figcaption>
+            <figcaption data-placeholder><span class="ph-badge">Placeholder video</span> Our first film, made for private equity leaders. The voiceover is AI generated.</figcaption>
           </figure>"""
 
 
+def proof_strip():
+    return f"""<ul class="proof-line" data-placeholder>
+            <li>{icon("pe")}<span>Our first paying client is a private equity firm.</span></li>
+            <li>{icon("person")}<span>Built by a founder who worked at McKinsey, Microsoft and Siemens.</span></li>
+          </ul>
+          {review_note(B_NEEDS_APPROVAL + ": proof line")}"""
+
+
 def home_hero():
-    """Homepage hero (Dash, 24 Nov 2026): approved lines on the left, the video on the right, no button in the body."""
-    return f"""    <!-- 1 HERO (approved copy): the question, the answer and the time line, beside the video -->
+    """Band 1. Approved lines on the left, the video on the right, no button in the body."""
+    return f"""    <!-- BAND 1 HERO (approved copy): the question, the answer and the time line, beside the video -->
     <section class="hero hero-split" id="top">
       <div class="wrap hero-split-grid">
         <div class="hero-split-copy">
           <h1>{escape(HERO_Q)}</h1>
           <p class="hero-answer">{escape(HERO_A)}</p>
-          <p class="hero-time">{tile("time")}<span>{escape(HERO_TIME)}</span></p>
+          <p class="hero-time">{icon("time")}<span>{escape(HERO_TIME)}</span></p>
+          {proof_strip()}
         </div>
         <div class="hero-split-media" id="hero-video">
           {HERO_VIDEO}
+        </div>
+      </div>
+    </section>
+
+"""
+
+
+def industry_hero(ind):
+    crumbs = f'<a href="index.html">CraftArc</a> <span aria-hidden="true">/</span> Industries <span aria-hidden="true">/</span> {escape(ind["name"])}'
+    return f"""    <!-- BAND 1 HERO: the guidance's question with this industry's roles, beside a product screen -->
+    <section class="hero hero-split hero-industry" id="top">
+      <div class="wrap hero-split-grid">
+        <div class="hero-split-copy">
+          <p class="crumbs">{crumbs}</p>
+          <p class="eyebrow">{escape(ind["name"])}</p>
+          {review_note(B_NEEDS_APPROVAL + ": industry wording")}
+          <h1>{escape(ind["q"])}</h1>
+          <p class="hero-answer">{escape(ind["a"])}</p>
+          <p class="hero-time">{icon("time")}<span>{escape(HERO_TIME)}</span></p>
+          {proof_strip()}
+        </div>
+        <div class="hero-split-media">
+          {screen(*SCREENS[0])}
         </div>
       </div>
     </section>
@@ -303,37 +333,37 @@ def claims(t):
     kr = f'<span data-token="key-roles">{escape(t["key_roles"])}</span>'
     nr = f'<span data-token="next-role">{escape(t["next_role"])}</span>'
     blocks = [
-        ("know", "Know", "", f"Know where every leader stands.",
+        ("know", "Know", "Know where every leader stands.",
          [f"Your leadership team's slate of successors for {kr}: ready now, ready in 3 years, ready in 5 to 7 years.",
           "A clear answer on who should move up or move out.",
           "Every view based on evidence, not opinion."],
          "cockpit", "Leadership Cockpit", True),
-        ("grow", "Grow", "", f"Keep every leader growing toward {nr}.",
+        ("grow", "Grow", f"Keep every leader growing toward {nr}.",
          ["A written standard for what good looks like at each leadership level.",
           "Development commitments that each leader owns.",
           "Progress on those commitments, tracked through the year."],
          "development-arc", "Development Arc", False),
-        ("time", "Without the time", "orange", HERO_TIME,
+        ("time", "Without the time", HERO_TIME,
          ["The agent runs every self-evaluation and every 360-degree dialogue.",
           "The agent drafts the write-ups for the evaluation coordinator.",
           "Each conversation with the agent takes about 25 minutes, by voice or text."],
          "review-cycle", "Review Cycle", False),
     ]
     out = []
-    for key, name, col, claim, outcomes, mod_id, mod_name, soon in blocks:
+    for key, name, claim, outcomes, mod_id, mod_name, soon in blocks:
         lis = "".join(f"<li>{o}</li>" for o in outcomes)
         tag = f' <span class="tag-soon" data-placeholder title="{B_TAG}">Not yet live</span>' if soon else ""
         out.append(f"""          <article class="claim" id="claim-{key}">
-            <p class="claim-name">{tile(key, col)}<span>{escape(name)}</span></p>
+            <p class="claim-name">{icon(key)}<span>{escape(name)}</span></p>
             <h3>{claim}</h3>
             <ul class="outcomes">{lis}</ul>
             <p class="delivered">Delivered by the <a href="#{mod_id}">{mod_name}</a>{tag}</p>
           </article>""")
-    return f"""    <!-- 2 THREE CLAIMS (approved). Claims and outcomes come from Approved Copy section 3. -->
-    <section class="section claims" id="claims">
+    return f"""    <!-- BAND 2 WHAT YOU GET: the three claims. Claims and outcomes come from Approved Copy section 3. -->
+    <section class="section band claims" id="claims">
       <div class="wrap">
         <h2 class="sr-only">What CraftArc delivers</h2>
-        <p class="draft-note" data-placeholder>{badge(B_APPROVED_COPY + ", section 3")}</p>
+        {review_note(B_APPROVED_COPY + ", section 3")}
         <div class="claims-grid">
 {chr(10).join(out)}
         </div>
@@ -343,35 +373,20 @@ def claims(t):
 """
 
 
-def problem():
-    return f"""    <!-- 3 THE PROBLEM (approved): a statement, not a section -->
-    <section class="section statement" id="problem">
-      <div class="wrap narrow">
-        <h2>{escape(PROBLEM[0])}</h2>
-        <p class="statement-2">{escape(PROBLEM[1])}</p>
-        <p class="statement-support">{escape(PROBLEM_SUPPORT)}</p>
-      </div>
-    </section>
-
-"""
-
-
-def method():
-    steps = "".join(f'<rect x="{20 + i * 78}" y="{150 - i * 34}" width="70" height="{30 + i * 34}" rx="8" class="lvl lvl-{i}"/>'
-                    f'<circle cx="{55 + i * 78}" cy="{132 - i * 34}" r="7" class="mark"/>' for i in range(4))
-    return f"""    <!-- 4 THE METHOD (approved) -->
-    <section class="section method" id="method">
-      <div class="wrap method-grid">
-        <div>
-          <p class="kicker">The method</p>
-          <h2>{escape(METHOD[0])}</h2>
-          <p class="method-text">{escape(METHOD[1])}</p>
+def why_band():
+    return f"""    <!-- BAND 3 WHY: the problem, then the method (both approved) -->
+    <section class="section band tint" id="why">
+      <div class="wrap why-grid">
+        <div class="why-problem" id="problem">
+          <h2>{escape(PROBLEM[0])}</h2>
+          <p class="why-punch">{escape(PROBLEM[1])}</p>
+          <p class="why-support">{escape(PROBLEM_SUPPORT)}</p>
         </div>
-        <svg class="ladder" viewBox="0 0 340 200" aria-hidden="true" focusable="false">
-          <defs><linearGradient id="ladgrad" x1="0" x2="1"><stop offset="0" stop-color="#245de5"/><stop offset="0.6" stop-color="#7c5cff"/><stop offset="1" stop-color="#f58220"/></linearGradient></defs>
-          {steps}
-          <path d="M55 132 L133 98 L211 64 L289 30" fill="none" stroke="url(#ladgrad)" stroke-width="3" stroke-dasharray="6 7" stroke-linecap="round"/>
-        </svg>
+        <div class="why-method" id="method">
+          {icon("doc", "ico ico-lg")}
+          <h3>{escape(METHOD[0])}</h3>
+          <p>{escape(METHOD[1])}</p>
+        </div>
       </div>
     </section>
 
@@ -380,39 +395,42 @@ def method():
 
 def solution(t):
     kr = f'<span data-token="key-roles">{escape(t["key_roles"])}</span>'
-    return f"""    <!-- 5 THE SOLUTION (approved, not yet tested with CEOs). Text from Approved Copy section 4. -->
-    <section class="section solution" id="solution">
+    tag = f'<span class="tag-soon" data-placeholder title="{B_TAG}">Not yet live</span>'
+    return f"""    <!-- BAND 4 THE PRODUCT: the solution. Text from Approved Copy section 4. -->
+    <section class="section band" id="solution">
       <div class="wrap">
-        <p class="kicker">The solution</p>
-        <div class="draft-block" data-placeholder>
-          {badge(B_APPROVED_COPY + ", section 4")}
-          <h2>Three modules, one agent</h2>
-          <p class="section-lede">The Review Cycle runs each leader's evaluation. The Development Arc keeps each leader growing through the year. The Leadership Cockpit, now in development, will give the CEO and the board one view of the bench.</p>
+        <p class="eyebrow">The solution</p>
+        {review_note(B_APPROVED_COPY + ", section 4")}
+        <h2>Three modules, one agent</h2>
+        <p class="lede">The Review Cycle runs each leader's evaluation. The Development Arc keeps each leader growing through the year. The Leadership Cockpit, now in development, will give the CEO and the board one view of the bench.</p>
+        <div class="sol-grid">
+          <div class="sol-map" aria-hidden="true">
+            <div class="map-node map-top">{icon("cockpit", "map-ico")}<span>Leadership Cockpit</span>{tag}</div>
+            <div class="map-row">
+              <div class="map-node">{icon("cycle", "map-ico")}<span>Review Cycle</span></div>
+              <div class="map-node">{icon("arc", "map-ico orange")}<span>Development Arc</span></div>
+            </div>
+            <div class="map-base">{icon("agent", "map-ico")}<span>CraftArc agent</span></div>
+          </div>
+          <div class="sol-list">
+            <article class="module" id="cockpit">
+              <div class="module-head"><h3>Leadership Cockpit</h3>{tag}</div>
+              <p><span class="mod-label">Who uses it</span> The CEO, the leadership team and the board.</p>
+              <p><span class="mod-label">What the agent will do</span> Keep the slate of successors your leadership team sets for {kr}. Each slate shows who is ready now, ready in 3 years and ready in 5 to 7 years.</p>
+            </article>
+            <article class="module" id="review-cycle">
+              <div class="module-head"><h3>Review Cycle</h3></div>
+              <p><span class="mod-label">Who uses it</span> Each leader, the colleagues who give feedback and the evaluation coordinator who runs the review.</p>
+              <p><span class="mod-label">What the agent does</span> Runs each self-evaluation and each 360-degree dialogue, then drafts the write-ups against your own standard for each level.</p>
+            </article>
+            <article class="module" id="development-arc">
+              <div class="module-head"><h3>Development Arc</h3></div>
+              <p><span class="mod-label">Who uses it</span> Each leader and their evaluation coordinator.</p>
+              <p><span class="mod-label">What the agent does</span> Turns the write-ups into development commitments, and helps each leader track them through the year.</p>
+            </article>
+          </div>
         </div>
-        <div class="sol-diagram">
-          <article class="module module-top" id="cockpit">
-            <div class="module-head">{tile("cockpit")}<h3>Leadership Cockpit</h3><span class="tag-soon" data-placeholder title="{B_TAG}">Not yet live</span></div>
-            <p class="mod-label">Who uses it</p>
-            <p>The CEO, the leadership team and the board.</p>
-            <p class="mod-label">What the agent will do</p>
-            <p>Keep the slate of successors your leadership team sets for {kr}. Each slate shows who is ready now, ready in 3 years and ready in 5 to 7 years.</p>
-          </article>
-          <article class="module" id="review-cycle">
-            <div class="module-head">{tile("cycle")}<h3>Review Cycle</h3></div>
-            <p class="mod-label">Who uses it</p>
-            <p>Each leader, the colleagues who give feedback and the evaluation coordinator who runs the review.</p>
-            <p class="mod-label">What the agent does</p>
-            <p>Runs each self-evaluation and each 360-degree dialogue, then drafts the write-ups against your own standard for each level.</p>
-          </article>
-          <article class="module" id="development-arc">
-            <div class="module-head">{tile("arc", "orange")}<h3>Development Arc</h3></div>
-            <p class="mod-label">Who uses it</p>
-            <p>Each leader and their evaluation coordinator.</p>
-            <p class="mod-label">What the agent does</p>
-            <p>Turns the write-ups into development commitments, and helps each leader track them through the year.</p>
-          </article>
-          <div class="agent-band">{tile("agent")}<p><strong>The CraftArc agent</strong> runs the Review Cycle and the Development Arc, and will run the Leadership Cockpit. It interviews, grades the evidence by source and drafts the write-ups. The evaluation coordinator owns the final wording.</p></div>
-        </div>
+        <div class="agent-band">{icon("agent")}<p><strong>The CraftArc agent</strong> runs the Review Cycle and the Development Arc, and will run the Leadership Cockpit. It interviews, grades the evidence by source and drafts the write-ups. The evaluation coordinator owns the final wording.</p></div>
       </div>
     </section>
 
@@ -420,60 +438,15 @@ def solution(t):
 
 
 STEPS = [
-    ("Launch the cycle", "The agent tells each leader and their evaluation coordinator that the cycle has begun."),
-    ("Self-evaluation", "The agent interviews each leader about their work, by voice or text, in about 25 minutes."),
-    ("Choose who gives feedback", "The agent checks that someone saw each competency first-hand, and flags any gap before the dialogues start."),
-    ("360-degree dialogues", "The agent talks with each colleague in confidence, and grades every fact by its source."),
-    ("Prepare the dialogue", "The agent drafts the write-ups: the memo for the Executive Committee, a note to the leader and a scorecard."),
-    ("Prepare the leader", "The agent walks each leader through their own write-up before the development dialogue."),
-    ("Development commitments", "The agent turns the write-ups into a short list of development commitments that the leader owns."),
-    ("Track progress", "The agent helps each leader track their development commitments through the year, on their phone."),
+    ("Launch the cycle", "The agent tells each leader and their evaluation coordinator that the cycle has begun.", "home"),
+    ("Self-evaluation", "The agent interviews each leader about their work, by voice or text, in about 25 minutes.", "self"),
+    ("Choose who gives feedback", "The agent checks that someone saw each competency first-hand, and flags any gap before the dialogues start.", "coverage"),
+    ("360-degree dialogues", "The agent talks with each colleague in confidence, and grades every fact by its source.", "roster"),
+    ("Prepare the dialogue", "The agent drafts the write-ups: the memo for the Executive Committee, a note to the leader and a scorecard.", "memo"),
+    ("Prepare the leader", "The agent walks each leader through their own write-up before the development dialogue.", "memo"),
+    ("Development commitments", "The agent turns the write-ups into a short list of development commitments that the leader owns.", "people"),
+    ("Track progress", "The agent helps each leader track their development commitments through the year, on their phone.", "people"),
 ]
-
-PE_VIDEO = """<figure class="video-card">
-            <video controls preload="metadata" playsinline poster="assets/video/poster.jpg" aria-label="CraftArc video, 2 minutes 13 seconds">
-              <source src="assets/video/craftarc-vsl-720p.mp4" type="video/mp4">
-              <track kind="captions" src="assets/video/craftarc-vsl.vtt" srclang="en" label="English (also burned into the video)">
-              Your browser cannot play this video. <a href="assets/video/craftarc-vsl-720p.mp4">Download it here.</a>
-            </video>
-            <figcaption>2 minutes 13 seconds. Captions on. The voiceover is AI generated.</figcaption>
-          </figure>
-          <p class="video-note" data-placeholder>""" + badge("Video revamp in progress") + """ This video tells an earlier version of the story. A new video that follows these steps is in production.</p>"""
-
-HOME_VIDEO = f"""<figure class="video-card video-placeholder" data-placeholder>
-            <div class="vp-stage">
-              <span class="tile big" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false">{ICON["play"]}</svg></span>
-              <p class="vp-title">Product video coming soon</p>
-              <p class="vp-sub">A short film of the Review Cycle, step by step.</p>
-              <a class="btn btn-ghost btn-sm" href="private-equity.html#video" data-cta="pe-video">Watch the private equity video</a>
-            </div>
-            <figcaption><span class="ph-badge">Placeholder, replace before launch</span></figcaption>
-          </figure>"""
-
-
-def how(video_html):
-    lis = "\n".join(f'          <li id="step-{i}"><h3>{escape(n)}</h3><p>{escape(l)}</p></li>' for i, (n, l) in enumerate(STEPS, 1))
-    return f"""    <!-- 6 HOW IT WORKS (approved): the eight Review Cycle steps beside the product video -->
-    <section class="section how-steps" id="how">
-      <div class="wrap">
-        <p class="kicker">How it works</p>
-        <div class="draft-block" data-placeholder>
-          {badge(B_APPROVED_COPY + ", the eight steps")}
-          <h2>Inside the Review Cycle</h2>
-        </div>
-        <div class="how-grid">
-          <ol class="steps">
-{lis}
-          </ol>
-          <div class="how-media" id="video">
-          {video_html}
-          </div>
-        </div>
-      </div>
-    </section>
-
-"""
-
 
 SCREENS = [
     ("07_self_review.webp", "step2_selfreview", 940, 485, "The self-evaluation conversation with the agent, by voice", "The self-evaluation, in the product. Sample conversation."),
@@ -482,6 +455,9 @@ SCREENS = [
     ("06_performance_review.webp", "proof_writeup", 885, 440, "A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer", "A drafted memo for the Executive Committee. Sample data."),
     ("02_my_people.webp", "step5_people", 1880, 340, "Each leader's progress through the cycle, in one view", "Every leader's progress, in one view. Sample data."),
 ]
+SHOT = dict(zip(["self", "coverage", "roster", "memo"], SCREENS[:4]))
+SHOT["home"] = ("01_home.webp", "step1_home", 1070, 812, "The CraftArc home screen, where the annual review is launched and each person's place in it is shown", "The home screen, where the cycle starts. Sample data.")
+SHOT["people"] = ("02_my_people.webp", "02_my_people", 1919, 914, "Each leader's progress through the cycle, in one view", "Every leader's progress, in one view. Sample data.")
 
 
 def screen(full, stem, w, h, alt, cap):
@@ -491,21 +467,80 @@ def screen(full, stem, w, h, alt, cap):
             f'<span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">{escape(cap)}</figcaption></figure>')
 
 
+PE_VIDEO = """<figure class="video-card">
+            <video controls preload="metadata" playsinline poster="assets/video/poster.jpg" aria-label="CraftArc video, 2 minutes 13 seconds">
+              <source src="assets/video/craftarc-vsl-720p.mp4" type="video/mp4">
+              <track kind="captions" src="assets/video/craftarc-vsl.vtt" srclang="en" label="English (also burned into the video)">
+              Your browser cannot play this video. <a href="assets/video/craftarc-vsl-720p.mp4">Download it here.</a>
+            </video>
+            <figcaption>2 minutes 13 seconds. Captions on. The voiceover is AI generated.</figcaption>
+          </figure>
+          <p class="video-note" data-placeholder>""" + badge("Video revamp in progress") + """ This film tells an earlier version of the story. A new film that follows these steps is in production.</p>"""
+
+
+def how(video=False):
+    """Band 5. The eight steps on the left. On the right, the product screen for the step in view (homepage),
+    or the video (Private Equity and VC page, CLAUDE.md item 7). On a phone, each step shows its screen inline."""
+    seen, lis = set(), []
+    for i, (n, line, shot) in enumerate(STEPS, 1):
+        inline = ""
+        if not video and shot not in seen:
+            inline = f'<div class="step-shot">{screen(*SHOT[shot])}</div>'
+        seen.add(shot)
+        nudge = " data-nudge" if i == len(STEPS) else ""
+        lis.append(f'          <li id="step-{i}" data-shot="{shot}"{nudge}><h3>{escape(n)}</h3><p>{escape(line)}</p>{inline}</li>')
+    if video:
+        media = f'<div class="how-media" id="video">\n          {PE_VIDEO}\n          </div>'
+    else:
+        stack = "".join(f'<div class="stack-item{" is-active" if k == STEPS[0][2] else ""}" data-shot="{k}">{screen(*SHOT[k])}</div>'
+                        for k in ["home", "self", "coverage", "roster", "memo", "people"])
+        media = f'<div class="how-media" id="screens"><div class="shot-stack">{stack}</div></div>'
+    return f"""    <!-- BAND 5 HOW IT WORKS: the eight Review Cycle steps (Approved Copy) -->
+    <section class="section band tint" id="how">
+      <div class="wrap">
+        <p class="eyebrow">How it works</p>
+        {review_note(B_APPROVED_COPY + ", the eight steps")}
+        <h2>Inside the Review Cycle</h2>
+        <div class="how-grid">
+          <ol class="steps">
+{chr(10).join(lis)}
+          </ol>
+          {media}
+        </div>
+      </div>
+    </section>
+
+"""
+
+
+FOUNDER = f"""<aside class="founder" data-placeholder>
+            <span class="avatar" aria-hidden="true">D</span>
+            <div>
+              {badge(B_NEEDS_APPROVAL + ": founder note")}
+              <p class="founder-quote">I worked at McKinsey, Microsoft and Siemens, and I founded AgenticPM, which builds AI agents for private markets. I modeled CraftArc on how the best management consulting firms develop and select their leaders.</p>
+              <p class="founder-sign">Bibhudatta "Dash", founder</p>
+            </div>
+          </aside>"""
+
+
 def proof_live(gallery=False):
     shots = ""
     if gallery:
         shots = ('\n        <h3 class="gallery-head">In the product</h3>\n        <div class="gallery">'
                  + "".join(screen(*s) for s in SCREENS) + "</div>")
-    else:
-        shots = "\n        <div class=\"proof-shot\">" + screen(*SCREENS[3]) + "</div>"
-    return f"""    <!-- 7 PROOF (approved, with one gap) -->
-    <section class="section proof-band" id="proof">
+    return f"""    <!-- BAND 6 PROOF (approved line, one reserved slot) -->
+    <section class="section band" id="proof">
       <div class="wrap">
-        <p class="kicker">Proof</p>
-        <h2>{escape(PROOF)}</h2>
-        <div class="proof-slot" data-placeholder>
-          {badge("Placeholder, needs Dash's approval and the client's written consent")}
-          <p>[One result or one quote from the first client goes here]</p>
+        <div class="proof-grid">
+          <div>
+            <p class="eyebrow">Proof</p>
+            <h2 data-nudge>{escape(PROOF)}</h2>
+            <div class="proof-slot" data-placeholder>
+              {badge("Placeholder, needs Dash's approval and the client's written consent")}
+              <p>[One result or one quote from the first client goes here]</p>
+            </div>
+          </div>
+          {FOUNDER}
         </div>{shots}
       </div>
     </section>
@@ -514,87 +549,68 @@ def proof_live(gallery=False):
 
 
 def proof_soon(ind):
-    return f"""    <!-- 7 PROOF: only the Private Equity and VC page has a live client (guidance) -->
-    <section class="section proof-band" id="proof">
+    return f"""    <!-- BAND 6 PROOF: only the Private Equity and VC page has a live client (guidance) -->
+    <section class="section band" id="proof">
       <div class="wrap">
-        <p class="kicker">Proof</p>
-        <div class="draft-block" data-placeholder>
-          {badge(B_NEEDS_APPROVAL)}
-          <h2>Client results in {escape(ind["name"])} are coming soon.</h2>
-          <p class="section-lede">{escape(PROOF)}</p>
+        <div class="proof-grid">
+          <div>
+            <p class="eyebrow">Proof</p>
+            {review_note(B_NEEDS_APPROVAL)}
+            <h2 data-nudge>Client results in {escape(ind["name"])} are coming soon.</h2>
+            <p class="lede">{escape(PROOF)} <a href="private-equity.html">See CraftArc in private equity</a>.</p>
+          </div>
+          {FOUNDER}
         </div>
-        <p><a class="btn btn-ghost" href="private-equity.html">See CraftArc in private equity</a></p>
       </div>
     </section>
 
 """
 
 
-def industries():
-    cards = []
+def start_band():
+    tiles = []
     for ind in INDUSTRIES:
         st = ind["status"]
-        orange = "orange" if ind["icon"] in ("hls", "ps") else ""
-        subs = "".join(f"<li>{escape(n)}</li>" for _, n, _, _ in ind["subs"])
-        cards.append(f'          <a class="card ind-card" href="{ind["slug"]}.html">{tile(ind["icon"], orange)}'
-                     f'<span class="ind-status {st}">{STATUS_LABEL[st]}</span><h3>{escape(ind["name"])}</h3>'
-                     f'<p>{escape(ind["card"])}</p><ul class="ind-subs">{subs}</ul><span class="ind-more">Read more</span></a>')
-    return f"""    <!-- 8 INDUSTRIES (needs approval): proven in private equity first, then professional services, then all industries -->
-    <section class="section industries" id="industries">
-      <div class="wrap">
-        <p class="kicker">Industries</p>
-        <div class="draft-block" data-placeholder>
-          {badge(B_NEEDS_APPROVAL + ": card copy")}
-          <h2>Every organization needs its next leaders. We started in private equity.</h2>
-        </div>
-        <div class="card-grid">
-{chr(10).join(cards)}
-        </div>
-      </div>
-    </section>
-
-"""
-
-
-def start():
+        tiles.append(f'<a class="ind-tile" href="{ind["slug"]}.html">{icon(ind["icon"])}'
+                     f'<span class="ind-name">{escape(ind["name"])}</span><span class="ind-status {st}">{STATUS_LABEL[st]}</span>'
+                     f'<span class="ind-line">{escape(ind["card"])}</span></a>')
     steps = [
-        ("search", "", "We assess where you are", "We look at your leadership levels and at how you review leaders today."),
-        ("doc", "", "We write down the standard with you", "We help you write down what good looks like at each leadership level, in your own words."),
-        ("gear", "", "We set CraftArc up around your organization", "We load your levels, your standard and your people, and set who sees what."),
-        ("flag", "orange", "You run your next cycle", "Your leaders go through their first Review Cycle, and the agent does the legwork."),
+        ("search", "We assess where you are", "We look at your leadership levels and at how you review leaders today."),
+        ("doc", "We write down the standard with you", "We help you write down what good looks like at each leadership level, in your own words."),
+        ("gear", "We set CraftArc up around your organization", "We load your levels, your standard and your people, and set who sees what."),
+        ("flag", "You run your next cycle", "Your leaders go through their first Review Cycle, and the agent does the legwork."),
     ]
-    lis = "\n".join(f'          <li>{tile(i, c)}<h3>{escape(h)}</h3><p>{escape(p)}</p></li>' for i, c, h, p in steps)
-    return f"""    <!-- 9 HOW YOU START (approved headline, draft steps from Dash's steer) -->
-    <section class="section start" id="start">
+    lis = "\n".join(f'            <li>{icon(i)}<h3>{escape(h)}</h3><p>{escape(p)}</p></li>' for i, h, p in steps)
+    return f"""    <!-- BAND 7 GETTING STARTED: industries, how you start and who it is for -->
+    <section class="section band wash" id="start">
       <div class="wrap">
-        <p class="kicker">How you start</p>
-        <h2>{escape(START_HEAD)}</h2>
-        <div class="draft-block" data-placeholder>{badge(B_NEEDS_APPROVAL + ": the four steps")}</div>
-        <ol class="start-steps">
-{lis}
-        </ol>
-      </div>
-    </section>
-
-"""
-
-
-def who():
-    return f"""    <!-- 10 WHO IT IS FOR (approved line, draft lead-in) -->
-    <section class="section who" id="who">
-      <div class="wrap narrow">
-        <p class="kicker">Who it is for</p>
-        <div class="draft-block" data-placeholder>
-          {badge(B_NEEDS_APPROVAL)}
-          <h2>For CEOs who grow their next leaders on purpose</h2>
-          <p class="who-text">CraftArc is for CEOs and leadership teams who want to know where every leader stands. It works when the leadership team commits to a Review Cycle every year, and to a development dialogue with each leader.</p>
+        <div class="sub" id="industries">
+          <p class="eyebrow">Industries</p>
+          {review_note(B_NEEDS_APPROVAL + ": card copy")}
+          <h2>Every organization needs its next leaders. We started in private equity.</h2>
+          <div class="ind-grid">{"".join(tiles)}</div>
         </div>
-        <p class="who-line">{escape(WHO_LINE)}</p>
+        <div class="sub" id="onboarding">
+          <p class="eyebrow">How you start</p>
+          <h2>{escape(START_HEAD)}</h2>
+          {review_note(B_NEEDS_APPROVAL + ": the four steps")}
+          <ol class="start-steps">
+{lis}
+          </ol>
+        </div>
+        <div class="sub who" id="who">
+          <div>
+            <p class="eyebrow">Who it is for</p>
+            {review_note(B_NEEDS_APPROVAL)}
+            <h2>For CEOs who grow their next leaders on purpose</h2>
+            <p>CraftArc is for CEOs and leadership teams who want to know where every leader stands. It works when the leadership team commits to a Review Cycle every year, and to a development dialogue with each leader.</p>
+          </div>
+          <p class="who-line">{escape(WHO_LINE)}</p>
+        </div>
       </div>
     </section>
 
 """
-
 
 FAQ = [
     ("Who decides where a leader stands?",
@@ -614,34 +630,41 @@ FAQ = [
 ]
 
 
-def faq():
-    items = "\n".join(f"        <details>\n          <summary>{escape(q)}</summary>\n          <p>{escape(a)}</p>\n        </details>" for q, a in FAQ)
-    return f"""    <!-- 11 FAQ (questions from CEO testing, draft answers) -->
-    <section class="section faq" id="faq">
-      <div class="wrap narrow">
-        <p class="kicker">FAQ</p>
-        <h2>Questions CEOs ask us</h2>
-        <div class="draft-block" data-placeholder>{badge(B_NEEDS_APPROVAL + ": the answers")}</div>
+def faq_band(close=True):
+    items = "\n".join(f"          <details>\n            <summary>{escape(q)}</summary>\n            <p>{escape(a)}</p>\n          </details>" for q, a in FAQ)
+    return f"""    <!-- BAND 8 FAQ AND THE CLOSE (draft answers; questions from CEO testing) -->
+    <section class="section band faq" id="faq">
+      <div class="wrap faq-grid">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2>Questions CEOs ask us</h2>
+          {review_note(B_NEEDS_APPROVAL + ": the answers")}
+        </div>
+        <div class="faq-list">
 {items}
+        </div>
       </div>
-    </section>
+{close_block() if close else ""}    </section>
 
 """
 
 
-def book_cta(href):
-    return f"""    <!-- 12 BOOK A DEMO (needs approval): one button, repeated from the hero -->
-    <section class="section book book-cta" id="book">
-      <div class="wrap narrow">
-        <p class="kicker">Book a demo</p>
-        <div class="draft-block" data-placeholder>
-          {badge(B_NEEDS_APPROVAL)}
-          <h2>Bring the question your board keeps asking.</h2>
-          <p class="section-lede">We will show you how CraftArc answers it.</p>
+def close_block():
+    """The close. No button: the header carries Book a demo, and pulses once when this comes into view."""
+    return f"""      <div class="close wash" id="close">
+        <div class="wrap">
+          {review_note(B_NEEDS_APPROVAL)}
+          <p class="close-line" data-nudge>Bring the question your board keeps asking.</p>
+          <p class="close-sub">We will show you how CraftArc answers it.</p>
         </div>
-        <a class="btn btn-primary btn-lg" href="{href}" data-cta="book">Book a demo</a>
       </div>
-    </section>
+"""
+
+
+def close_section():
+    return f"""    <!-- CLOSE -->
+    <section class="band close-only" id="book">
+{close_block()}    </section>
 
 """
 
@@ -651,16 +674,16 @@ def subsectors(ind):
     for sid, name, st, text in ind["subs"]:
         text = text or f"CraftArc for leaders in {name}. This section is in development."
         label = STATUS_LABEL["live" if st == "live" else "soon"]
-        cards.append(f'<article class="card sub-card" id="{sid}"><p class="ind-status {st}">{label}</p><h3>{escape(name)}</h3><p>{escape(text)}</p></article>')
+        cards.append(f'<article class="sub-card" id="{sid}"><p class="ind-status {st}">{label}</p><h3>{escape(name)}</h3><p>{escape(text)}</p></article>')
     return f"""    <!-- SUB-SECTORS: menu targets -->
-    <section class="section subsectors" id="sub-sectors">
+    <section class="subsectors" id="sub-sectors">
       <div class="wrap">
-        <p class="kicker">{escape(ind["name"])}</p>
         <div class="sub-grid">{"".join(cards)}</div>
       </div>
     </section>
 
 """
+
 
 
 # ------------------------------------------------------------------ the lead form (Book a demo page only)
@@ -774,19 +797,17 @@ DESC_HOME = ("Can you tell how close each leader is to their next role? CraftArc
 
 
 def home():
-    main = (home_hero() + claims(HOME_TOKENS) + problem() + method() + solution(HOME_TOKENS)
-            + how(HOME_VIDEO) + proof_live() + industries() + start() + who() + faq() + book_cta("book-a-demo.html"))
+    main = (home_hero() + claims(HOME_TOKENS) + why_band() + solution(HOME_TOKENS) + how() + proof_live()
+            + start_band() + faq_band())
     return page("CraftArc | Know where every leader stands", DESC_HOME, "", main, viewer=True)
 
 
 def industry(ind):
-    crumbs = f'<a href="index.html">CraftArc</a> <span aria-hidden="true">/</span> Industries <span aria-hidden="true">/</span> {escape(ind["name"])}'
-    href = f'book-a-demo.html?industry={ind["value"]}'
     live = ind["status"] == "live"
-    main = (hero(ind["q"], ind["a"], href, crumbs, ind["name"], draft=True) + subsectors(ind) + claims(ind) + solution(ind)
-            + (how(PE_VIDEO) if live else "") + (proof_live(gallery=True) if live else proof_soon(ind)) + book_cta(href))
+    main = (industry_hero(ind) + subsectors(ind) + claims(ind) + solution(ind)
+            + (how(video=True) if live else "") + (proof_live(gallery=True) if live else proof_soon(ind)) + close_section())
     desc = f'{ind["q"]} CraftArc can, without blocking days of leadership time.'
-    return page(f'CraftArc | {ind["name"]}', desc, ind["slug"], main, viewer=live)
+    return page(f'CraftArc | {ind["name"]}', desc, ind["slug"], main, viewer=True, cta=f'book-a-demo.html?industry={ind["value"]}')
 
 
 def about():
@@ -794,49 +815,47 @@ def about():
       <div class="wrap">
         <p class="crumbs"><a href="index.html">CraftArc</a> <span aria-hidden="true">/</span> About</p>
         <p class="eyebrow">About CraftArc</p>
+        {review_note(B_NEEDS_APPROVAL + ": page headline")}
         <h1>We help CEOs grow their next leaders on purpose.</h1>
-        <p class="draft-note" data-placeholder>{badge(B_NEEDS_APPROVAL + ": page headline")}</p>
       </div>
     </section>
 
-    <section class="section about" id="pitch">
+    <section class="section band about" id="pitch">
       <div class="wrap about-grid">
         <div class="pitch" data-placeholder>
           {badge("Placeholder: the elevator pitch from Approved Copy, section 1, goes here word for word")}
           <p class="pitch-text">{escape(HERO_A)} {escape(METHOD[1])}</p>
-          <p class="pitch-note">Stand-in built only from approved lines in the website guidance.</p>
+          <p class="proof-note">{escape(PROOF)}</p>
         </div>
-        <aside class="box founder" id="founder" data-placeholder>
-          {tile("person")}
-          <div>
-            {badge("Placeholder: founder note, Dash to write")}
-            <h2>From the founder</h2>
-            <p>I worked at McKinsey, Microsoft and Siemens, and I founded AgenticPM, which builds AI agents for private markets. I modeled CraftArc on how the best management consulting firms develop and select their leaders.</p>
-            <p class="box-sign">Bibhudatta "Dash"</p>
-          </div>
-        </aside>
-      </div>
-      <div class="wrap">
-        <p class="about-proof">{escape(PROOF)}</p>
+        {FOUNDER}
       </div>
     </section>
 
-""" + book_cta("book-a-demo.html")
+""" + close_section()
     return page("CraftArc | About", "CraftArc helps CEOs know where every leader stands, and keep every one of them growing toward their next role.",
                 "", main)
 
 
 def book_page():
+    seen = [
+        ("cycle", "The Review Cycle in the product, step by step, with sample data."),
+        ("doc", "The write-ups the agent drafts for one leader: the memo, the note and the scorecard."),
+        ("flag", "How you would start before your next review cycle."),
+    ]
+    lis = "".join(f"<li>{icon(i)}<span>{escape(t)}</span></li>" for i, t in seen)
     main = f"""    <section class="hero page-hero book-page" id="book">
       <div class="wrap book-grid">
         <div class="book-copy">
           <p class="crumbs"><a href="index.html">CraftArc</a> <span aria-hidden="true">/</span> Book a demo</p>
           <h1>Book a demo</h1>
-          <div class="draft-block" data-placeholder>
-            {badge(B_NEEDS_APPROVAL + ": the line and the form fields")}
-            <p class="lede">Tell us who you are, and we will email you to arrange a time.</p>
-          </div>
-          <p class="hero-time">{tile("time")}<span>{escape(HERO_TIME)}</span></p>
+          {review_note(B_NEEDS_APPROVAL + ": the line, the list and the form fields")}
+          <p class="lede">Tell us who you are, and we will email you to arrange a time.</p>
+          <p class="see-head">What you will see</p>
+          <ul class="see-list">{lis}</ul>
+          <ul class="proof-line">
+            <li>{icon("time")}<span>{escape(HERO_TIME)}</span></li>
+            <li>{icon("pe")}<span>Our first paying client is a private equity firm.</span></li>
+          </ul>
         </div>
 {FORM}      </div>
     </section>

@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>if (/[?&]review(=|&|$)/.test(location.search)) document.documentElement.classList.add("review");</script>
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
   <script src="app.js" defer></script>
@@ -34,7 +35,7 @@
         <a href="index.html#faq">FAQ</a>
         <a href="about.html">About</a>
       </nav>
-      <a class="btn btn-primary btn-sm" href="book-a-demo.html" data-cta="header">Book a demo</a>
+      <a class="btn btn-primary btn-sm header-cta" href="book-a-demo.html" data-cta="header">Book a demo</a>
     </div>
     <div class="mega" id="industries-menu" hidden>
       <div class="wrap mega-inner">
@@ -43,15 +44,21 @@
       </div>
     </div>
   </header>
+  <p class="review-banner">Review mode. Draft labels are shown. Remove ?review from the address to see the public page.</p>
 
   <main id="main">
-    <!-- 1 HERO (approved copy): the question, the answer and the time line, beside the video -->
+    <!-- BAND 1 HERO (approved copy): the question, the answer and the time line, beside the video -->
     <section class="hero hero-split" id="top">
       <div class="wrap hero-split-grid">
         <div class="hero-split-copy">
           <h1>Can you tell how close each leader is to their next role?</h1>
           <p class="hero-answer">CraftArc can. Know where every leader stands, and keep every one of them growing toward their next role.</p>
-          <p class="hero-time"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>All without blocking days of leadership time.</span></p>
+          <p class="hero-time"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>All without blocking days of leadership time.</span></p>
+          <ul class="proof-line" data-placeholder>
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20h18"/><path d="M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span>Our first paying client is a private equity firm.</span></li>
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span>Built by a founder who worked at McKinsey, Microsoft and Siemens.</span></li>
+          </ul>
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: proof line</span></p>
         </div>
         <div class="hero-split-media" id="hero-video">
           <figure class="video-card hero-video-card">
@@ -60,32 +67,32 @@
               <track kind="captions" src="assets/video/craftarc-vsl.vtt" srclang="en" label="English (also burned into the video)">
               Your browser cannot play this video. <a href="assets/video/craftarc-vsl-720p.mp4">Download it here.</a>
             </video>
-            <figcaption data-placeholder><span class="ph-badge">Placeholder video</span> The private equity film, until the new product video is ready.</figcaption>
+            <figcaption data-placeholder><span class="ph-badge">Placeholder video</span> Our first film, made for private equity leaders. The voiceover is AI generated.</figcaption>
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- 2 THREE CLAIMS (approved). Claims and outcomes come from Approved Copy section 3. -->
-    <section class="section claims" id="claims">
+    <!-- BAND 2 WHAT YOU GET: the three claims. Claims and outcomes come from Approved Copy section 3. -->
+    <section class="section band claims" id="claims">
       <div class="wrap">
         <h2 class="sr-only">What CraftArc delivers</h2>
-        <p class="draft-note" data-placeholder><span class="ph-badge">Draft placeholder, until CraftArc Approved Copy arrives, section 3</span></p>
+        <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, until CraftArc Approved Copy arrives, section 3</span></p>
         <div class="claims-grid">
           <article class="claim" id="claim-know">
-            <p class="claim-name"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span><span>Know</span></p>
+            <p class="claim-name"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span><span>Know</span></p>
             <h3>Know where every leader stands.</h3>
             <ul class="outcomes"><li>Your leadership team's slate of successors for <span data-token="key-roles">each key role</span>: ready now, ready in 3 years, ready in 5 to 7 years.</li><li>A clear answer on who should move up or move out.</li><li>Every view based on evidence, not opinion.</li></ul>
             <p class="delivered">Delivered by the <a href="#cockpit">Leadership Cockpit</a> <span class="tag-soon" data-placeholder title="Tag wording needs approval">Not yet live</span></p>
           </article>
           <article class="claim" id="claim-grow">
-            <p class="claim-name"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20h18"/><path d="M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span>Grow</span></p>
+            <p class="claim-name"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20h18"/><path d="M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span>Grow</span></p>
             <h3>Keep every leader growing toward <span data-token="next-role">their next role</span>.</h3>
             <ul class="outcomes"><li>A written standard for what good looks like at each leadership level.</li><li>Development commitments that each leader owns.</li><li>Progress on those commitments, tracked through the year.</li></ul>
             <p class="delivered">Delivered by the <a href="#development-arc">Development Arc</a></p>
           </article>
           <article class="claim" id="claim-time">
-            <p class="claim-name"><span class="tile orange" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>Without the time</span></p>
+            <p class="claim-name"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>Without the time</span></p>
             <h3>All without blocking days of leadership time.</h3>
             <ul class="outcomes"><li>The agent runs every self-evaluation and every 360-degree dialogue.</li><li>The agent drafts the write-ups for the evaluation coordinator.</li><li>Each conversation with the agent takes about 25 minutes, by voice or text.</li></ul>
             <p class="delivered">Delivered by the <a href="#review-cycle">Review Cycle</a></p>
@@ -94,208 +101,183 @@
       </div>
     </section>
 
-    <!-- 3 THE PROBLEM (approved): a statement, not a section -->
-    <section class="section statement" id="problem">
-      <div class="wrap narrow">
-        <h2>Every board wants to know the depth of its leadership bench, and who should move up or move out.</h2>
-        <p class="statement-2">Most companies cannot answer either question.</p>
-        <p class="statement-support">The craft stays in a few heads.</p>
-      </div>
-    </section>
-
-    <!-- 4 THE METHOD (approved) -->
-    <section class="section method" id="method">
-      <div class="wrap method-grid">
-        <div>
-          <p class="kicker">The method</p>
-          <h2>Great organizations grow their next leaders on purpose.</h2>
-          <p class="method-text">Built on the best practices of leading management consulting firms, CraftArc defines what good looks like at each leadership level.</p>
+    <!-- BAND 3 WHY: the problem, then the method (both approved) -->
+    <section class="section band tint" id="why">
+      <div class="wrap why-grid">
+        <div class="why-problem" id="problem">
+          <h2>Every board wants to know the depth of its leadership bench, and who should move up or move out.</h2>
+          <p class="why-punch">Most companies cannot answer either question.</p>
+          <p class="why-support">The craft stays in a few heads.</p>
         </div>
-        <svg class="ladder" viewBox="0 0 340 200" aria-hidden="true" focusable="false">
-          <defs><linearGradient id="ladgrad" x1="0" x2="1"><stop offset="0" stop-color="#245de5"/><stop offset="0.6" stop-color="#7c5cff"/><stop offset="1" stop-color="#f58220"/></linearGradient></defs>
-          <rect x="20" y="150" width="70" height="30" rx="8" class="lvl lvl-0"/><circle cx="55" cy="132" r="7" class="mark"/><rect x="98" y="116" width="70" height="64" rx="8" class="lvl lvl-1"/><circle cx="133" cy="98" r="7" class="mark"/><rect x="176" y="82" width="70" height="98" rx="8" class="lvl lvl-2"/><circle cx="211" cy="64" r="7" class="mark"/><rect x="254" y="48" width="70" height="132" rx="8" class="lvl lvl-3"/><circle cx="289" cy="30" r="7" class="mark"/>
-          <path d="M55 132 L133 98 L211 64 L289 30" fill="none" stroke="url(#ladgrad)" stroke-width="3" stroke-dasharray="6 7" stroke-linecap="round"/>
-        </svg>
+        <div class="why-method" id="method">
+          <span class="ico ico-lg" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 12h7M9 16h7"/></svg></span>
+          <h3>Great organizations grow their next leaders on purpose.</h3>
+          <p>Built on the best practices of leading management consulting firms, CraftArc defines what good looks like at each leadership level.</p>
+        </div>
       </div>
     </section>
 
-    <!-- 5 THE SOLUTION (approved, not yet tested with CEOs). Text from Approved Copy section 4. -->
-    <section class="section solution" id="solution">
+    <!-- BAND 4 THE PRODUCT: the solution. Text from Approved Copy section 4. -->
+    <section class="section band" id="solution">
       <div class="wrap">
-        <p class="kicker">The solution</p>
-        <div class="draft-block" data-placeholder>
-          <span class="ph-badge">Draft placeholder, until CraftArc Approved Copy arrives, section 4</span>
-          <h2>Three modules, one agent</h2>
-          <p class="section-lede">The Review Cycle runs each leader's evaluation. The Development Arc keeps each leader growing through the year. The Leadership Cockpit, now in development, will give the CEO and the board one view of the bench.</p>
-        </div>
-        <div class="sol-diagram">
-          <article class="module module-top" id="cockpit">
-            <div class="module-head"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 13l3-3 2.5 2L17 8"/><path d="M8 21h8M12 17v4"/></svg></span><h3>Leadership Cockpit</h3><span class="tag-soon" data-placeholder title="Tag wording needs approval">Not yet live</span></div>
-            <p class="mod-label">Who uses it</p>
-            <p>The CEO, the leadership team and the board.</p>
-            <p class="mod-label">What the agent will do</p>
-            <p>Keep the slate of successors your leadership team sets for <span data-token="key-roles">each key role</span>. Each slate shows who is ready now, ready in 3 years and ready in 5 to 7 years.</p>
-          </article>
-          <article class="module" id="review-cycle">
-            <div class="module-head"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 12a8 8 0 0 1-13.7 5.7"/><path d="M4 12a8 8 0 0 1 13.7-5.7"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></span><h3>Review Cycle</h3></div>
-            <p class="mod-label">Who uses it</p>
-            <p>Each leader, the colleagues who give feedback and the evaluation coordinator who runs the review.</p>
-            <p class="mod-label">What the agent does</p>
-            <p>Runs each self-evaluation and each 360-degree dialogue, then drafts the write-ups against your own standard for each level.</p>
-          </article>
-          <article class="module" id="development-arc">
-            <div class="module-head"><span class="tile orange" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 19a8 8 0 0 1 16 0" stroke-dasharray="2.5 3"/><circle cx="4" cy="19" r="1.8"/><circle cx="20" cy="19" r="1.8"/><path d="M12 3v6M9 6l3 3 3-3"/></svg></span><h3>Development Arc</h3></div>
-            <p class="mod-label">Who uses it</p>
-            <p>Each leader and their evaluation coordinator.</p>
-            <p class="mod-label">What the agent does</p>
-            <p>Turns the write-ups into development commitments, and helps each leader track them through the year.</p>
-          </article>
-          <div class="agent-band"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></span><p><strong>The CraftArc agent</strong> runs the Review Cycle and the Development Arc, and will run the Leadership Cockpit. It interviews, grades the evidence by source and drafts the write-ups. The evaluation coordinator owns the final wording.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6 HOW IT WORKS (approved): the eight Review Cycle steps beside the product video -->
-    <section class="section how-steps" id="how">
-      <div class="wrap">
-        <p class="kicker">How it works</p>
-        <div class="draft-block" data-placeholder>
-          <span class="ph-badge">Draft placeholder, until CraftArc Approved Copy arrives, the eight steps</span>
-          <h2>Inside the Review Cycle</h2>
-        </div>
-        <div class="how-grid">
-          <ol class="steps">
-          <li id="step-1"><h3>Launch the cycle</h3><p>The agent tells each leader and their evaluation coordinator that the cycle has begun.</p></li>
-          <li id="step-2"><h3>Self-evaluation</h3><p>The agent interviews each leader about their work, by voice or text, in about 25 minutes.</p></li>
-          <li id="step-3"><h3>Choose who gives feedback</h3><p>The agent checks that someone saw each competency first-hand, and flags any gap before the dialogues start.</p></li>
-          <li id="step-4"><h3>360-degree dialogues</h3><p>The agent talks with each colleague in confidence, and grades every fact by its source.</p></li>
-          <li id="step-5"><h3>Prepare the dialogue</h3><p>The agent drafts the write-ups: the memo for the Executive Committee, a note to the leader and a scorecard.</p></li>
-          <li id="step-6"><h3>Prepare the leader</h3><p>The agent walks each leader through their own write-up before the development dialogue.</p></li>
-          <li id="step-7"><h3>Development commitments</h3><p>The agent turns the write-ups into a short list of development commitments that the leader owns.</p></li>
-          <li id="step-8"><h3>Track progress</h3><p>The agent helps each leader track their development commitments through the year, on their phone.</p></li>
-          </ol>
-          <div class="how-media" id="video">
-          <figure class="video-card video-placeholder" data-placeholder>
-            <div class="vp-stage">
-              <span class="tile big" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/></svg></span>
-              <p class="vp-title">Product video coming soon</p>
-              <p class="vp-sub">A short film of the Review Cycle, step by step.</p>
-              <a class="btn btn-ghost btn-sm" href="private-equity.html#video" data-cta="pe-video">Watch the private equity video</a>
+        <p class="eyebrow">The solution</p>
+        <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, until CraftArc Approved Copy arrives, section 4</span></p>
+        <h2>Three modules, one agent</h2>
+        <p class="lede">The Review Cycle runs each leader's evaluation. The Development Arc keeps each leader growing through the year. The Leadership Cockpit, now in development, will give the CEO and the board one view of the bench.</p>
+        <div class="sol-grid">
+          <div class="sol-map" aria-hidden="true">
+            <div class="map-node map-top"><span class="map-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 13l3-3 2.5 2L17 8"/><path d="M8 21h8M12 17v4"/></svg></span><span>Leadership Cockpit</span><span class="tag-soon" data-placeholder title="Tag wording needs approval">Not yet live</span></div>
+            <div class="map-row">
+              <div class="map-node"><span class="map-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 12a8 8 0 0 1-13.7 5.7"/><path d="M4 12a8 8 0 0 1 13.7-5.7"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></span><span>Review Cycle</span></div>
+              <div class="map-node"><span class="map-ico orange" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 19a8 8 0 0 1 16 0" stroke-dasharray="2.5 3"/><circle cx="4" cy="19" r="1.8"/><circle cx="20" cy="19" r="1.8"/><path d="M12 3v6M9 6l3 3 3-3"/></svg></span><span>Development Arc</span></div>
             </div>
-            <figcaption><span class="ph-badge">Placeholder, replace before launch</span></figcaption>
-          </figure>
+            <div class="map-base"><span class="map-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></span><span>CraftArc agent</span></div>
+          </div>
+          <div class="sol-list">
+            <article class="module" id="cockpit">
+              <div class="module-head"><h3>Leadership Cockpit</h3><span class="tag-soon" data-placeholder title="Tag wording needs approval">Not yet live</span></div>
+              <p><span class="mod-label">Who uses it</span> The CEO, the leadership team and the board.</p>
+              <p><span class="mod-label">What the agent will do</span> Keep the slate of successors your leadership team sets for <span data-token="key-roles">each key role</span>. Each slate shows who is ready now, ready in 3 years and ready in 5 to 7 years.</p>
+            </article>
+            <article class="module" id="review-cycle">
+              <div class="module-head"><h3>Review Cycle</h3></div>
+              <p><span class="mod-label">Who uses it</span> Each leader, the colleagues who give feedback and the evaluation coordinator who runs the review.</p>
+              <p><span class="mod-label">What the agent does</span> Runs each self-evaluation and each 360-degree dialogue, then drafts the write-ups against your own standard for each level.</p>
+            </article>
+            <article class="module" id="development-arc">
+              <div class="module-head"><h3>Development Arc</h3></div>
+              <p><span class="mod-label">Who uses it</span> Each leader and their evaluation coordinator.</p>
+              <p><span class="mod-label">What the agent does</span> Turns the write-ups into development commitments, and helps each leader track them through the year.</p>
+            </article>
           </div>
         </div>
+        <div class="agent-band"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></span><p><strong>The CraftArc agent</strong> runs the Review Cycle and the Development Arc, and will run the Leadership Cockpit. It interviews, grades the evidence by source and drafts the write-ups. The evaluation coordinator owns the final wording.</p></div>
       </div>
     </section>
 
-    <!-- 7 PROOF (approved, with one gap) -->
-    <section class="section proof-band" id="proof">
+    <!-- BAND 5 HOW IT WORKS: the eight Review Cycle steps (Approved Copy) -->
+    <section class="section band tint" id="how">
       <div class="wrap">
-        <p class="kicker">Proof</p>
-        <h2>We have just come out of stealth with our first paying client, a private equity firm.</h2>
-        <div class="proof-slot" data-placeholder>
-          <span class="ph-badge">Placeholder, needs Dash&#x27;s approval and the client&#x27;s written consent</span>
-          <p>[One result or one quote from the first client goes here]</p>
+        <p class="eyebrow">How it works</p>
+        <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, until CraftArc Approved Copy arrives, the eight steps</span></p>
+        <h2>Inside the Review Cycle</h2>
+        <div class="how-grid">
+          <ol class="steps">
+          <li id="step-1" data-shot="home"><h3>Launch the cycle</h3><p>The agent tells each leader and their evaluation coordinator that the cycle has begun.</p><div class="step-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/01_home.webp" data-alt="The CraftArc home screen, where the annual review is launched and each person&#x27;s place in it is shown" aria-label="Enlarge: The CraftArc home screen, where the annual review is launched and each person&#x27;s place in it is shown"><picture><source srcset="assets/img/step1_home.webp" type="image/webp"><img width="1070" height="812" src="assets/img/step1_home.png" alt="The CraftArc home screen, where the annual review is launched and each person&#x27;s place in it is shown" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">The home screen, where the cycle starts. Sample data.</figcaption></figure></div></li>
+          <li id="step-2" data-shot="self"><h3>Self-evaluation</h3><p>The agent interviews each leader about their work, by voice or text, in about 25 minutes.</p><div class="step-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/07_self_review.webp" data-alt="The self-evaluation conversation with the agent, by voice" aria-label="Enlarge: The self-evaluation conversation with the agent, by voice"><picture><source srcset="assets/img/step2_selfreview.webp" type="image/webp"><img width="940" height="485" src="assets/img/step2_selfreview.png" alt="The self-evaluation conversation with the agent, by voice" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">The self-evaluation, in the product. Sample conversation.</figcaption></figure></div></li>
+          <li id="step-3" data-shot="coverage"><h3>Choose who gives feedback</h3><p>The agent checks that someone saw each competency first-hand, and flags any gap before the dialogues start.</p><div class="step-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/05_survey_coverage.webp" data-alt="Feedback coverage by competency, with a gap flagged where nobody saw the banker meetings" aria-label="Enlarge: Feedback coverage by competency, with a gap flagged where nobody saw the banker meetings"><picture><source srcset="assets/img/step3_coverage.webp" type="image/webp"><img width="1352" height="410" src="assets/img/step3_coverage.png" alt="Feedback coverage by competency, with a gap flagged where nobody saw the banker meetings" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">Coverage by competency, with a gap flagged. Sample data, some text blurred.</figcaption></figure></div></li>
+          <li id="step-4" data-shot="roster"><h3>360-degree dialogues</h3><p>The agent talks with each colleague in confidence, and grades every fact by its source.</p><div class="step-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/04_survey_roster.webp" data-alt="The colleagues who give feedback, each with their vantage point and a summary of their dialogue" aria-label="Enlarge: The colleagues who give feedback, each with their vantage point and a summary of their dialogue"><picture><source srcset="assets/img/step3_roster.webp" type="image/webp"><img width="1371" height="612" src="assets/img/step3_roster.png" alt="The colleagues who give feedback, each with their vantage point and a summary of their dialogue" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">The 360-degree dialogues, in one place. Sample data.</figcaption></figure></div></li>
+          <li id="step-5" data-shot="memo"><h3>Prepare the dialogue</h3><p>The agent drafts the write-ups: the memo for the Executive Committee, a note to the leader and a scorecard.</p><div class="step-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/06_performance_review.webp" data-alt="A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer" aria-label="Enlarge: A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer"><picture><source srcset="assets/img/proof_writeup.webp" type="image/webp"><img width="885" height="440" src="assets/img/proof_writeup.png" alt="A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">A drafted memo for the Executive Committee. Sample data.</figcaption></figure></div></li>
+          <li id="step-6" data-shot="memo"><h3>Prepare the leader</h3><p>The agent walks each leader through their own write-up before the development dialogue.</p></li>
+          <li id="step-7" data-shot="people"><h3>Development commitments</h3><p>The agent turns the write-ups into a short list of development commitments that the leader owns.</p><div class="step-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/02_my_people.webp" data-alt="Each leader&#x27;s progress through the cycle, in one view" aria-label="Enlarge: Each leader&#x27;s progress through the cycle, in one view"><picture><source srcset="assets/img/02_my_people.webp" type="image/webp"><img width="1919" height="914" src="assets/img/02_my_people.png" alt="Each leader&#x27;s progress through the cycle, in one view" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">Every leader&#x27;s progress, in one view. Sample data.</figcaption></figure></div></li>
+          <li id="step-8" data-shot="people" data-nudge><h3>Track progress</h3><p>The agent helps each leader track their development commitments through the year, on their phone.</p></li>
+          </ol>
+          <div class="how-media" id="screens"><div class="shot-stack"><div class="stack-item is-active" data-shot="home"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/01_home.webp" data-alt="The CraftArc home screen, where the annual review is launched and each person&#x27;s place in it is shown" aria-label="Enlarge: The CraftArc home screen, where the annual review is launched and each person&#x27;s place in it is shown"><picture><source srcset="assets/img/step1_home.webp" type="image/webp"><img width="1070" height="812" src="assets/img/step1_home.png" alt="The CraftArc home screen, where the annual review is launched and each person&#x27;s place in it is shown" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">The home screen, where the cycle starts. Sample data.</figcaption></figure></div><div class="stack-item" data-shot="self"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/07_self_review.webp" data-alt="The self-evaluation conversation with the agent, by voice" aria-label="Enlarge: The self-evaluation conversation with the agent, by voice"><picture><source srcset="assets/img/step2_selfreview.webp" type="image/webp"><img width="940" height="485" src="assets/img/step2_selfreview.png" alt="The self-evaluation conversation with the agent, by voice" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">The self-evaluation, in the product. Sample conversation.</figcaption></figure></div><div class="stack-item" data-shot="coverage"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/05_survey_coverage.webp" data-alt="Feedback coverage by competency, with a gap flagged where nobody saw the banker meetings" aria-label="Enlarge: Feedback coverage by competency, with a gap flagged where nobody saw the banker meetings"><picture><source srcset="assets/img/step3_coverage.webp" type="image/webp"><img width="1352" height="410" src="assets/img/step3_coverage.png" alt="Feedback coverage by competency, with a gap flagged where nobody saw the banker meetings" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">Coverage by competency, with a gap flagged. Sample data, some text blurred.</figcaption></figure></div><div class="stack-item" data-shot="roster"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/04_survey_roster.webp" data-alt="The colleagues who give feedback, each with their vantage point and a summary of their dialogue" aria-label="Enlarge: The colleagues who give feedback, each with their vantage point and a summary of their dialogue"><picture><source srcset="assets/img/step3_roster.webp" type="image/webp"><img width="1371" height="612" src="assets/img/step3_roster.png" alt="The colleagues who give feedback, each with their vantage point and a summary of their dialogue" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">The 360-degree dialogues, in one place. Sample data.</figcaption></figure></div><div class="stack-item" data-shot="memo"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/06_performance_review.webp" data-alt="A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer" aria-label="Enlarge: A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer"><picture><source srcset="assets/img/proof_writeup.webp" type="image/webp"><img width="885" height="440" src="assets/img/proof_writeup.png" alt="A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">A drafted memo for the Executive Committee. Sample data.</figcaption></figure></div><div class="stack-item" data-shot="people"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/02_my_people.webp" data-alt="Each leader&#x27;s progress through the cycle, in one view" aria-label="Enlarge: Each leader&#x27;s progress through the cycle, in one view"><picture><source srcset="assets/img/02_my_people.webp" type="image/webp"><img width="1919" height="914" src="assets/img/02_my_people.png" alt="Each leader&#x27;s progress through the cycle, in one view" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">Every leader&#x27;s progress, in one view. Sample data.</figcaption></figure></div></div></div>
         </div>
-        <div class="proof-shot"><figure class="shot-wrap"><button class="zoom shot" type="button" data-full="assets/img/06_performance_review.webp" data-alt="A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer" aria-label="Enlarge: A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer"><picture><source srcset="assets/img/proof_writeup.webp" type="image/webp"><img width="885" height="440" src="assets/img/proof_writeup.png" alt="A memo for the Executive Committee drafted by the agent, naming the question the evidence could not answer" loading="lazy"></picture><span class="hint" aria-hidden="true">Enlarge</span></button><figcaption class="shot-cap">A drafted memo for the Executive Committee. Sample data.</figcaption></figure></div>
       </div>
     </section>
 
-    <!-- 8 INDUSTRIES (needs approval): proven in private equity first, then professional services, then all industries -->
-    <section class="section industries" id="industries">
+    <!-- BAND 6 PROOF (approved line, one reserved slot) -->
+    <section class="section band" id="proof">
       <div class="wrap">
-        <p class="kicker">Industries</p>
-        <div class="draft-block" data-placeholder>
-          <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: card copy</span>
+        <div class="proof-grid">
+          <div>
+            <p class="eyebrow">Proof</p>
+            <h2 data-nudge>We have just come out of stealth with our first paying client, a private equity firm.</h2>
+            <div class="proof-slot" data-placeholder>
+              <span class="ph-badge">Placeholder, needs Dash&#x27;s approval and the client&#x27;s written consent</span>
+              <p>[One result or one quote from the first client goes here]</p>
+            </div>
+          </div>
+          <aside class="founder" data-placeholder>
+            <span class="avatar" aria-hidden="true">D</span>
+            <div>
+              <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: founder note</span>
+              <p class="founder-quote">I worked at McKinsey, Microsoft and Siemens, and I founded AgenticPM, which builds AI agents for private markets. I modeled CraftArc on how the best management consulting firms develop and select their leaders.</p>
+              <p class="founder-sign">Bibhudatta "Dash", founder</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAND 7 GETTING STARTED: industries, how you start and who it is for -->
+    <section class="section band wash" id="start">
+      <div class="wrap">
+        <div class="sub" id="industries">
+          <p class="eyebrow">Industries</p>
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: card copy</span></p>
           <h2>Every organization needs its next leaders. We started in private equity.</h2>
+          <div class="ind-grid"><a class="ind-tile" href="private-equity.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20h18"/><path d="M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span class="ind-name">Private Equity and VC</span><span class="ind-status live">Live</span><span class="ind-line">Grow your next partners on purpose. Our first paying client is a private equity firm.</span></a><a class="ind-tile" href="professional-services.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5v2"/><path d="M3 12.5h18"/></svg></span><span class="ind-name">Professional Services</span><span class="ind-status next">Coming next</span><span class="ind-line">Know how close each senior manager and senior associate is to making partner.</span></a><a class="ind-tile" href="financial-services.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 9.5L12 4l9 5.5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20.5h18"/></svg></span><span class="ind-name">Financial Services</span><span class="ind-status soon">Coming soon</span><span class="ind-line">Know how close each director is to becoming your next managing director.</span></a><a class="ind-tile" href="healthcare-life-sciences.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M12 9.5v5M9.5 12h5"/></svg></span><span class="ind-name">Healthcare and Life Sciences</span><span class="ind-status soon">Coming soon</span><span class="ind-line">Know how close each leader is to becoming your next division head.</span></a><a class="ind-tile" href="technology.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span><span class="ind-name">Technology</span><span class="ind-status soon">Coming soon</span><span class="ind-line">Know how close each engineering leader is to becoming your next CTO.</span></a><a class="ind-tile" href="manufacturing-industrial.html"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20.5V10l5 3V10l5 3V10l5 3V5h3v15.5z"/><path d="M7 17h2M11 17h2M15 17h2"/></svg></span><span class="ind-name">Manufacturing and Industrial</span><span class="ind-status soon">Coming soon</span><span class="ind-line">Know how close each plant manager is to becoming your next VP of Operations.</span></a></div>
         </div>
-        <div class="card-grid">
-          <a class="card ind-card" href="private-equity.html"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20h18"/><path d="M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/></svg></span><span class="ind-status live">Live</span><h3>Private Equity and VC</h3><p>Grow your next partners on purpose. Our first paying client is a private equity firm.</p><ul class="ind-subs"><li>Private Equity</li><li>Venture Capital</li><li>Investment Banks</li></ul><span class="ind-more">Read more</span></a>
-          <a class="card ind-card" href="professional-services.html"><span class="tile orange" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5v2"/><path d="M3 12.5h18"/></svg></span><span class="ind-status next">Coming next</span><h3>Professional Services</h3><p>Know how close each senior manager and senior associate is to making partner.</p><ul class="ind-subs"><li>Consulting</li><li>Law</li><li>Accounting</li></ul><span class="ind-more">Read more</span></a>
-          <a class="card ind-card" href="financial-services.html"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 9.5L12 4l9 5.5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20.5h18"/></svg></span><span class="ind-status soon">Coming soon</span><h3>Financial Services</h3><p>Know how close each director is to becoming your next managing director.</p><ul class="ind-subs"><li>Banking &amp; Capital Markets</li><li>Asset &amp; Investment Management</li><li>Insurance</li></ul><span class="ind-more">Read more</span></a>
-          <a class="card ind-card" href="healthcare-life-sciences.html"><span class="tile orange" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M12 9.5v5M9.5 12h5"/></svg></span><span class="ind-status soon">Coming soon</span><h3>Healthcare and Life Sciences</h3><p>Know how close each leader is to becoming your next division head.</p><ul class="ind-subs"><li>Health Systems &amp; Providers</li><li>Pharma &amp; Biotech</li><li>MedTech</li></ul><span class="ind-more">Read more</span></a>
-          <a class="card ind-card" href="technology.html"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span><span class="ind-status soon">Coming soon</span><h3>Technology</h3><p>Know how close each engineering leader is to becoming your next CTO.</p><ul class="ind-subs"><li>Software &amp; SaaS</li><li>IT Services</li><li>Telecom</li></ul><span class="ind-more">Read more</span></a>
-          <a class="card ind-card" href="manufacturing-industrial.html"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 20.5V10l5 3V10l5 3V10l5 3V5h3v15.5z"/><path d="M7 17h2M11 17h2M15 17h2"/></svg></span><span class="ind-status soon">Coming soon</span><h3>Manufacturing and Industrial</h3><p>Know how close each plant manager is to becoming your next VP of Operations.</p><ul class="ind-subs"><li>Industrial Manufacturing</li><li>Energy &amp; Utilities</li><li>Automotive</li></ul><span class="ind-more">Read more</span></a>
+        <div class="sub" id="onboarding">
+          <p class="eyebrow">How you start</p>
+          <h2>Up and running before your next review cycle.</h2>
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: the four steps</span></p>
+          <ol class="start-steps">
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span><h3>We assess where you are</h3><p>We look at your leadership levels and at how you review leaders today.</p></li>
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 12h7M9 16h7"/></svg></span><h3>We write down the standard with you</h3><p>We help you write down what good looks like at each leadership level, in your own words.</p></li>
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span><h3>We set CraftArc up around your organization</h3><p>We load your levels, your standard and your people, and set who sees what.</p></li>
+            <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg></span><h3>You run your next cycle</h3><p>Your leaders go through their first Review Cycle, and the agent does the legwork.</p></li>
+          </ol>
+        </div>
+        <div class="sub who" id="who">
+          <div>
+            <p class="eyebrow">Who it is for</p>
+            <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval</span></p>
+            <h2>For CEOs who grow their next leaders on purpose</h2>
+            <p>CraftArc is for CEOs and leadership teams who want to know where every leader stands. It works when the leadership team commits to a Review Cycle every year, and to a development dialogue with each leader.</p>
+          </div>
+          <p class="who-line">If that commitment is not there yet, we will say so.</p>
         </div>
       </div>
     </section>
 
-    <!-- 9 HOW YOU START (approved headline, draft steps from Dash's steer) -->
-    <section class="section start" id="start">
-      <div class="wrap">
-        <p class="kicker">How you start</p>
-        <h2>Up and running before your next review cycle.</h2>
-        <div class="draft-block" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: the four steps</span></div>
-        <ol class="start-steps">
-          <li><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span><h3>We assess where you are</h3><p>We look at your leadership levels and at how you review leaders today.</p></li>
-          <li><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 12h7M9 16h7"/></svg></span><h3>We write down the standard with you</h3><p>We help you write down what good looks like at each leadership level, in your own words.</p></li>
-          <li><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span><h3>We set CraftArc up around your organization</h3><p>We load your levels, your standard and your people, and set who sees what.</p></li>
-          <li><span class="tile orange" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg></span><h3>You run your next cycle</h3><p>Your leaders go through their first Review Cycle, and the agent does the legwork.</p></li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- 10 WHO IT IS FOR (approved line, draft lead-in) -->
-    <section class="section who" id="who">
-      <div class="wrap narrow">
-        <p class="kicker">Who it is for</p>
-        <div class="draft-block" data-placeholder>
-          <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval</span>
-          <h2>For CEOs who grow their next leaders on purpose</h2>
-          <p class="who-text">CraftArc is for CEOs and leadership teams who want to know where every leader stands. It works when the leadership team commits to a Review Cycle every year, and to a development dialogue with each leader.</p>
+    <!-- BAND 8 FAQ AND THE CLOSE (draft answers; questions from CEO testing) -->
+    <section class="section band faq" id="faq">
+      <div class="wrap faq-grid">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2>Questions CEOs ask us</h2>
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: the answers</span></p>
         </div>
-        <p class="who-line">If that commitment is not there yet, we will say so.</p>
-      </div>
-    </section>
-
-    <!-- 11 FAQ (questions from CEO testing, draft answers) -->
-    <section class="section faq" id="faq">
-      <div class="wrap narrow">
-        <p class="kicker">FAQ</p>
-        <h2>Questions CEOs ask us</h2>
-        <div class="draft-block" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval: the answers</span></div>
-        <details>
-          <summary>Who decides where a leader stands?</summary>
-          <p>Your people do. The agent gathers the evidence and drafts the write-ups. The evaluation coordinator and your leadership team make every call.</p>
-        </details>
-        <details>
-          <summary>Who sees the conversations?</summary>
-          <p>Your organization decides. Only the leader and their evaluation coordinator see a self-evaluation. Colleagues can give feedback anonymously, and the agent stores every transcript securely.</p>
-        </details>
-        <details>
-          <summary>How do we introduce the agent so people do not feel watched?</summary>
-          <p>Introduce it as part of the Review Cycle, with a clear start and end. Each leader&#x27;s first conversation is their own self-evaluation. Colleagues speak only about what they saw first-hand.</p>
-        </details>
-        <details>
-          <summary>Will it fit our own roles and leadership levels?</summary>
-          <p>Yes. We help you write down the standard for each of your leadership levels, in your own words. CraftArc runs on that standard, with no code.</p>
-        </details>
-        <details>
-          <summary>Why not build this with a general AI assistant?</summary>
-          <p>A general AI assistant answers one person at a time. CraftArc runs the whole Review Cycle for every leader, against one standard. It holds the conversations, grades the evidence and drafts the write-ups.</p>
-        </details>
-        <details>
-          <summary>How much leadership time does it take?</summary>
-          <p>Each conversation with the agent takes about 25 minutes, by voice or text. The agent drafts the write-ups, so leaders give their time to the development dialogue.</p>
-        </details>
-        <details>
-          <summary>What does it cost?</summary>
-          <p>We quote the fee after a short call about your organization and your leadership levels. Leaders and evaluation coordinators are unlimited, and colleagues who give feedback are never charged.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- 12 BOOK A DEMO (needs approval): one button, repeated from the hero -->
-    <section class="section book book-cta" id="book">
-      <div class="wrap narrow">
-        <p class="kicker">Book a demo</p>
-        <div class="draft-block" data-placeholder>
-          <span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval</span>
-          <h2>Bring the question your board keeps asking.</h2>
-          <p class="section-lede">We will show you how CraftArc answers it.</p>
+        <div class="faq-list">
+          <details>
+            <summary>Who decides where a leader stands?</summary>
+            <p>Your people do. The agent gathers the evidence and drafts the write-ups. The evaluation coordinator and your leadership team make every call.</p>
+          </details>
+          <details>
+            <summary>Who sees the conversations?</summary>
+            <p>Your organization decides. Only the leader and their evaluation coordinator see a self-evaluation. Colleagues can give feedback anonymously, and the agent stores every transcript securely.</p>
+          </details>
+          <details>
+            <summary>How do we introduce the agent so people do not feel watched?</summary>
+            <p>Introduce it as part of the Review Cycle, with a clear start and end. Each leader&#x27;s first conversation is their own self-evaluation. Colleagues speak only about what they saw first-hand.</p>
+          </details>
+          <details>
+            <summary>Will it fit our own roles and leadership levels?</summary>
+            <p>Yes. We help you write down the standard for each of your leadership levels, in your own words. CraftArc runs on that standard, with no code.</p>
+          </details>
+          <details>
+            <summary>Why not build this with a general AI assistant?</summary>
+            <p>A general AI assistant answers one person at a time. CraftArc runs the whole Review Cycle for every leader, against one standard. It holds the conversations, grades the evidence and drafts the write-ups.</p>
+          </details>
+          <details>
+            <summary>How much leadership time does it take?</summary>
+            <p>Each conversation with the agent takes about 25 minutes, by voice or text. The agent drafts the write-ups, so leaders give their time to the development dialogue.</p>
+          </details>
+          <details>
+            <summary>What does it cost?</summary>
+            <p>We quote the fee after a short call about your organization and your leadership levels. Leaders and evaluation coordinators are unlimited, and colleagues who give feedback are never charged.</p>
+          </details>
         </div>
-        <a class="btn btn-primary btn-lg" href="book-a-demo.html" data-cta="book">Book a demo</a>
+      </div>
+      <div class="close wash" id="close">
+        <div class="wrap">
+          <p class="review-note" data-placeholder><span class="ph-badge">Draft placeholder, needs Dash&#x27;s approval</span></p>
+          <p class="close-line" data-nudge>Bring the question your board keeps asking.</p>
+          <p class="close-sub">We will show you how CraftArc answers it.</p>
+        </div>
       </div>
     </section>
 

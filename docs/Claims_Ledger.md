@@ -29,6 +29,8 @@ Source: **CraftArc Website Guidance** (Dash, 24 Nov 2026). It sets the page orde
 
 **Issue 011 (24 Nov 2026).** At Dash's request the homepage hero plays the existing private equity video, badged as a placeholder until the new product video is ready, and the hero has no button in the body. No new claims.
 
+**Issue 012 (24 Nov 2026).** A proof line sits under every hero: "Our first paying client is a private equity firm." (W03) and "Built by a founder who worked at McKinsey, Microsoft and Siemens." (Dash's founder note, content v5). The founder note also appears in the proof band. The Book a demo page lists what the demo shows (the Review Cycle in the product with sample data, the write-ups for one leader, how to start), which assumes the demo instance is ready (flag 5). All three are drafts, visible with `?review`.
+
 **Withdrawn from the site with issue 010** (the guidance says never name the client, never use a result or figure from the first client, and organizes the homepage around twelve sections): V1 (Brightstar named), V2 (six to eight weeks), V4, V5, V7, L01 (60 to 100 hours, about 350 lines), P02 (24-month license), the client interview count, G1 and G2 (Gallup), and R1 and R2 on the web pages. R1 and R2 remain in the video until the revamp.
 
 ## Industry-neutral homepage (21 Nov 2026)

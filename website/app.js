@@ -300,3 +300,55 @@
     if (e.key === "Escape" && !panel.hidden) { setOpen(false); btn.focus(); }
   });
 })();
+
+/* ---------- review mode: keep ?review on internal links, so Dash can click through the drafts ---------- */
+(function () {
+  "use strict";
+  if (!document.documentElement.classList.contains("review")) return;
+  document.querySelectorAll('a[href$=".html"], a[href*=".html#"], a[href*=".html?"]').forEach(function (a) {
+    var href = a.getAttribute("href");
+    if (/^https?:/.test(href) || /[?&]review/.test(href)) return;
+    var parts = href.split("#");
+    parts[0] += (parts[0].indexOf("?") >= 0 ? "&" : "?") + "review";
+    a.setAttribute("href", parts.join("#"));
+  });
+})();
+
+/* ---------- the header button pulses once when the reader reaches a peak of intent (data-nudge) ---------- */
+(function () {
+  "use strict";
+  var btn = document.querySelector(".header-cta");
+  var marks = document.querySelectorAll("[data-nudge]");
+  if (!btn || !marks.length || !("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      btn.classList.remove("nudge");
+      void btn.offsetWidth; // restart the animation
+      btn.classList.add("nudge");
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "cta_nudge", at: e.target.id || e.target.className });
+    });
+  }, { rootMargin: "0px 0px -35% 0px" });
+  marks.forEach(function (m) { io.observe(m); });
+  btn.addEventListener("animationend", function () { btn.classList.remove("nudge"); });
+})();
+
+/* ---------- how it works: the screen beside the steps follows the step in view ---------- */
+(function () {
+  "use strict";
+  var steps = document.querySelectorAll(".steps li[data-shot]");
+  var items = document.querySelectorAll(".stack-item");
+  if (!steps.length || !items.length || !("IntersectionObserver" in window)) return;
+  function activate(li) {
+    steps.forEach(function (s) { s.classList.toggle("is-active", s === li); });
+    var shot = li.getAttribute("data-shot");
+    items.forEach(function (it) { it.classList.toggle("is-active", it.getAttribute("data-shot") === shot); });
+  }
+  activate(steps[0]);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) activate(e.target); });
+  }, { rootMargin: "-45% 0px -45% 0px" });
+  steps.forEach(function (s) { io.observe(s); });
+})();
