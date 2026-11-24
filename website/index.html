@@ -45,13 +45,24 @@
   </header>
 
   <main id="main">
-    <!-- 1 HERO (approved): the question, the answer, the time line, one button -->
-    <section class="hero hero-q" id="top">
-      <div class="wrap hero-q-inner">
-        <h1>Can you tell how close each leader is to their next role?</h1>
-        <p class="hero-answer">CraftArc can. Know where every leader stands, and keep every one of them growing toward their next role.</p>
-        <p class="hero-time"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>All without blocking days of leadership time.</span></p>
-        <a class="btn btn-primary btn-lg" href="book-a-demo.html" data-cta="hero">Book a demo</a>
+    <!-- 1 HERO (approved copy): the question, the answer and the time line, beside the video -->
+    <section class="hero hero-split" id="top">
+      <div class="wrap hero-split-grid">
+        <div class="hero-split-copy">
+          <h1>Can you tell how close each leader is to their next role?</h1>
+          <p class="hero-answer">CraftArc can. Know where every leader stands, and keep every one of them growing toward their next role.</p>
+          <p class="hero-time"><span class="tile" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><span>All without blocking days of leadership time.</span></p>
+        </div>
+        <div class="hero-split-media" id="hero-video">
+          <figure class="video-card hero-video-card">
+            <video controls preload="metadata" playsinline poster="assets/video/poster.jpg" aria-label="CraftArc video, placeholder until the new product video is ready">
+              <source src="assets/video/craftarc-vsl-720p.mp4" type="video/mp4">
+              <track kind="captions" src="assets/video/craftarc-vsl.vtt" srclang="en" label="English (also burned into the video)">
+              Your browser cannot play this video. <a href="assets/video/craftarc-vsl-720p.mp4">Download it here.</a>
+            </video>
+            <figcaption data-placeholder><span class="ph-badge">Placeholder video</span> The private equity film, until the new product video is ready.</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 

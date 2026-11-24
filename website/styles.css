@@ -599,3 +599,22 @@ a.sub-card:hover { border-color: var(--blue-soft); }
   .footer-bottom { padding-top: 18px; padding-bottom: 26px; }
 }
 .page-hero + .about { padding-top: 32px; }
+
+/* ===================== homepage hero: text left, video right (issue 011, 24 Nov 2026) ===================== */
+.hero-split { padding: 72px 0 88px; }
+.hero-split::after { display: none; }
+.hero-split-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.08fr; gap: 56px; align-items: center; }
+.hero-split h1 { font-size: clamp(2.3rem, 3.9vw, 3.4rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 22px; }
+.hero-split .hero-answer { font-size: 1.3rem; line-height: 1.5; font-weight: 500; color: var(--ink); max-width: 30em; margin: 0 0 22px; }
+.hero-split .hero-time { margin: 0; font-size: 1.05rem; color: var(--body); }
+.hero-video-card { margin: 0; }
+.hero-video-card figcaption { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); padding: 10px 16px; }
+.hero-video-card figcaption .ph-badge { margin: 0; font-size: 0.66rem; }
+@media (max-width: 980px) {
+  .hero-split-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 640px) {
+  .hero-split { padding: 40px 0 56px; }
+  .hero-split h1 { font-size: clamp(2rem, 8.4vw, 2.5rem); }
+  .hero-split .hero-answer { font-size: 1.12rem; }
+}

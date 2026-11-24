@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-24T06:09:32.649Z",
+ "run_at": "2026-11-24T12:35:39.296Z",
  "results": [
   {
    "name": "page loads with no console errors and one h1",
@@ -66,7 +66,7 @@
    "ok": true
   },
   {
-   "name": "homepage: no video, a badged placeholder that points to the private equity video",
+   "name": "homepage hero plays the existing video, badged as a placeholder, and the private equity page keeps it",
    "ok": true
   },
   {
@@ -78,7 +78,7 @@
    "ok": true
   },
   {
-   "name": "hero: the question is the largest text, the answer sits under it, the time line is smaller, one button",
+   "name": "hero: the question is the largest text, text on the left, the video on the right, no button in the body",
    "ok": true
   },
   {

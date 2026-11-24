@@ -27,6 +27,8 @@ Source: **CraftArc Website Guidance** (Dash, 24 Nov 2026). It sets the page orde
 | W11 | Who it is for lead-in, the seven FAQ answers, the Book a demo copy and form | Homepage, Book a demo page | Guidance sections 10 to 12. FAQ answers reuse sourced lines: L24 (about 25 minutes), the unlimited participants and free contributors offer lines, P07 (we help write down the standard), the anonymity decision (flag 7) | Draft, guidance gap 5 |
 | W12 | About page: a stand-in pitch made only of approved lines (W01) and the founder note from Dash's content v5 | About page | Guidance "About": elevator pitch from Approved Copy section 1, founder note by Dash | Placeholders, guidance gap 6 |
 
+**Issue 011 (24 Nov 2026).** At Dash's request the homepage hero plays the existing private equity video, badged as a placeholder until the new product video is ready, and the hero has no button in the body. No new claims.
+
 **Withdrawn from the site with issue 010** (the guidance says never name the client, never use a result or figure from the first client, and organizes the homepage around twelve sections): V1 (Brightstar named), V2 (six to eight weeks), V4, V5, V7, L01 (60 to 100 hours, about 350 lines), P02 (24-month license), the client interview count, G1 and G2 (Gallup), and R1 and R2 on the web pages. R1 and R2 remain in the video until the revamp.
 
 ## Industry-neutral homepage (21 Nov 2026)

@@ -159,7 +159,7 @@ await test("mobile (390px): no sideways scroll, CTA and form usable", async () =
   const { ctx, page } = await openPage({ viewport: { width: 390, height: 844 } });
   const sw = await page.evaluate(() => document.documentElement.scrollWidth);
   assert(sw <= 390, `page is ${sw}px wide at 390px`);
-  assert(await page.locator(".hero .btn-primary").isVisible(), "hero CTA visible");
+  assert(await page.locator(".site-header .btn-primary").isVisible(), "header Book a demo visible on a phone");
   await page.screenshot({ path: path.join(SHOTS, "mobile-full.png"), fullPage: true });
   const book = await openPage({ path: BOOK, viewport: { width: 390, height: 844 } });
   const box = await book.page.locator("#submit").boundingBox();
@@ -193,7 +193,7 @@ await test("every 'Book a demo' link on every page goes to the Book a demo page,
       eq(c.text, "Book a demo", `primary button wording on /${p}`);
       assert(c.href.startsWith("book-a-demo.html"), `/${p} button goes to the Book a demo page (${c.href})`);
     }
-    eq(await page.locator(".hero a.btn-primary").count(), p === BOOK || p === "about.html" ? 0 : 1, `one primary button in the hero of /${p}`);
+    eq(await page.locator(".hero a.btn-primary").count(), ["", BOOK, "about.html"].includes(p) ? 0 : 1, `primary buttons in the hero of /${p}`);
     await ctx.close();
   }
 });
@@ -321,13 +321,15 @@ await test("captions are not shown twice: the caption track is off by default be
   await ctx.close();
 });
 
-await test("homepage: no video, a badged placeholder that points to the private equity video", async () => {
+await test("homepage hero plays the existing video, badged as a placeholder, and the private equity page keeps it", async () => {
   const { ctx, page } = await openPage();
-  eq(await page.locator("video").count(), 0, "no video on the homepage");
-  const ph = page.locator(".video-placeholder");
-  assert(await ph.isVisible(), "placeholder visible");
-  assert((await ph.innerText()).match(/placeholder/i), "placeholder badge shown");
-  eq(await ph.locator("a").getAttribute("href"), "private-equity.html#video", "links to the PE video");
+  eq(await page.locator("video").count(), 1, "one video on the homepage, in the hero");
+  eq(await page.locator(".hero video source").getAttribute("src"), "assets/video/craftarc-vsl-720p.mp4", "the existing video, unchanged");
+  const cap = page.locator(".hero figcaption");
+  assert((await cap.getAttribute("data-placeholder")) !== null, "marked as a placeholder for the launch check");
+  assert(/placeholder/i.test(await cap.innerText()), "placeholder badge shown");
+  const t = await page.evaluate(() => { const tr = document.querySelector(".hero video track"); return { def: tr.default, mode: tr.track.mode }; });
+  eq(t.def, false, "caption track off by default (captions are burned in)");
   const pe = await openPage({ path: PE });
   eq(await pe.page.locator("video source").getAttribute("src"), "assets/video/craftarc-vsl-720p.mp4", "PE page plays the existing video");
   await pe.ctx.close();
@@ -353,21 +355,29 @@ await test("homepage follows the website guidance: twelve sections in order", as
   await ctx.close();
 });
 
-await test("hero: the question is the largest text, the answer sits under it, the time line is smaller, one button", async () => {
-  const { ctx, page } = await openPage();
+await test("hero: the question is the largest text, text on the left, the video on the right, no button in the body", async () => {
+  const { ctx, page } = await openPage({ viewport: { width: 1440, height: 900 } });
   const r = await page.evaluate(() => {
     const px = (el) => parseFloat(getComputedStyle(el).fontSize);
-    const all = [...document.querySelectorAll("main *")].filter((e) => e.childNodes.length && [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()));
+    const all = [...document.querySelectorAll("main *")].filter((e) => !e.closest("video, svg") && [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()));
     const h1 = document.querySelector(".hero h1"), a = document.querySelector(".hero-answer"), t = document.querySelector(".hero-time span");
+    const copy = document.querySelector(".hero-split-copy").getBoundingClientRect(), vid = document.querySelector(".hero video").getBoundingClientRect();
     return { h1: px(h1), a: px(a), t: px(t), max: Math.max(...all.map(px)), q: h1.textContent, aTop: a.getBoundingClientRect().top, h1Bottom: h1.getBoundingClientRect().bottom,
-      buttons: document.querySelectorAll(".hero a, .hero button").length };
+      buttons: document.querySelectorAll(".hero .btn").length, copyRight: copy.right, vidLeft: vid.left, vidBottom: vid.bottom };
   });
   eq(r.q, "Can you tell how close each leader is to their next role?", "approved question");
   eq(r.h1, r.max, "the question is the largest text on the page");
   assert(r.h1 > r.a && r.a > r.t, `sizes step down: ${r.h1} > ${r.a} > ${r.t}`);
   assert(r.aTop >= r.h1Bottom, "answer sits under the question");
-  eq(r.buttons, 1, "one button and nothing else competing in the hero");
+  assert(r.copyRight <= r.vidLeft, "text on the left, video on the right");
+  assert(r.vidBottom <= 900, "the whole video is in the first screen");
+  eq(r.buttons, 0, "no button in the hero body: the header carries Book a demo");
+  assert(await page.locator(".site-header .btn-primary").isVisible(), "header Book a demo visible");
   await ctx.close();
+  const m = await openPage({ viewport: { width: 390, height: 844 } });
+  const order = await m.page.evaluate(() => document.querySelector(".hero h1").getBoundingClientRect().top < document.querySelector(".hero video").getBoundingClientRect().top);
+  assert(order, "on a phone the question comes first, then the video");
+  await m.ctx.close();
 });
 
 await test("three claims: Know, Grow and Without the time, equal blocks, three outcomes each, each linked to its module", async () => {

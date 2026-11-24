@@ -270,6 +270,35 @@ def hero(q, a, cta_href, crumbs="", eyebrow="", draft=False):
 """
 
 
+HERO_VIDEO = """<figure class="video-card hero-video-card">
+            <video controls preload="metadata" playsinline poster="assets/video/poster.jpg" aria-label="CraftArc video, placeholder until the new product video is ready">
+              <source src="assets/video/craftarc-vsl-720p.mp4" type="video/mp4">
+              <track kind="captions" src="assets/video/craftarc-vsl.vtt" srclang="en" label="English (also burned into the video)">
+              Your browser cannot play this video. <a href="assets/video/craftarc-vsl-720p.mp4">Download it here.</a>
+            </video>
+            <figcaption data-placeholder><span class="ph-badge">Placeholder video</span> The private equity film, until the new product video is ready.</figcaption>
+          </figure>"""
+
+
+def home_hero():
+    """Homepage hero (Dash, 24 Nov 2026): approved lines on the left, the video on the right, no button in the body."""
+    return f"""    <!-- 1 HERO (approved copy): the question, the answer and the time line, beside the video -->
+    <section class="hero hero-split" id="top">
+      <div class="wrap hero-split-grid">
+        <div class="hero-split-copy">
+          <h1>{escape(HERO_Q)}</h1>
+          <p class="hero-answer">{escape(HERO_A)}</p>
+          <p class="hero-time">{tile("time")}<span>{escape(HERO_TIME)}</span></p>
+        </div>
+        <div class="hero-split-media" id="hero-video">
+          {HERO_VIDEO}
+        </div>
+      </div>
+    </section>
+
+"""
+
+
 def claims(t):
     kr = f'<span data-token="key-roles">{escape(t["key_roles"])}</span>'
     nr = f'<span data-token="next-role">{escape(t["next_role"])}</span>'
@@ -745,7 +774,7 @@ DESC_HOME = ("Can you tell how close each leader is to their next role? CraftArc
 
 
 def home():
-    main = (hero(HERO_Q, HERO_A, "book-a-demo.html") + claims(HOME_TOKENS) + problem() + method() + solution(HOME_TOKENS)
+    main = (home_hero() + claims(HOME_TOKENS) + problem() + method() + solution(HOME_TOKENS)
             + how(HOME_VIDEO) + proof_live() + industries() + start() + who() + faq() + book_cta("book-a-demo.html"))
     return page("CraftArc | Know where every leader stands", DESC_HOME, "", main, viewer=True)
 

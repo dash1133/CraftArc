@@ -36,6 +36,7 @@
   "[placeholder, blocked by launch_check.py] Draft placeholder, needs Dash's approval",
   "[placeholder, blocked by launch_check.py] Bring the question your board keeps asking.",
   "[placeholder, blocked by launch_check.py] We will show you how CraftArc answers it.",
+  "[placeholder, blocked by launch_check.py] Placeholder video The private equity film, until the new product video is ready.",
   "[placeholder, blocked by launch_check.py] Draft placeholder, until CraftArc Approved Copy arrives, section 3",
   "[placeholder, blocked by launch_check.py] Draft placeholder, until CraftArc Approved Copy arrives, section 4",
   "[placeholder, blocked by launch_check.py] Three modules, one agent",
@@ -113,7 +114,7 @@
   "[guidance: say 'development commitments', never 'development plan'] vsl caption: And it helps each person build their own development plan, then track it through the year. (video: fix in the revamp)",
   "[guidance: say 'development commitments', never 'goals'] vsl bubble: Which of these goals would you like to start with? (video: fix in the revamp)"
  ],
- "checked_items": 1430,
+ "checked_items": 1433,
  "vsl_spoken_words": 383,
  "vsl_runtime_s": 133.565,
  "vsl_wpm": 172
