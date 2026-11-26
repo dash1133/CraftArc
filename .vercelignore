@@ -1,11 +1,8 @@
-# Deploy only the website. vercel.json builds website/ (Next.js static export) and serves website/out.
-# Docs, the VSL build files and the claims ledger stay private.
+# Vercel serves the prebuilt site only. The site is built and tested before it is committed
+# (bash website/tests/check_all.sh), and Vercel installs and builds nothing.
+# Upload vercel.json and website/out, and nothing else: no source, docs, VSL files or ledger.
 /*
-!/website
 !/vercel.json
-/website/tests
-/website/README.md
-/website/CHANGELOG.md
-/website/node_modules
-/website/.next
-/website/out
+!/website
+/website/*
+!/website/out

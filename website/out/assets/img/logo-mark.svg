@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CraftArc">
+  <rect width="64" height="64" rx="15" fill="#1956df"/>
+  <polygon points="32,12.8 48.6,22.4 48.6,41.6 32,51.2 15.4,41.6 15.4,22.4" fill="#fff" opacity=".93"/>
+  <polygon points="32,16.96 45,24.48 45,39.52 32,47.04 19,39.52 19,24.48" fill="#1956df"/>
+  <polygon points="32,19.84 42.5,25.92 42.5,38.08 32,44.16 21.5,38.08 21.5,25.92" fill="#f58220"/>
+  <polygon points="32,23.68 39.2,27.84 39.2,36.16 32,40.32 24.8,36.16 24.8,27.84" fill="#1956df"/>
+  <circle cx="32" cy="32" r="3.2" fill="#fff"/>
+</svg>

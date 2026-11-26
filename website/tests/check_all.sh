@@ -12,6 +12,10 @@ step "0. Code lint and static build (Next.js export to website/out)"
 (cd website && npm run lint --silent) || fail=1
 out=$(cd website && npm run build 2>&1); rc=$?
 echo "$out" | grep -E "Compiled|Exporting|rror" ; [ "$rc" -eq 0 ] || { echo "$out" | tail -30; fail=1; }
+node website/tests/check_build_fresh.mjs || fail=1
+if [ -n "$(git status --porcelain website/out)" ]; then
+  echo "NOTE: website/out changed. Commit it with the source changes: Vercel serves exactly these files and builds nothing."
+fi
 
 step "1. AI-writing fingerprints and word rules: the checks themselves still work"
 python3 website/tests/copy_lint.py --self-test || fail=1

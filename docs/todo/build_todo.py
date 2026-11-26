@@ -30,7 +30,7 @@ GROUPS = [
         ("Ask whether they will take reference calls", "A yes or no, and a contact if yes.", A),
     ]),
     ("Engineering", "Website, deployment and lead handling.", [
-        ("Confirm the Vercel deployment", "craftarc-website.vercel.app builds from vercel.json (Next.js static export) on main, and the craftarc.ai domain points to it.", B),
+        ("Confirm the Vercel deployment", "craftarc-website.vercel.app serves the prebuilt website/out from main (vercel.json builds nothing), and the craftarc.ai domain points to it.", B),
         ("Connect a lead endpoint", "A form service (for example Formspree) forwarding to dash@craftarc.ai, set as leadEndpoint in website/public/config.js, so leads arrive without the visitor's email app.", B),
         ("Remove noindex and run the launch check", "Delete robots from src/app/layout.tsx and run website/tests/launch_check.py until it prints READY TO LAUNCH.", B),
         ("Add scheduling to the briefing form", "Coming soon (Dash, 24 Nov): a calendar after the form, so a request becomes a booked meeting. Pick the tool (HubSpot Meetings, Calendly or Chili Piper).", P),

@@ -13,11 +13,11 @@ website/
 │   ├── components/          Navbar, BriefingModal, Footer, sections/ (nine), visuals/ (eight)
 │   └── lib/leads.ts         attribution, lead scoring, delivery
 ├── public/
-│   ├── config.js            where leads go (edit before launch, no rebuild needed)
+│   ├── config.js            where leads go (edit before launch, then rebuild and commit out/)
 │   ├── assets/img/          logo and favicon
 │   └── about.html, book-a-demo.html, private-equity.html   redirects for the footer's links
 ├── tests/                   browser tests, copy lint, launch check, footer snapshot
-└── out/                     the static build (generated, not committed)
+└── out/                     the built site: committed, and exactly what Vercel serves
 ```
 
 ## Work on it
@@ -34,7 +34,7 @@ npm run dev
 npm run build
 ```
 
-`npm run build` writes the static site to `website/out`. Add `?review` to any address to see the placeholder labels that visitors never see. Add `?briefing=open` to open the briefing form on arrival.
+`npm run build` writes the static site to `website/out`. Commit `website/out` with every change: Vercel serves those files and builds nothing. Builds are reproducible (the build ID is a hash of the sources), and `node tests/check_build_fresh.mjs` fails if `out/` is out of date. Add `?review` to any address to see the placeholder labels that visitors never see. Add `?briefing=open` to open the briefing form on arrival.
 
 ## Before you go live
 
@@ -44,7 +44,7 @@ python3 website/tests/launch_check.py
 
 It says READY only when all of these are done:
 
-1. **Connect the lead form.** In `public/config.js`, set `leadEndpoint` to a URL that accepts a JSON POST (Formspree, a Zapier or Make webhook, HubSpot, or your own API). With only `leadEmail` set, the form opens the visitor's email app. With neither, it says it is not connected and logs an error.
+1. **Connect the lead form.** In `public/config.js` (then rebuild and commit `out/`), set `leadEndpoint` to a URL that accepts a JSON POST (Formspree, a Zapier or Make webhook, HubSpot, or your own API). With only `leadEmail` set, the form opens the visitor's email app. With neither, it says it is not connected and logs an error.
 2. **Supply the 60-second film.** Until then a coded storyboard plays in the lightbox. Pass `src` (and `captionsSrc`) to `HeroDemoVideo` in `src/components/sections/HeroSection.tsx`, then remove its placeholder mark.
 3. **Verify the three figures** in the urgency strip against the full Korn Ferry and Heidrick & Struggles reports (the memo asks for this), record it in `docs/Claims_Ledger.md`, and remove the placeholder mark in `UrgencyStrip.tsx`.
 4. **Decide what to show of Part 4.** The board view is not built yet. It is tagged "In development" and uses sample data.
@@ -77,4 +77,4 @@ It runs ESLint and the static build, the copy lint self-test and the copy lint, 
 
 ## Hosting
 
-`vercel.json` at the repository root runs `cd website && npm ci` and `cd website && npm run build`, and serves `website/out`. Push to `main` and Vercel redeploys. In the Vercel project settings, leave Root Directory empty and the build and output overrides off, so `vercel.json` applies. Any static host works: run `npm run build` and serve `website/out`.
+The site is built and tested before it is committed, and Vercel only serves the finished files. `vercel.json` sets no install and no build, and serves `website/out`. `.vercelignore` uploads only `website/out` and `vercel.json`, so no source, docs or ledger reach Vercel. Push to `main` and Vercel redeploys the committed `website/out`. In the Vercel project settings, leave Root Directory empty and the build, install and output overrides off, so `vercel.json` applies. Any static host works the same way: serve `website/out`.
