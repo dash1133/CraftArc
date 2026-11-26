@@ -1,8 +1,11 @@
-# Deploy only the website. The rest of the repository (docs, VSL build files,
-# the claims ledger) stays private. vercel.json serves website/ as the site root.
+# Deploy only the website. vercel.json builds website/ (Next.js static export) and serves website/out.
+# Docs, the VSL build files and the claims ledger stay private.
 /*
 !/website
 !/vercel.json
 /website/tests
 /website/README.md
 /website/CHANGELOG.md
+/website/node_modules
+/website/.next
+/website/out

@@ -1,5 +1,7 @@
 # CraftArc website: design brief for everything below the hero
 
+> **Superseded on 26 Nov 2026** by `docs/Website_Build_Instructions.md` (Dash's build specification) and the Next.js rebuild, issue 013. Kept for the record.
+
 Draft for alignment with Dash, 24 Nov 2026. The hero is already rebuilt to Dash's direction (issue 011): the approved question, answer and time line on the left, the existing video on the right as a placeholder, and no button in the body because the header carries Book a demo. This brief covers the rest of the homepage and the shared patterns every other page will reuse. It does not change any approved words. The CraftArc Website Guidance still decides the order of the content and the copy. This brief decides how that content looks and reads.
 
 The brief went through two passes. Version 1 came from the research and an honest look at issue 010. A critique of version 1 against Dash's feedback and the evidence produced version 2, which is the proposal. Both are recorded below so the reasoning is visible.

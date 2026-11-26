@@ -7,17 +7,20 @@ cd "$(dirname "$0")/../.."
 fail=0
 step() { echo; echo "== $1"; }
 
-step "0. Pages match their source (tools/build_site.py)"
-python3 tools/build_site.py --check || fail=1
+step "0. Code lint and static build (Next.js export to website/out)"
+[ -d website/node_modules ] || (cd website && npm ci --no-audit --no-fund >/dev/null) || fail=1
+(cd website && npm run lint --silent) || fail=1
+out=$(cd website && npm run build 2>&1); rc=$?
+echo "$out" | grep -E "Compiled|Exporting|rror" ; [ "$rc" -eq 0 ] || { echo "$out" | tail -30; fail=1; }
 
-step "1. AI-writing fingerprints: the checks themselves still work"
+step "1. AI-writing fingerprints and word rules: the checks themselves still work"
 python3 website/tests/copy_lint.py --self-test || fail=1
 
-step "1-3. Copy lint: fingerprints, banned words, American spelling, ASD-STE100 limits, claims and numbers"
+step "1-3. Copy lint: fingerprints, banned words, word rules, American spelling, ASD-STE100, numbers"
 out=$(python3 website/tests/copy_lint.py 2>&1); rc=$?
 echo "$out" | grep -v "  WARN " ; [ "$rc" -eq 0 ] || fail=1
 
-step "5. Browser tests: every page, the menu, the footer, the video and the lead form"
+step "5. Browser tests: every section, the story player, the tabs, the briefing form, the footer"
 out=$(node website/tests/e2e.mjs 2>&1); rc=$?
 echo "$out" | grep -E "FAIL|passed, " ; [ "$rc" -eq 0 ] || fail=1
 

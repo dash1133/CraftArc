@@ -1,5 +1,7 @@
 # CEO reader test, first round (24 Nov 2026)
 
+> Describes the issue 010 site, replaced on 26 Nov 2026 (issue 013). Kept for the record.
+
 The CraftArc Website Guidance assigns two tests to Claude: the solution section (gap 7) and the industry copy (gap 3), both with CEO readers. This first round is **simulated**. An AI reviewer read the rendered copy cold, playing three CEOs, and checked it against `docs/Claims_Ledger.md`. It does not replace a test with real CEOs, which is on the launch to-do list.
 
 ## Readers and scores ("I would book a demo", out of 10)

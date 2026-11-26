@@ -12,59 +12,52 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 OUT_HTML = ROOT / "docs" / "CraftArc_Launch_ToDo.html"
 OUT_PDF = ROOT / "docs" / "CraftArc_Launch_ToDo.pdf"
-DATE = "24 November 2026"
+DATE = "26 November 2026"
 
 B, P, A = "Launch blocker", "Before launch", "After launch"
 
 GROUPS = [
     ("Dash, founder", "Decisions and approvals only you can give.", [
-        ("Send CraftArc Approved Copy", "The master document the website guidance points to. Its sections 1, 3, 4 and the eight Review Cycle steps replace the drafts on the homepage, the industry pages and the About page, word for word.", B),
-        ("Approve or reword the Leadership Cockpit tag", "The site shows \"Not yet live\" on the Cockpit. Approve it, reword it, or decide to leave the Cockpit off the homepage for now (guidance gap 1).", B),
-        ("Approve the drafted copy", "How you start steps, Who it is for, the seven FAQ answers, the proof line under the hero, the closing line, the Book a demo page, the industry cards and the industry page heroes (guidance gaps 3, 4 and 5). Add ?review to any page address to see every draft label.", B),
-        ("Write the founder note for the About page", "A short note beside the elevator pitch (guidance gap 6). The site shows your content v5 note as a stand-in.", B),
-        ("Confirm the Development Arc status", "The guidance calls it partly live. Say which parts are live, so its card matches (claims ledger flag 11).", B),
-        ("Confirm the public pricing position", "\"Leaders and evaluation coordinators are unlimited, colleagues who give feedback are never charged\" is the stance you want, as the FAQ draft says.", P),
-        ("Decide on Investment Banks", "The menu keeps Investment Banks under Private Equity and VC, marked coming soon (claims ledger flag 14).", P),
-        ("Record the voiceover in your own voice", "At least the founder line, so the spoken AI-voice disclosure can go.", A),
+        ("Supply the 60-second film", "Until it exists, a coded 5-beat storyboard plays from the hero. When the film is ready, it drops in with no design change.", B),
+        ("Decide what to show of Part 4", "The board view is not built (memo). The site shows it tagged \"In development\" on illustrative sample data. Keep it, or hide it until it is built (ledger flag 16).", B),
+        ("Confirm the hero question", "The memo approved \"Can you tell how close each leader is to their next role?\"; the build instructions use \"Can you tell if your company has a gap in leadership depth?\". The site follows the build instructions (ledger flag 17).", P),
+        ("Choose good or great", "STANDARD_WORD in src/content/copy.ts switches every \"What Great Looks Like\" at once.", P),
+        ("Confirm the footer text", "The unchanged footer mentions product screens, a video and the old module names. Say if it may change (ledger flag 18).", P),
+        ("Confirm the four development levers", "On-the-job experience and formal training are still to confirm (memo). The Part 3 preview shows all four.", P),
     ]),
     ("Anchor client relationship", "The private equity firm that is the first paying client. The site never names it.", [
-        ("Get one result or one quote, with written consent", "Fills the proof slot on the homepage and the Private Equity and VC page (guidance gap 2).", B),
-        ("Confirm the demo framework is not theirs", "The competency names on the screens (Deal Sourcing & Origination, Investment Judgment, Portfolio Value Creation) are not from their confidential framework.", B),
+        ("Get one result or one quote, with written consent", "A real proof point beside \"Live and in production at a private equity firm\".", P),
         ("Ask whether they will take reference calls", "A yes or no, and a contact if yes.", A),
     ]),
     ("Engineering", "Website, deployment and lead handling.", [
-        ("Confirm the Vercel deployment", "craftarc-website.vercel.app shows the homepage from main, and the craftarc.ai domain points to it.", B),
-        ("Swap in approved copy as it arrives", "Edit tools/build_site.py, remove each draft badge, run the build and the checklist in CLAUDE.md.", B),
-        ("Connect a lead endpoint", "A form service (for example Formspree) forwards to dash@craftarc.ai, set as leadEndpoint in website/config.js, so leads arrive without the visitor's email app.", P),
-        ("Add scheduling to the Book a demo page", "Coming soon (Dash, 24 Nov): a calendar right after the form, so a request becomes a booked meeting. Pick the tool (HubSpot Meetings, Calendly or Chili Piper).", P),
-        ("Swap in the new product video", "Replace the homepage placeholder and the Private Equity and VC video after the revamp, and update the stated length.", P),
-        ("Remove noindex and run the launch check", "Delete the robots noindex tag in tools/build_site.py and run website/tests/launch_check.py until it prints READY TO LAUNCH.", B),
-        ("Add analytics", "Google Tag Manager or the LinkedIn Insight Tag reads the lead_submitted and cta_click events the site already sends.", A),
+        ("Confirm the Vercel deployment", "craftarc-website.vercel.app builds from vercel.json (Next.js static export) on main, and the craftarc.ai domain points to it.", B),
+        ("Connect a lead endpoint", "A form service (for example Formspree) forwarding to dash@craftarc.ai, set as leadEndpoint in website/public/config.js, so leads arrive without the visitor's email app.", B),
+        ("Remove noindex and run the launch check", "Delete robots from src/app/layout.tsx and run website/tests/launch_check.py until it prints READY TO LAUNCH.", B),
+        ("Add scheduling to the briefing form", "Coming soon (Dash, 24 Nov): a calendar after the form, so a request becomes a booked meeting. Pick the tool (HubSpot Meetings, Calendly or Chili Piper).", P),
+        ("Add analytics", "Google Tag Manager or the LinkedIn Insight Tag reads the cta_click and lead_submitted events the site already sends.", A),
     ]),
-    ("Product", "The app, the demo and the screens the site shows.", [
-        ("Make the demo ready", "A demo instance you can run live on a prospect's leadership levels, so the Book a demo copy can promise it.", P),
-        ("Confirm how anonymity works in small teams", "What \"colleagues can give feedback anonymously\" means in practice when a write-up cites a colleague's role.", P),
-        ("Provide industry-neutral product screens", "Sample data that is not private equity, for the homepage and the industry pages.", P),
-        ("Build the Leadership Cockpit", "The slate of successors, with ready now, ready in 3 years and ready in 5 to 7 years. Then the \"Not yet live\" tag comes off.", A),
+    ("Product", "The app and the views the site shows.", [
+        ("Build Part 4, the board view", "Then the \"In development\" tags come off and the sample board pack can become a real one.", A),
+        ("Confirm calibration across evaluators", "The trust diagram mentions calibration. The memo lists it as new and to confirm.", P),
     ]),
-    ("Marketing and content", "Video, industry copy and reviews.", [
-        ("Revamp the product video", "A new film that follows the eight Review Cycle steps and the guidance's terms (development commitments, evaluation coordinator, 360-degree dialogues).", P),
-        ("Test the drafts with CEO readers", "Run the drafted industry copy and the solution section past real CEOs. docs/CEO_Reader_Test.md has the simulated first round.", P),
-        ("Cut a 60 to 90 second version for LinkedIn", "A short cut of the new video with captions.", A),
+    ("Marketing and content", "Film, figures and reviews.", [
+        ("Verify the three urgency figures at source", "Read the full Korn Ferry and Heidrick & Struggles reports, record the check in the claims ledger, and remove the placeholder mark (ledger flag 15).", B),
+        ("Produce the 60-second film", "Five beats: the gap, define the standard, the 360-degree dialogue, continuous coaching, the board depth view.", P),
+        ("Test the new page with CEO readers", "Real CEOs across industries, on the hero, the four parts and the board view.", P),
     ]),
     ("Legal and compliance", "Policies and the claims the site makes.", [
-        ("Confirm the footer legal links cover CraftArc", "AgenticPM's Terms of Service, Privacy Policy and Trust Center apply to CraftArc, or CraftArc versions are published and the links swapped.", B),
-        ("Publish a full privacy notice", "Replaces the short statement in the footer, and covers the demo form.", B),
-        ("Review the \"general AI assistant\" FAQ answer", "Confirm the comparison is acceptable as worded.", P),
+        ("Confirm the footer legal links cover CraftArc", "AgenticPM's Terms of Service, Privacy Policy and Trust Center apply to CraftArc, or CraftArc versions are published.", B),
+        ("Publish a full privacy notice", "Replaces the short statement in the footer, and covers the briefing form.", B),
+        ("Check AI rules on promotion decisions", "The EU AI Act treats AI in promotion decisions as high-risk from December 2027 (memo). The site says people make every call. Confirm with counsel before EU or New York City clients.", P),
         ("Add cookie consent if analytics go live", "Consent banner and settings in line with the analytics Engineering adds.", A),
     ]),
 ]
 
 LIVE = [
-    "Website: rebuilt to the guidance and the design brief. Eight-band homepage, Book a demo in the header only, drafts visible with ?review, six industry pages, About and Book a demo pages, every page generated from one source.",
-    "Lead form: on the Book a demo page, with the industry preset from each industry page. Attribution, scoring and email fallback to dash@craftarc.ai. 48 browser tests pass.",
-    "Video: the 2 minute 13 second private equity film, beside the eight steps on the Private Equity and VC page, until the revamp.",
-    "Claims ledger: approved lines, drafts and withdrawn claims traced for issue 010.",
+    "Website: rebuilt on 26 Nov as a single-page Next.js site to the build instructions and the Concept Memo. No photos, screenshots or video; every visual is drawn in code. Footer unchanged.",
+    "Briefing form: accessible dialog with validation, attribution, lead scoring and email fallback to dash@craftarc.ai. 34 browser tests pass.",
+    "Board view: five tabs of charts on illustrative sample data, tagged as in development.",
+    "Claims ledger: the memo's facts, the three outside figures and every change to the spec's wording are traced.",
 ]
 
 PILL = {B: "blocker", P: "before", A: "after"}
@@ -77,7 +70,7 @@ def esc(s):
 def build_html():
     counts = {k: sum(1 for _, _, ts in GROUPS for t in ts if t[2] == k) for k in (B, P, A)}
     total = sum(counts.values())
-    logo = (ROOT / "website" / "assets" / "img" / "logo-mark.svg").read_text()
+    logo = (ROOT / "website" / "public" / "assets" / "img" / "logo-mark.svg").read_text()
     summary_rows = "".join(
         f"<tr><td>{esc(g)}</td><td>{sum(1 for t in ts if t[2] == B)}</td><td>{sum(1 for t in ts if t[2] == P)}</td>"
         f"<td>{sum(1 for t in ts if t[2] == A)}</td><td class='blank'></td></tr>" for g, _, ts in GROUPS)

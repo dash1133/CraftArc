@@ -1,192 +1,136 @@
 {
- "run_at": "2026-11-24T17:00:18.525Z",
+ "run_at": "2026-11-26T02:52:19.030Z",
  "results": [
   {
-   "name": "page loads with no console errors and one h1",
+   "name": "page loads with no console errors, one h1 and the spec's headline",
    "ok": true
   },
   {
-   "name": "every image has alt text and loads",
+   "name": "no photos, screenshots or video: every visual is drawn in code",
    "ok": true
   },
   {
-   "name": "video has a source, poster and captions, and its metadata loads",
+   "name": "nine sections in the spec's order",
    "ok": true
   },
   {
-   "name": "every in-page link points at an existing section",
+   "name": "navbar: sticky, four anchor links that land, and Book a Briefing opens the form",
    "ok": true
   },
   {
-   "name": "mobile (390px): no sideways scroll, CTA and form usable",
+   "name": "hero: the question, the sub-question, the resolution and two calls to action",
    "ok": true
   },
   {
-   "name": "tablet (820px): no sideways scroll",
+   "name": "hero story: opens in a lightbox, plays five beats, steps on click, closes with Escape",
    "ok": true
   },
   {
-   "name": "header 'Book a demo' opens the Book a demo page, with the form in view",
+   "name": "urgency strip: three figures, each with a source link that opens safely",
    "ok": true
   },
   {
-   "name": "Book a demo is a header button only, on every page, and always goes to the Book a demo page",
+   "name": "three promises: Know, Grow and Without the time, each with a visual and three outcomes",
    "ok": true
   },
   {
-   "name": "stated video length matches the real video",
+   "name": "four-part cycle: Part 1 by default, clicking and arrow keys switch the product frame",
    "ok": true
   },
   {
-   "name": "no page carries unapproved offer terms, the client's name or a first-client figure",
+   "name": "forms vs conversation: the headline and the six-row comparison",
    "ok": true
   },
   {
-   "name": "placeholder proof is labelled in review mode and hidden from visitors, so it cannot pass as a real result",
+   "name": "board view: sample-data badge, key insights and five tabs that each draw a chart",
    "ok": true
   },
   {
-   "name": "footer matches the AgenticPM family layout, and every footer link resolves",
+   "name": "trust, proof and setup: four pillars, the decision flow, two cards and three steps",
    "ok": true
   },
   {
-   "name": "product screens enlarge in a viewer and close with Escape",
+   "name": "final call to action opens the briefing form",
    "ok": true
   },
   {
-   "name": "optional questions start folded so the form shows five fields",
+   "name": "briefing form: accessible dialog, focus on the first field, Escape closes and returns focus",
    "ok": true
   },
   {
-   "name": "every page loads cleanly: one h1, no console errors, images load, no sideways scroll on a phone",
+   "name": "briefing form: empty submit shows every required error, focuses the first, sends nothing",
    "ok": true
   },
   {
-   "name": "captions are not shown twice: the caption track is off by default because captions are burned in",
+   "name": "briefing form: valid submission posts the lead, scores it and thanks the visitor",
    "ok": true
   },
   {
-   "name": "homepage hero plays the existing video, badged as a placeholder, and the private equity page keeps it",
+   "name": "briefing form: bad email is rejected, and fixing it clears the error",
    "ok": true
   },
   {
-   "name": "homepage copy is industry-neutral outside the industries and proof sections",
+   "name": "briefing form: honeypot filled by a bot sends nothing but looks successful",
    "ok": true
   },
   {
-   "name": "homepage follows the website guidance and the design brief: eight bands in order",
+   "name": "briefing form: double click sends one lead only",
    "ok": true
   },
   {
-   "name": "hero: the question is the largest text, text on the left, the video on the right, no button in the body",
+   "name": "briefing form: server error keeps the input, explains, and a retry succeeds",
    "ok": true
   },
   {
-   "name": "three claims: Know, Grow and Without the time, equal blocks, three outcomes each, each linked to its module",
+   "name": "briefing form: network failure offers the fallback email",
    "ok": true
   },
   {
-   "name": "solution: the Leadership Cockpit sits above the other two, tagged as not yet live, and the agent runs along the bottom",
+   "name": "briefing form: with only an email configured it opens a filled-in email",
    "ok": true
   },
   {
-   "name": "how it works: eight steps, and the video stays in view while the reader scrolls (desktop), below the steps on a phone",
+   "name": "briefing form: with no endpoint and no email it fails loudly, never silently",
    "ok": true
   },
   {
-   "name": "homepage: the onboarding, FAQ and proof follow the guidance",
+   "name": "lead scoring favors business leaders over HR, and personal email scores lower",
    "ok": true
   },
   {
-   "name": "industry pages reuse the homepage's three claims and solution, changing only the role words",
+   "name": "attribution survives a reload in the same session",
    "ok": true
   },
   {
-   "name": "review mode: visitors see no draft labels, ?review shows every one, and links keep review mode",
+   "name": "?briefing=open opens the form on arrival",
    "ok": true
   },
   {
-   "name": "the header button pulses once when the reader reaches the proof",
+   "name": "footer is byte-for-byte the footer the site had before the rebuild",
    "ok": true
   },
   {
-   "name": "how it works: the product screen beside the steps follows the step in view",
+   "name": "every footer link resolves: anchors on the page, pages that redirect, external links that open safely",
    "ok": true
   },
   {
-   "name": "industries menu: six industries, eighteen sub-sectors, no status labels, opens and closes, every link lands",
+   "name": "old page addresses from the footer land on the right part of the single page",
    "ok": true
   },
   {
-   "name": "mobile: the industries menu is reachable from the header",
+   "name": "phones (375 and 390) and tablets (820): no sideways scroll, form fits the screen",
    "ok": true
   },
   {
-   "name": "Book a demo form: an industry page presets the industry, and the visitor's choice is sent",
+   "name": "review mode: visitors see no placeholder labels, ?review shows them",
    "ok": true
   },
   {
-   "name": "private equity page sends its visitors to the form tagged as private equity, with the AUM question",
+   "name": "every sample-data visual sits under an Illustrative Sample Data label",
    "ok": true
   },
   {
-   "name": "lead form: empty submit shows every required error, focuses the first, sends nothing",
-   "ok": true
-  },
-  {
-   "name": "lead form: bad email is rejected, and fixing it clears the error",
-   "ok": true
-  },
-  {
-   "name": "lead form: valid submission posts the full lead, scores it hot and thanks the visitor",
-   "ok": true
-  },
-  {
-   "name": "lead form: attribution survives moving between pages in the session",
-   "ok": true
-  },
-  {
-   "name": "lead form: double click sends one lead only",
-   "ok": true
-  },
-  {
-   "name": "lead form: personal email is accepted but tagged and scored lower",
-   "ok": true
-  },
-  {
-   "name": "lead form: scoring separates warm and nurture leads",
-   "ok": true
-  },
-  {
-   "name": "lead form: only the required fields are needed",
-   "ok": true
-  },
-  {
-   "name": "lead form: honeypot filled by a bot sends nothing but looks successful",
-   "ok": true
-  },
-  {
-   "name": "lead form: server error keeps the visitor's input, explains, and a retry succeeds",
-   "ok": true
-  },
-  {
-   "name": "lead form: network failure is handled the same way",
-   "ok": true
-  },
-  {
-   "name": "lead form: keyboard only, Enter submits",
-   "ok": true
-  },
-  {
-   "name": "lead form: with no endpoint and no email it fails loudly, never silently",
-   "ok": true
-  },
-  {
-   "name": "lead form: with only an email configured it opens a filled-in email",
-   "ok": true
-  },
-  {
-   "name": "lead form: labels are tied to inputs and the status is announced",
+   "name": "the page never names the first client, its figures or a price",
    "ok": true
   },
   {
