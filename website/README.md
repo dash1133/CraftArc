@@ -77,4 +77,4 @@ It runs ESLint and the static build, the copy lint self-test and the copy lint, 
 
 ## Hosting
 
-`vercel.json` at the repository root installs and builds `website/` and serves `website/out`. Push to `main` and Vercel redeploys. In the Vercel project settings, leave Root Directory empty and the build and output overrides off, so `vercel.json` applies. Any static host works: run `npm run build` and serve `website/out`.
+`vercel.json` at the repository root runs `cd website && npm ci` and `cd website && npm run build`, and serves `website/out`. Push to `main` and Vercel redeploys. In the Vercel project settings, leave Root Directory empty and the build and output overrides off, so `vercel.json` applies. Any static host works: run `npm run build` and serve `website/out`.
