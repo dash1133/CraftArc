@@ -36,6 +36,16 @@ npm run build
 
 `npm run build` writes the static site to `website/out`. Commit `website/out` with every change: Vercel serves those files and builds nothing. Builds are reproducible (the build ID is a hash of the sources), and `node tests/check_build_fresh.mjs` fails if `out/` is out of date. Add `?review` to any address to see the placeholder labels that visitors never see. Add `?briefing=open` to open the briefing form on arrival.
 
+## Preview website (no Vercel needed)
+
+A private preview runs on claude.ai: **https://claude.ai/artifact/XpVgmnXx6akA8tnCrySdPS**. It is one self-contained page with the same components, copy, styles, fonts and footer as the live site, rendered in the browser. The footer's links to other pages point at the matching part of the page, because the preview has no other pages. Share it from the page's Share menu.
+
+```bash
+npm run preview:build
+```
+
+That writes `preview/dist/CraftArc_Website.html` from the current build (run `npm run build` first). `node tests/preview_check.mjs` checks it the way the artifact host serves it: inside the host's page shell, under its content policy, with all other network requests blocked. `check_all.sh` runs both. To update the preview, republish that file to the same artifact URL (ask Claude: "update the preview"). In the preview, the briefing form cannot send anything: the artifact host blocks email links and outside requests.
+
 ## Before you go live
 
 ```bash

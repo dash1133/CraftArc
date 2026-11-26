@@ -28,6 +28,11 @@ step "5. Browser tests: every section, the story player, the tabs, the briefing 
 out=$(node website/tests/e2e.mjs 2>&1); rc=$?
 echo "$out" | grep -E "FAIL|passed, " ; [ "$rc" -eq 0 ] || fail=1
 
+step "5b. Preview website: one self-contained page for the claude.ai artifact, checked under the artifact's rules"
+(cd website && npm run preview:build --silent) || fail=1
+out=$(node website/tests/preview_check.mjs 2>&1); rc=$?
+echo "$out" | grep -E "FAIL|passed, " ; [ "$rc" -eq 0 ] || fail=1
+
 step "10. Launch check (informational)"
 python3 website/tests/launch_check.py | tail -1
 
